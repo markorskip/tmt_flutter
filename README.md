@@ -21,7 +21,7 @@ Make sure to complete [flutter installation](https://flutter.io/docs/get-started
 Execute in your terminal
 
 ```sh
-flutter create todo_list
+flutter create tmt_flutter
 ```
 
 First line is an import of `material` library provided by Flutter. This library is an implementation of various android components
@@ -177,7 +177,7 @@ And finally the body of our app is todolist itself. Let's just add this line and
 
 Basic statefull widget will look like this
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```dart
 import 'package:flutter/material.dart';
@@ -204,7 +204,7 @@ We also need to import our `TodoList` widget
   import 'package:flutter/material.dart';
   import 'package:flutter/services.dart';
 
-+ import 'package:todo_list/todo_list.dart';
++ import 'package:tmt_flutter/tmt_flutter.dart';
 +
   void main() {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -228,11 +228,11 @@ class Todo {
 
 and import it to `TodoList`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   import 'package:flutter/material.dart';
-+ import 'package:todo_list/todo.dart';
++ import 'package:tmt_flutter/todo.dart';
 
   class TodoList extends StatefulWidget {
     @override
@@ -241,7 +241,7 @@ and import it to `TodoList`
 
 Now we need to extend our `TodoList` state and add a list of todos
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   }
@@ -257,7 +257,7 @@ Now we need to extend our `TodoList` state and add a list of todos
 
 Let's use `ListView` to render our todo items.
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   class _TodoListState extends State<TodoList> {
@@ -281,7 +281,7 @@ Now we're going to implement `_buildItem` which will be called each time todo ha
 
 We'll use `CheckboxListTile` from `material` library as it has everything we need (checkbox indicating whether todo is completed and title)
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   class _TodoListState extends State<TodoList> {
@@ -302,7 +302,7 @@ We'll use `CheckboxListTile` from `material` library as it has everything we nee
 
 Value indicates if list item should be checked
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
       final todo = todos[index];
@@ -317,7 +317,7 @@ Value indicates if list item should be checked
 
 Title is a widget which should be rendered in first row. Typically it is a `Text` widget
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
 
@@ -332,7 +332,7 @@ Title is a widget which should be rendered in first row. Typically it is a `Text
 
 Finally we need to handle taps on every list item
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
       return CheckboxListTile(
@@ -349,7 +349,7 @@ Finally we need to handle taps on every list item
 
 `_toggleTodo` implementation is pretty straightforward
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   class _TodoListState extends State<TodoList> {
@@ -367,7 +367,7 @@ Finally we need to handle taps on every list item
 
 Let's try to add some mock todos and see if they are rendered correctly
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   }
@@ -389,7 +389,7 @@ Ok, everything is rendered correctly, but nothing happens when we tap on items, 
 
 Let's add a debug print and see if the handler even called
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
     ];
@@ -407,7 +407,7 @@ Console shows items are checked, value `isChecked` is `true`, but checkbox is ne
 
 The problem is that we modify our entities, but flutter has no idea this happened, so we need to call `setState`. (Hi there, react fans! 😏)
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
     ];
@@ -444,7 +444,7 @@ Let's add a `FloatingActionButton`
 
 ```
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   }
@@ -504,7 +504,7 @@ So let's just move `Scaffold` widget down to `TodoList`
 
 ```
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
       );
@@ -535,7 +535,7 @@ So let's just move `Scaffold` widget down to `TodoList`
 
 Now we can show a dialog when user taps on `FloatingActionButton`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
       );
@@ -560,7 +560,7 @@ Now we can show a dialog when user taps on `FloatingActionButton`
 
 Dialog will contain a text input:
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
         builder: (BuildContext context) {
@@ -575,7 +575,7 @@ Dialog will contain a text input:
 
 and two action buttons: `Cancel` and `Add`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
           return AlertDialog(
@@ -597,7 +597,7 @@ and two action buttons: `Cancel` and `Add`
 
 Dialogs are not just overlays, but actually a routes, so to handle `Cancel` action we can just call `.pop` on `Navigator` of current `context`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
             actions: <Widget>[
@@ -615,7 +615,7 @@ Dialogs are not just overlays, but actually a routes, so to handle `Cancel` acti
 Now we need to access the value of a `TextField` to create a `Todo`
 To do this we need to create a `TextEditingController`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   class _TodoListState extends State<TodoList> {
@@ -631,7 +631,7 @@ To do this we need to create a `TextEditingController`
 
 and supply it to the `TextField`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
         builder: (BuildContext context) {
@@ -647,7 +647,7 @@ and supply it to the `TextField`
 
 now in `onPressed` of `Add` action we can log the value of a `TextField` and clear it
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
               ),
@@ -665,7 +665,7 @@ now in `onPressed` of `Add` action we can log the value of a `TextField` and cle
 
 Finally let's actually create new todo and add it to the list of existing todos (don't forget to wrap the code with `setState`)
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
               FlatButton(
@@ -689,7 +689,7 @@ Finally let's actually create new todo and add it to the list of existing todos 
 
 Tiny UX improvement: make keyboard pop automatically by passing `autofocus: true` to a `TextField`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
         builder: (BuildContext context) {
@@ -708,9 +708,9 @@ Tiny UX improvement: make keyboard pop automatically by passing `autofocus: true
 
 ## Refactoring
 
-`TodoList`is working, but `todo_list.dart` is kinda messy and hard to read. The most complex method is `_addTodo`, so let's start with rewriting it. It seems like we can move the `AlertDialog` to a separate widget, but we can't do this right now, as we rely on `setState` from parent widget. Instead we can pass a freshly created todo to a `Navigator.pop`
+`TodoList`is working, but `tmt_flutter.dart` is kinda messy and hard to read. The most complex method is `_addTodo`, so let's start with rewriting it. It seems like we can move the `AlertDialog` to a separate widget, but we can't do this right now, as we rely on `setState` from parent widget. Instead we can pass a freshly created todo to a `Navigator.pop`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
     }
@@ -743,7 +743,7 @@ Tiny UX improvement: make keyboard pop automatically by passing `autofocus: true
 
 In order to be able to receive the `Todo` in `_addTodo` method we need to make it `async` and `await` `showDialog` function result (which will be `null` in case it was dismissed and instance of `Todo` otherwise)
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
       );
@@ -761,7 +761,7 @@ In order to be able to receive the `Todo` in `_addTodo` method we need to make i
 
 And move back the logic with state update
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
           );
@@ -786,7 +786,7 @@ Now we don't have any dependencies on a parent widget, so we can extract `AlertD
 ```dart
 import 'package:flutter/material.dart';
 
-import 'package:todo_list/todo.dart';
+import 'package:tmt_flutter/model.dart';
 
 class NewTodoDialog extends StatelessWidget {
   final controller = new TextEditingController();
@@ -824,13 +824,13 @@ class NewTodoDialog extends StatelessWidget {
 
 and use it inside `TodoList`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   import 'package:flutter/material.dart';
-  import 'package:todo_list/todo.dart';
+  import 'package:tmt_flutter/todo.dart';
 
-+ import 'package:todo_list/new_todo_dialog.dart';
++ import 'package:tmt_flutter/new_todo_dialog.dart';
 +
   class TodoList extends StatefulWidget {
     @override
@@ -883,11 +883,11 @@ List istself could also be treated as stateless widget, state related logic coul
 
 So let's first rename `TodoList` to `TodoListScreen`
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
 
-  import 'package:todo_list/new_todo_dialog.dart';
+  import 'package:tmt_flutter/new_todo_dialog.dart';
 
 - class TodoList extends StatefulWidget {
 + class TodoListScreen extends StatefulWidget {
@@ -906,7 +906,7 @@ So let's first rename `TodoList` to `TodoListScreen`
 
 rename file
 
-📄 lib/todo_list_screen.dart => lib/todo_list.dart
+📄 lib/tmt_flutter_screen.dart => lib/tmt_flutter.dart
 
 and fix import
 
@@ -916,8 +916,8 @@ and fix import
   import 'package:flutter/material.dart';
   import 'package:flutter/services.dart';
 
-- import 'package:todo_list/todo_list.dart';
-+ import 'package:todo_list/todo_list_screen.dart';
+- import 'package:tmt_flutter/tmt_flutter.dart';
++ import 'package:tmt_flutter/tmt_flutter_screen.dart';
 
   void main() {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -934,7 +934,7 @@ and fix import
 
 Let's move list related logic to a separate stateless widget
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```dart
 import 'package:flutter/material.dart';
@@ -971,13 +971,13 @@ class TodoList extends StatelessWidget {
 
 and remove this logic from `TodoListScreen`
 
-📄 lib/todo_list_screen.dart
+📄 lib/tmt_flutter_screen.dart
 
 ```diff
-  import 'package:todo_list/todo.dart';
+  import 'package:tmt_flutter/todo.dart';
 
-  import 'package:todo_list/new_todo_dialog.dart';
-+ import 'package:todo_list/todo_list.dart';
+  import 'package:tmt_flutter/new_todo_dialog.dart';
++ import 'package:tmt_flutter/tmt_flutter.dart';
 
   class TodoListScreen extends StatefulWidget {
     @override
@@ -1023,12 +1023,12 @@ Now let's review our `TodoList` widget
 
 It is missing `Todo` class import
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
   import 'package:flutter/material.dart';
 
-+ import 'package:todo_list/todo.dart';
++ import 'package:tmt_flutter/todo.dart';
 +
   class TodoList extends StatelessWidget {
     _toggleTodo(Todo todo, bool isChecked) {
@@ -1038,10 +1038,10 @@ It is missing `Todo` class import
 
 It also doesn't have `todos`, so let's pass them from parent widget
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
-  import 'package:todo_list/todo.dart';
+  import 'package:tmt_flutter/todo.dart';
 
   class TodoList extends StatelessWidget {
 +   TodoList({@required this.todos});
@@ -1054,7 +1054,7 @@ It also doesn't have `todos`, so let's pass them from parent widget
 
 ```
 
-📄 lib/todo_list_screen.dart
+📄 lib/tmt_flutter_screen.dart
 
 ```diff
     Widget build(BuildContext context) {
@@ -1072,7 +1072,7 @@ It also doesn't have `todos`, so let's pass them from parent widget
 
 `_toggleTodo` method relies on `setState`, so let's move it back to parent
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
 
@@ -1090,7 +1090,7 @@ It also doesn't have `todos`, so let's pass them from parent widget
 
 ```
 
-📄 lib/todo_list_screen.dart
+📄 lib/tmt_flutter_screen.dart
 
 ```diff
   class _TodoListScreenState extends State<TodoListScreen> {
@@ -1110,11 +1110,11 @@ It also doesn't have `todos`, so let's pass them from parent widget
 
 and pass it down to `TodoList` as a property
 
-📄 lib/todo_list.dart
+📄 lib/tmt_flutter.dart
 
 ```diff
 
-  import 'package:todo_list/todo.dart';
+  import 'package:tmt_flutter/todo.dart';
 
 + typedef ToggleTodoCallback = void Function(Todo, bool);
 +
@@ -1138,7 +1138,7 @@ and pass it down to `TodoList` as a property
 
 ```
 
-📄 lib/todo_list_screen.dart
+📄 lib/tmt_flutter_screen.dart
 
 ```diff
         appBar: AppBar(title: Text('Todo List')),
