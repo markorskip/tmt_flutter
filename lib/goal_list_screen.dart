@@ -12,8 +12,8 @@ class GoalListScreen extends StatefulWidget {
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
-  List<Goal> goals = [new Goal("Remodel Home","Paint and Carpets - Paying professionals",10000.0,25,0),
-    new Goal("Remodel Home DIY","Paint and Carpet DIY",2500.0,200,0)
+  List<Goal> goals = [new Goal("Remodel Home","Paint and Carpets - Paying professionals",10000.0,25),
+    new Goal("Remodel Home DIY","Paint and Carpet DIY",2500.0,200)
   ];
 
   _addGoal() async {
@@ -27,6 +27,21 @@ class _GoalListScreenState extends State<GoalListScreen> {
     if (goal != null) {
       setState(() {
         goals.add(goal);
+      });
+    }
+  }
+
+  _addSubGoal(Goal goal) async {
+    final subgoal = await showDialog<Goal>(
+      context: context,
+      builder: (BuildContext context) {
+        return NewGoalDialog();
+      },
+    );
+
+    if (goal != null) {
+      setState(() {
+        goal.addSubGoal(subgoal);
       });
     }
   }
@@ -47,7 +62,8 @@ class _GoalListScreenState extends State<GoalListScreen> {
       appBar: AppBar(title: Text('Time Money Task List')),
       body: GoalList(
         goals: goalsToDisplay(),
-        deleteHandler: _deleteGoal
+        deleteHandler: _deleteGoal,
+        addSubGoalHandler: _addSubGoal
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

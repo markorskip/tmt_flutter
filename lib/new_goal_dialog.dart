@@ -63,8 +63,7 @@ class NewGoalDialog extends StatelessWidget {
             final goal = new Goal(titleController.value.text,
                 descriptionController.value.text,
                 getMoneyValue(),
-                getTimeValue(),
-                0);
+                getTimeValue());
             titleController.clear();
             descriptionController.clear();
             moneyController.clear();
