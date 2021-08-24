@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model.dart';
 
 class GoalList extends StatelessWidget {
-  GoalList({@required this.goals});
+  final Function deleteHandler;
+  GoalList({@required this.goals, this.deleteHandler});
 
   final List<Goal> goals;
+
+  _deleteGoal(Goal goal) {
+    goal.delete();
+  }
 
 
   Widget _buildItem(BuildContext context, int index) {
@@ -17,24 +22,34 @@ class GoalList extends StatelessWidget {
       subtitle: Text(goal.getSubTitle()),
       isThreeLine: true,
       dense: true,
-     // onTap: _modifyGoal(),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.favorite_border,
+          //     size: 20.0,
+          //     color: Colors.brown[900],
+          //   ),
+          //   onPressed: () {
+          //     //   _onDeleteItemPressed(index);
+          //   },
+          // ),
+          IconButton(
+            icon: Icon(
+              Icons.delete_outline,
+              size: 20.0,
+              color: Colors.brown[900],
+            ),
+            onPressed: (){
+              deleteHandler(goal);
+            },
+          ),
+        ],
+      ),
+ // onTap: ,
     );
   }
-
-  // _modifyGoal() async {
-  //   final goal = await showDialog<Goal>(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return NewGoalDialog();
-  //     },
-  //   );
-  //
-  //   if (goal != null) {
-  //     setState(() {
-  //       goals.add(goal);
-  //     });
-  //   }
-  // }
 
   getIconForDepth(int levelDeep) {
     switch(levelDeep) {

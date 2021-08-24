@@ -16,7 +16,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
     new Goal("Remodel Home DIY","Paint and Carpet DIY",2500.0,200,0)
   ];
 
-  _addRootGoal() async {
+  _addGoal() async {
     final goal = await showDialog<Goal>(
       context: context,
       builder: (BuildContext context) {
@@ -30,16 +30,28 @@ class _GoalListScreenState extends State<GoalListScreen> {
       });
     }
   }
+
+  _deleteGoal(Goal goal) {
+    setState(() {
+      goal.delete();
+    });
+  }
+
+  goalsToDisplay() {
+    return goals.where((element) => element.isDeleted == false).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Time Money Task List')),
       body: GoalList(
-        goals: goals
+        goals: goalsToDisplay(),
+        deleteHandler: _deleteGoal
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _addRootGoal,
+        onPressed: _addGoal,
       ),
     );
   }

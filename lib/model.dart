@@ -4,6 +4,7 @@ class Goal {
   double costInDollars;
   int timeInHours;
   bool complete = false;
+  bool isDeleted = false;
   int levelDeep = 0;  // start at 0
 
   List<Goal> goals = [];
@@ -30,6 +31,14 @@ class Goal {
 
   String getSubTitle() {
     return description + "\nEstimated Time: " +  getEstimatedTime().toString() + " hours. Estimated Cost: " + getEstimatedCost().toString() + " dollars";
+  }
+
+  delete() {
+    this.isDeleted = true;
+  }
+
+  restore() {
+    this.isDeleted = false;
   }
 
 
