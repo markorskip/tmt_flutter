@@ -17,25 +17,37 @@ class Goal {
 
   getEstimatedTime() {
     if (goals.length == 0) return timeInHours;
+    num sum = 0;
+    goals.forEach((element) {sum += element.getEstimatedTime(); });
+    return sum;
   }
 
   getEstimatedCost() {
     if (goals.length == 0) return costInDollars;
+    num sum = 0;
+    goals.forEach((element) {sum += element.getEstimatedCost(); });
+    return sum;
   }
 
   getPercentageCompleteCost() {
     if (goals.length == 0 && !complete) return 0;
     if (goals.length == 0 && complete) return 100;
+    num sum = 0;
+    goals.forEach((element) {sum += element.getPercentageCompleteCost(); });
+    return sum;
   }
 
   getPercentageCompleteTime() {
     if (goals.length == 0 && !complete) return 0;
     if (goals.length == 0 && complete) return 100;
+    num sum = 0;
+    goals.forEach((element) {sum += element.getPercentageCompleteTime(); });
+    return sum;
   }
 
   String getSubTitle() {
-    return description + "\nEstimated Time: " +  getEstimatedTime().toString() + " hours. Estimated Cost: " + getEstimatedCost().toString() + " dollars." +
-    "# of Subtasks: " + this.goals.length.toString();
+    return description + "\Time: " +  getEstimatedTime().toString() + " hrs. Cost: \$" + getEstimatedCost().toString()
+    + " # of Subtasks: " + this.goals.length.toString();
   }
 
   delete() {
