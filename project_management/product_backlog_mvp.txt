@@ -2,16 +2,19 @@ TMT Flutter
 
 v1: Basic app functionality
 When a goal is complete - change formatting
-
-Icons (edit, delete, complete, add subtask, add goal)
-Create a way to modify a goal
-Create a way to complete a goal
+Create a way to edit a goal
 When looking at subgoals, also view details of parent goal
-Remove open button if goal does not have children
 Modify add goal dialog to show text appropriate for the context (goal / task)
+fix percentage display to only display like 50.000 as 50%
+modify percentage displays to indicate money and time
+modify list view formatting
+move percentage complete to more info view
+fix infinity error (write units tests for model calculations, edge cases)
 
 
 Completed:
+sliding delete
+Create a way to complete a goal
 Add percent complete indicator 8/25/2021
 Create a way to open a goal 8/24/2021
 Create a way to go from subgoal to parent goal 8/24/2021

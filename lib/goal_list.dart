@@ -32,6 +32,17 @@ class GoalList extends StatelessWidget {
           },
         ),
       ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.blueAccent
+          ),
+          child: Icon(Icons.edit),
+          onPressed: (){
+            deleteHandler(goal); // TODO
+          },
+        ),
+      ],
       secondaryActions: <Widget>[
         ElevatedButton(
           style: ElevatedButton.styleFrom(
