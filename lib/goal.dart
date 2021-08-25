@@ -46,8 +46,8 @@ class Goal {
   }
 
   String getSubTitle() {
-    return description + "\Time: " +  getEstimatedTime().toString() + " hrs. Cost: \$" + getEstimatedCost().toString()
-    + " # of Subtasks: " + this.goals.length.toString();
+    return "Time: " +  getEstimatedTime().toString() + " hrs. Cost: \$" + getEstimatedCost().toString()
+    + "\n # of Subtasks: " + this.goals.length.toString();
   }
 
   delete() {

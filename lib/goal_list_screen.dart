@@ -12,9 +12,20 @@ class GoalListScreen extends StatefulWidget {
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
-  Goal rootGoal = new Goal("root goal", "never show to user",0,0);
-  List<Goal> currentlyDisplayedGoals = [new Goal("root goal", "never show to user",0,0)];
-  String title = "Time Money Task List";
+
+
+  List<Goal> currentlyDisplayedGoals = [];
+  String title;
+  @override
+  void initState() {
+    //adding item to list, you can add using json from network
+    Goal houseUpgrades = new Goal("House Upgrades", "Improvements to make the house better",0,0);
+    houseUpgrades.addSubGoal(new Goal("Paint interior","Professional Qoute",6000,5));
+    houseUpgrades.addSubGoal(new Goal("Replace Carpet","Professional Quote",3500,5));
+    currentlyDisplayedGoals.add(houseUpgrades);
+    title = "TMT";
+    super.initState();
+  }
 
   _addGoal() async {
     final goal = await showDialog<Goal>(
@@ -27,21 +38,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
     if (goal != null) {
       setState(() {
         currentlyDisplayedGoals.add(goal);
-      });
-    }
-  }
-
-  _addSubGoal(Goal goal) async {
-    final subgoal = await showDialog<Goal>(
-      context: context,
-      builder: (BuildContext context) {
-        return NewGoalDialog();
-      },
-    );
-
-    if (goal != null) {
-      setState(() {
-        goal.addSubGoal(subgoal);
       });
     }
   }
@@ -60,14 +56,12 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   _openGoal(Goal goal) {
-    if (goal.goals.length > 0) {
-      setState(() {
-        titleStack.add(this.title);
-        this.title = goal.title;
-        goalsStack.add(this.currentlyDisplayedGoals);
-        this.currentlyDisplayedGoals = goal.goals;
-      });
-    }
+    setState(() {
+      titleStack.add(this.title);
+      this.title = goal.title;
+      goalsStack.add(this.currentlyDisplayedGoals);
+      this.currentlyDisplayedGoals = goal.goals;
+    });
   }
 
   _backUp() {
@@ -93,7 +87,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
       body: GoalList(
         goals: goalsToDisplay(),
         deleteHandler: _deleteGoal,
-        addSubGoalHandler: _addSubGoal,
         openSubGoalHandler: _openGoal
       ),
         bottomNavigationBar: BottomAppBar(

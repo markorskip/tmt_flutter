@@ -3,10 +3,12 @@ TMT Flutter
 v1: Basic app functionality
 When a goal is complete - change formatting
 
+Icons (edit, delete, complete, add subtask, add goal)
 Create a way to modify a goal
 Create a way to complete a goal
 When looking at subgoals, also view details of parent goal
 Remove open button if goal does not have children
+Modify add goal dialog to show text appropriate for the context (goal / task)
 
 
 Ready For DEV:

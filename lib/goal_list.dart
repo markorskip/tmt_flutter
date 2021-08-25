@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/goal.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class GoalList extends StatelessWidget {
   final Function deleteHandler;
-  final Function addSubGoalHandler;
   final Function openSubGoalHandler;
-  GoalList({@required this.goals, this.deleteHandler, this.addSubGoalHandler, this.openSubGoalHandler});
+  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler});
 
   final List<Goal> goals;
 
@@ -14,7 +14,7 @@ class GoalList extends StatelessWidget {
     final goal = goals[index];
 
     return ListTile(
-      leading: getIconForDepth(goal.levelDeep),
+      leading: getIcon(goal),
       title: Text(goal.title),
       subtitle: Text(goal.getSubTitle()),
       isThreeLine: true,
@@ -22,16 +22,6 @@ class GoalList extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              size: 20.0,
-              color: Colors.brown[900],
-            ),
-            onPressed: () {
-              addSubGoalHandler(goal);
-            },
-          ),
           IconButton(
             icon: Icon(
               Icons.delete_outline,
@@ -50,16 +40,27 @@ class GoalList extends StatelessWidget {
     );
   }
 
-  getIconForDepth(int levelDeep) {
-    switch(levelDeep) {
-      case 0: return Icon(
-    Icons.airplanemode_active_rounded,
-    color: Colors.blue,
-    size: 24.0,
-    semanticLabel: 'Text to announce in accessibility modes',
-    );
-          break;
+  getIcon(Goal goal) {
+
+    if (goal.goals.length > 0) {
+      return new CircularPercentIndicator(
+        radius: 45.0,
+        lineWidth: 5.0,
+        percent:1.0,
+        center: new Text(
+          "100%",
+          style:
+          new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+        ),
+        progressColor: Colors.blue,
+      );
     }
+    return Icon(
+      Icons.radio_button_off_rounded ,
+      color: Colors.blue,
+      size: 24.0,
+      semanticLabel: 'Text to announce in accessibility modes',
+      );
   }
 
   @override
