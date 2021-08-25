@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:tmt_flutter/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -14,31 +15,61 @@ class GoalList extends StatelessWidget {
   Widget _buildItem(BuildContext context, int index) {
     final goal = goals[index];
 
-    return ListTile(
-      leading: getIcon(goal),
-      title: Text(goal.title),
-      subtitle: Text(goal.getSubTitle()),
-      isThreeLine: true,
-      dense: true,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.delete_outline,
-              size: 20.0,
-              color: Colors.brown[900],
-            ),
-            onPressed: (){
-              deleteHandler(goal);
-            },
-          ),
-        ],
+    // https://www.fluttercampus.com/guide/68/how-to-make-slide-and-delete-item-list-flutter/
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      child: Card(
+        color: Colors.white,
+        child: ListTile(
+          leading: getIcon(goal),
+          title: Text(goal.title),
+          subtitle: Text(goal.getSubTitle()),
+          isThreeLine: true,
+          dense: true,
+          onTap: () {
+            openSubGoalHandler(goal);
+          },
+        ),
       ),
-    onTap: () {
-        openSubGoalHandler(goal);
-      },
+      secondaryActions: <Widget>[
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.redAccent
+          ),
+          child: Icon(Icons.delete),
+          onPressed: (){
+            deleteHandler(goal);
+          },
+        ),
+      ],
     );
+
+    // return ListTile(
+    //   leading: getIcon(goal),
+    //   title: Text(goal.title),
+    //   subtitle: Text(goal.getSubTitle()),
+    //   isThreeLine: true,
+    //   dense: true,
+    //   trailing: Row(
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: <Widget>[
+    //       IconButton(
+    //         icon: Icon(
+    //           Icons.delete_outline,
+    //           size: 20.0,
+    //           color: Colors.brown[900],
+    //         ),
+    //         onPressed: (){
+    //           deleteHandler(goal);
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // onTap: () {
+    //     openSubGoalHandler(goal);
+    //   },
+    // );
   }
 
   getIcon(Goal goal) {
