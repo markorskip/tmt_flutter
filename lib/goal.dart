@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Goal {
   String title;
   String description;
@@ -30,19 +32,28 @@ class Goal {
   }
 
   getPercentageCompleteCost() {
-    if (goals.length == 0 && !complete) return 0;
-    if (goals.length == 0 && complete) return 100;
-    num sum = 0;
-    goals.forEach((element) {sum += element.getPercentageCompleteCost(); });
-    return sum;
+    if (goals.length == 0 && !complete) return 0.0;
+    if (goals.length == 0 && complete) return 1.0;
+    num totalCost = 0;
+    num completedCost = 0;
+    goals.forEach((element) {totalCost += element.getEstimatedCost(); });
+    goals.where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
+    return roundDouble(completedCost/totalCost, 2);
   }
 
   getPercentageCompleteTime() {
-    if (goals.length == 0 && !complete) return 0;
-    if (goals.length == 0 && complete) return 100;
-    num sum = 0;
-    goals.forEach((element) {sum += element.getPercentageCompleteTime(); });
-    return sum;
+    if (goals.length == 0 && !complete) return 0.0;
+    if (goals.length == 0 && complete) return 1.0;
+    num totalTime = 0;
+    num completedTime = 0;
+    goals.forEach((element) {totalTime += element.getEstimatedTime(); });
+    goals.where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
+    return roundDouble(completedTime/totalTime, 2);
+  }
+
+  double roundDouble(double value, int places){
+    double mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
   }
 
   String getSubTitle() {

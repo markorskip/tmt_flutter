@@ -11,14 +11,8 @@ Remove open button if goal does not have children
 Modify add goal dialog to show text appropriate for the context (goal / task)
 
 
-Ready For DEV:
-
-
-
-In Progress:
-
-
 Completed:
+Add percent complete indicator 8/25/2021
 Create a way to open a goal 8/24/2021
 Create a way to go from subgoal to parent goal 8/24/2021
 Create a way to add a subgoal 8/24/2021

@@ -21,7 +21,10 @@ class _GoalListScreenState extends State<GoalListScreen> {
     //adding item to list, you can add using json from network
     Goal houseUpgrades = new Goal("House Upgrades", "Improvements to make the house better",0,0);
     houseUpgrades.addSubGoal(new Goal("Paint interior","Professional Qoute",6000,5));
-    houseUpgrades.addSubGoal(new Goal("Replace Carpet","Professional Quote",3500,5));
+    Goal replaceCarpet = new Goal("Replace Carpet","Professional Quote",3500,5);
+    replaceCarpet.complete = true;
+    houseUpgrades.addSubGoal(replaceCarpet);
+
     currentlyDisplayedGoals.add(houseUpgrades);
     title = "TMT";
     super.initState();
@@ -52,6 +55,12 @@ class _GoalListScreenState extends State<GoalListScreen> {
   _deleteGoal(Goal goal) {
     setState(() {
       goal.delete();
+    });
+  }
+
+  _toggleComplete(Goal goal) {
+    setState(() {
+      goal.complete = !goal.complete;
     });
   }
 
@@ -87,7 +96,8 @@ class _GoalListScreenState extends State<GoalListScreen> {
       body: GoalList(
         goals: goalsToDisplay(),
         deleteHandler: _deleteGoal,
-        openSubGoalHandler: _openGoal
+        openSubGoalHandler: _openGoal,
+        toggleCompleteHandler: _toggleComplete,
       ),
         bottomNavigationBar: BottomAppBar(
           child: Row(

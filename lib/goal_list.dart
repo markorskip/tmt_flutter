@@ -6,7 +6,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 class GoalList extends StatelessWidget {
   final Function deleteHandler;
   final Function openSubGoalHandler;
-  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler});
+  final Function toggleCompleteHandler;
+  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler});
 
   final List<Goal> goals;
 
@@ -41,26 +42,60 @@ class GoalList extends StatelessWidget {
   }
 
   getIcon(Goal goal) {
-
     if (goal.goals.length > 0) {
-      return new CircularPercentIndicator(
-        radius: 45.0,
-        lineWidth: 5.0,
-        percent:1.0,
-        center: new Text(
-          "100%",
-          style:
-          new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          new CircularPercentIndicator(
+            radius: 35.0,
+            lineWidth: 5.0,
+            percent: goal.getPercentageCompleteTime(),
+            center: new Text(
+              (goal.getPercentageCompleteTime() * 100).toString() + "%",
+              style:
+              new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+            ),
+          progressColor: Colors.blue,
         ),
-        progressColor: Colors.blue,
+          new CircularPercentIndicator(
+            radius: 35.0,
+            lineWidth: 5.0,
+            percent: goal.getPercentageCompleteCost(),
+            center: new Text(
+            (goal.getPercentageCompleteCost() * 100).toString() + "%",
+            style:
+            new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+          ),
+          progressColor: Colors.green,
+          ),
+          ]);
+    }
+    if (goal.complete == false) {
+      return IconButton(
+          icon: Icon(
+            Icons.radio_button_unchecked,
+            color: Colors.blue,
+            size: 24.0,
+            semanticLabel: 'Text to announce in accessibility modes',
+          ),
+          onPressed: () {
+            toggleCompleteHandler(goal);
+          }
       );
     }
-    return Icon(
-      Icons.radio_button_off_rounded ,
-      color: Colors.blue,
-      size: 24.0,
-      semanticLabel: 'Text to announce in accessibility modes',
-      );
+    if (goal.complete == true) {
+      return IconButton(
+            icon: Icon(
+              Icons.radio_button_checked,
+              color: Colors.blue,
+              size: 24.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            ),
+            onPressed: () {
+              toggleCompleteHandler(goal);
+            }
+        );
+    }
   }
 
   @override
