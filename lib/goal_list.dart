@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/model.dart';
+import 'package:tmt_flutter/goal.dart';
 
 class GoalList extends StatelessWidget {
   final Function deleteHandler;
   final Function addSubGoalHandler;
-  GoalList({@required this.goals, this.deleteHandler, this.addSubGoalHandler});
+  final Function openSubGoalHandler;
+  GoalList({@required this.goals, this.deleteHandler, this.addSubGoalHandler, this.openSubGoalHandler});
 
   final List<Goal> goals;
 
@@ -43,7 +44,9 @@ class GoalList extends StatelessWidget {
           ),
         ],
       ),
- // onTap: navigateToSubTasks,
+    onTap: () {
+        openSubGoalHandler(goal);
+      },
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/model.dart';
+import 'package:tmt_flutter/goal.dart';
 
 class NewGoalDialog extends StatelessWidget {
   final titleController = new TextEditingController();

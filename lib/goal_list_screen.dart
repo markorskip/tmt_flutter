@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tmt_flutter/model.dart';
 
 import 'package:tmt_flutter/goal_list.dart';
-
+import 'package:tmt_flutter/goal.dart';
 import 'new_goal_dialog.dart';
 
 class GoalListScreen extends StatefulWidget {
 
   @override
   _GoalListScreenState createState() => _GoalListScreenState();
+
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
-  List<Goal> goals = [new Goal("Remodel Home","Paint and Carpets - Paying professionals",10000.0,25),
-    new Goal("Remodel Home DIY","Paint and Carpet DIY",2500.0,200)
-  ];
+  Goal rootGoal = new Goal("root goal", "never show to user",0,0);
+  List<Goal> currentlyDisplayedGoals = [new Goal("root goal", "never show to user",0,0)];
+  String title = "Time Money Task List";
 
   _addGoal() async {
     final goal = await showDialog<Goal>(
@@ -26,7 +26,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
 
     if (goal != null) {
       setState(() {
-        goals.add(goal);
+        currentlyDisplayedGoals.add(goal);
       });
     }
   }
@@ -46,29 +46,76 @@ class _GoalListScreenState extends State<GoalListScreen> {
     }
   }
 
+  _showHelpDialog() async {  // TODO fix this - it's not working
+      return new AlertDialog(
+        title: new Text("My Super title"),
+        content: new Text("Hello World"),
+      );
+  }
+
   _deleteGoal(Goal goal) {
     setState(() {
       goal.delete();
     });
   }
 
+  _openGoal(Goal goal) {
+    if (goal.goals.length > 0) {
+      setState(() {
+        titleStack.add(this.title);
+        this.title = goal.title;
+        goalsStack.add(this.currentlyDisplayedGoals);
+        this.currentlyDisplayedGoals = goal.goals;
+      });
+    }
+  }
+
+  _backUp() {
+    setState(() {
+      this.title = titleStack.last;
+      this.currentlyDisplayedGoals = goalsStack.last;
+      goalsStack.removeLast();
+      titleStack.removeLast();
+    });
+  }
+
+  List<String> titleStack = [];
+  List<List<Goal>> goalsStack = [];
+
   goalsToDisplay() {
-    return goals.where((element) => element.isDeleted == false).toList();
+    return currentlyDisplayedGoals.where((element) => element.isDeleted == false).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Time Money Task List')),
+      appBar: AppBar(title: Text(title)),
       body: GoalList(
         goals: goalsToDisplay(),
         deleteHandler: _deleteGoal,
-        addSubGoalHandler: _addSubGoal
+        addSubGoalHandler: _addSubGoal,
+        openSubGoalHandler: _openGoal
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: _addGoal,
-      ),
-    );
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            children: [
+              showBackButton(),
+              Spacer(),
+              //IconButton(icon: Icon(Icons.search), onPressed: () {}),
+              //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            ],
+          ),
+        ),
+        floatingActionButton:
+        FloatingActionButton(child: Icon(Icons.add), onPressed: _addGoal),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );
+  }
+
+  showBackButton() {
+    if (goalsStack.isNotEmpty) {
+      return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
+    }
+     return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
   }
 }

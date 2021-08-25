@@ -1,14 +1,11 @@
 TMT Flutter
 
-
-
 v1: Basic app functionality
 When a goal is complete - change formatting
 
 Create a way to modify a goal
 Create a way to complete a goal
-Create a way to add a subgoal
-Create an open button for goals that have goals within them
+When looking at subgoals, also view details of parent goal
 Remove open button if goal does not have children
 
 
@@ -20,6 +17,9 @@ In Progress:
 
 
 Completed:
+Create a way to open a goal 8/24/2021
+Create a way to go from subgoal to parent goal 8/24/2021
+Create a way to add a subgoal 8/24/2021
 Create a way to delete a goal 8/23/2021
 Init protoype
 Github repo

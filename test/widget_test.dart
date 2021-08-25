@@ -9,22 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:tmt_flutter/main.dart';
+import 'package:tmt_flutter/goal.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('List should be modified by reference', () {
+    List<Goal> list1 = [];
+    list1.add(new Goal("goal1","desc",0,0));
+    List<Goal> list2 = [];
+    list2 = list1;
+    list2.add(new Goal("goal2","desc",1,1));
+    print(list1);
+    print(list2);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(list1.length,2);
   });
+
 }
+
+

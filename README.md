@@ -786,7 +786,7 @@ Now we don't have any dependencies on a parent widget, so we can extract `AlertD
 ```dart
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/model.dart';
+import 'package:tmt_flutter/goal.dart';
 
 class NewTodoDialog extends StatelessWidget {
   final controller = new TextEditingController();
