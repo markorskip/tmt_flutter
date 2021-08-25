@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 class Goal {
   String title;
   String description;
@@ -74,5 +76,17 @@ class Goal {
     this.goals.add(goal);
   }
 
+  void update(Goal editedGoal) {
+    this.title = editedGoal.title;
+    this.description = editedGoal.description;
+    this.timeInHours = editedGoal.timeInHours;
+    this.costInDollars = editedGoal.costInDollars;
+    this.complete = editedGoal.complete;
 
+  }
+
+  @override
+  String toString() {
+    return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
+  }
 }

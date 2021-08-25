@@ -8,7 +8,8 @@ class GoalList extends StatelessWidget {
   final Function deleteHandler;
   final Function openSubGoalHandler;
   final Function toggleCompleteHandler;
-  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler});
+  final Function editHandler;
+  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler});
 
   final List<Goal> goals;
 
@@ -39,7 +40,7 @@ class GoalList extends StatelessWidget {
           ),
           child: Icon(Icons.edit),
           onPressed: (){
-            deleteHandler(goal); // TODO
+            editHandler(goal); // TODO
           },
         ),
       ],

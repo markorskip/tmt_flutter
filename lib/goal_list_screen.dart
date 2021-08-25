@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmt_flutter/edit_goal_dialog.dart';
 
 import 'package:tmt_flutter/goal_list.dart';
 import 'package:tmt_flutter/goal.dart';
@@ -44,6 +45,24 @@ class _GoalListScreenState extends State<GoalListScreen> {
       });
     }
   }
+
+  _editGoal(Goal goal) async {
+    Goal editedGoal = await showDialog<Goal>(
+      context: context,
+      builder: (BuildContext context) {
+        return EditGoalDialog(goalToEdit: goal);
+      },
+    );
+
+    if (editedGoal != null) {
+      setState(() {
+        print(editedGoal);
+        print(goal);
+        goal.update(editedGoal);
+      });
+    }
+  }
+
 
   _showHelpDialog() async {  // TODO fix this - it's not working
       return new AlertDialog(
@@ -101,6 +120,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
         deleteHandler: _deleteGoal,
         openSubGoalHandler: _openGoal,
         toggleCompleteHandler: _toggleComplete,
+        editHandler: _editGoal,
       ),
         bottomNavigationBar: BottomAppBar(
           child: Row(
