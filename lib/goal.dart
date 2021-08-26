@@ -63,8 +63,24 @@ class Goal {
   }
 
   String getSubTitle() {
-    return "Time: " +  getEstimatedTime().toString() + " hrs. Cost: \$" + getEstimatedCost().toString()
-    + "\n # of Subtasks: " + getActiveGoals().length.toString();
+    return "Time: " +  getEstimatedTime().toString() + " hrs \nCost: \$" + getEstimatedCost().toString();
+  }
+
+  RichText getSubTitleRichText() {
+    return new RichText(
+      text: new TextSpan(
+        // Note: Styles for TextSpans must be explicitly defined.
+        // Child text spans will inherit styles from parent
+        style: new TextStyle(
+          fontSize: 14.0,
+          color: Colors.black,
+        ),
+        children: <TextSpan>[
+          new TextSpan(text: "Time: " +  getEstimatedTime().toString() + " hours \n", style: new TextStyle(color: Colors.blue)),
+          new TextSpan(text: "Cost: \$" +  getEstimatedCost().toString().split('.').first, style: new TextStyle(color: Colors.green)),
+        ],
+      ),
+    );
   }
 
   delete() {
@@ -96,5 +112,15 @@ class Goal {
   @override
   String toString() {
     return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
+  }
+
+  // TODO separate UI logic from calculation/model logic
+
+  String getPercentageCompleteTimeFormatted() {
+    return (getPercentageCompleteTime() * 100).toString().split('.').first + "%";
+  }
+
+  String getPercentageCompleteCostFormatted() {
+    return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
 }

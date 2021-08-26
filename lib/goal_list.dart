@@ -31,9 +31,9 @@ class _GoalListState extends State<GoalList> {
         child: ListTile(
           leading: getIcon(goal),
           title: Text(goal.title),
-          subtitle: Text(goal.getSubTitle()),
+          subtitle: goal.getSubTitleRichText(),
           isThreeLine: true,
-          dense: true,
+          //dense: true,
           onTap: () {
             widget.openSubGoalHandler(goal);
           },
@@ -63,27 +63,39 @@ class _GoalListState extends State<GoalList> {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Icon(
+            Icons.timer,
+            color: Colors.blueAccent,
+            size: 15.0,
+            semanticLabel: 'Text to announce in accessibility modes',
+          ),
           new CircularPercentIndicator(
-            radius: 35.0,
+            radius: 40.0,
             lineWidth: 5.0,
             percent: goal.getPercentageCompleteTime(),
-            center: new Text(
-              (goal.getPercentageCompleteTime() * 100).toString() + "%",
+            center: new Text(goal.getPercentageCompleteTimeFormatted(),
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
             ),
           progressColor: Colors.blue,
+            animation: true,
         ),
+          Icon(
+            Icons.attach_money,
+            color: Colors.green,
+            size: 15.0,
+            semanticLabel: 'Text to announce in accessibility modes',
+          ),
           new CircularPercentIndicator(
-            radius: 35.0,
+            radius: 40.0,
             lineWidth: 5.0,
             percent: goal.getPercentageCompleteCost(),
-            center: new Text(
-            (goal.getPercentageCompleteCost() * 100).toString() + "%",
+            center: new Text(goal.getPercentageCompleteCostFormatted(),
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
           ),
           progressColor: Colors.green,
+            animation: true,
           ),
           ]);
     }
