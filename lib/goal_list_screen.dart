@@ -56,8 +56,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
 
     if (editedGoal != null) {
       setState(() {
-        print(editedGoal);
-        print(goal);
         goal.update(editedGoal);
       });
     }
@@ -119,20 +117,47 @@ class _GoalListScreenState extends State<GoalListScreen> {
         toggleCompleteHandler: _toggleComplete,
         editHandler: _editGoal,
       ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: [
-              showBackButton(),
-              Spacer(),
-              //IconButton(icon: Icon(Icons.search), onPressed: () {}),
-              //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-            ],
-          ),
+      bottomSheet: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.album),
+              title: Text('The Enchanted Nightingale'),
+              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: const Text('BUY TICKETS'),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 8),
+                TextButton(
+                  child: const Text('LISTEN'),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+          ],
         ),
-        floatingActionButton:
-        FloatingActionButton(child: Icon(Icons.add), onPressed: _addGoal),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      );
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: [
+            showBackButton(),
+            Spacer(),
+            //IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          ],
+        ),
+      ),
+      floatingActionButton:
+      FloatingActionButton(child: Icon(Icons.add), onPressed: _addGoal),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 
   showBackButton() {
