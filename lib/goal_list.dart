@@ -40,7 +40,7 @@ class GoalList extends StatelessWidget {
           ),
           child: Icon(Icons.edit),
           onPressed: (){
-            editHandler(goal); // TODO
+            editHandler(goal);
           },
         ),
       ],
@@ -49,9 +49,11 @@ class GoalList extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             primary: Colors.redAccent
           ),
+
           child: Icon(Icons.delete),
           onPressed: (){
             deleteHandler(goal);
+
           },
         ),
       ],

@@ -75,9 +75,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
     setState(() {
       goal.delete();
     });
-    setState(() {
-      //refresh ui
-    });
   }
 
   _toggleComplete(Goal goal) {

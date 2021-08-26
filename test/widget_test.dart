@@ -25,6 +25,14 @@ void main() {
     expect(list1.length,2);
   });
 
+  test('Should not throw infinity error', () {
+    Goal goal = new Goal("test","",0,0);
+    goal.addSubGoal(new Goal("test2","",0,0));
+    goal.addSubGoal(new Goal("test3","",0,0));
+    expect(goal.getPercentageCompleteCost(),0.0);
+    expect(goal.getPercentageCompleteCost(),0.0);
+  });
+
 }
 
 

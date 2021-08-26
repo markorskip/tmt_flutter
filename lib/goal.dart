@@ -20,36 +20,40 @@ class Goal {
   }
 
   getEstimatedTime() {
-    if (goals.length == 0) return timeInHours;
+    if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;
-    goals.forEach((element) {sum += element.getEstimatedTime(); });
+    getActiveGoals().forEach((element) {sum += element.getEstimatedTime(); });
     return sum;
   }
 
   getEstimatedCost() {
-    if (goals.length == 0) return costInDollars;
+    if (getActiveGoals().length == 0) return costInDollars;
     num sum = 0;
-    goals.forEach((element) {sum += element.getEstimatedCost(); });
+    getActiveGoals().forEach((element) {sum += element.getEstimatedCost(); });
     return sum;
   }
 
   getPercentageCompleteCost() {
-    if (goals.length == 0 && !complete) return 0.0;
-    if (goals.length == 0 && complete) return 1.0;
+    if (getActiveGoals().length == 0 && !complete) return 0.0;
+    if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalCost = 0;
     num completedCost = 0;
-    goals.forEach((element) {totalCost += element.getEstimatedCost(); });
-    goals.where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
+    getActiveGoals().forEach((element) {totalCost += element.getEstimatedCost(); });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
+
+    if (completedCost == 0) return 0.0;
     return roundDouble(completedCost/totalCost, 2);
   }
 
   getPercentageCompleteTime() {
-    if (goals.length == 0 && !complete) return 0.0;
-    if (goals.length == 0 && complete) return 1.0;
+    if (getActiveGoals().length == 0 && !complete) return 0.0;
+    if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalTime = 0;
     num completedTime = 0;
-    goals.forEach((element) {totalTime += element.getEstimatedTime(); });
-    goals.where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
+    getActiveGoals().forEach((element) {totalTime += element.getEstimatedTime(); });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
+
+    if (completedTime == 0) return 0.0;
     return roundDouble(completedTime/totalTime, 2);
   }
 
@@ -60,7 +64,7 @@ class Goal {
 
   String getSubTitle() {
     return "Time: " +  getEstimatedTime().toString() + " hrs. Cost: \$" + getEstimatedCost().toString()
-    + "\n # of Subtasks: " + this.goals.length.toString();
+    + "\n # of Subtasks: " + getActiveGoals().length.toString();
   }
 
   delete() {
@@ -83,6 +87,10 @@ class Goal {
     this.costInDollars = editedGoal.costInDollars;
     this.complete = editedGoal.complete;
 
+  }
+
+  getActiveGoals() {
+    return goals.where((element) => element.isDeleted == false).toList();
   }
 
   @override

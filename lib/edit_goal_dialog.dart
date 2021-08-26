@@ -49,7 +49,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
           controller: titleController,
           autofocus: true,
          ),
-          Text("Name of Goal/Task/Project"),
+          Text("Title:"),
           TextField(
             controller: descriptionController,
             autofocus: true,
