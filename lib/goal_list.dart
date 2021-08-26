@@ -4,23 +4,29 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tmt_flutter/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class GoalList extends StatelessWidget {
+class GoalList extends StatefulWidget {
+
   final Function deleteHandler;
   final Function openSubGoalHandler;
   final Function toggleCompleteHandler;
   final Function editHandler;
-  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler});
-
   final List<Goal> goals;
 
-  Widget _buildItem(BuildContext context, int index) {
-    final goal = goals[index];
+  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler});
 
-    // https://www.fluttercampus.com/guide/68/how-to-make-slide-and-delete-item-list-flutter/
+  @override
+  _GoalListState createState() => _GoalListState();
+}
+
+class _GoalListState extends State<GoalList> {
+
+  Widget _buildItem(BuildContext context, int index) {
+    final goal = widget.goals[index];
+
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      child: Card(
+      child: Container(
         color: Colors.white,
         child: ListTile(
           leading: getIcon(goal),
@@ -29,61 +35,27 @@ class GoalList extends StatelessWidget {
           isThreeLine: true,
           dense: true,
           onTap: () {
-            openSubGoalHandler(goal);
+            widget.openSubGoalHandler(goal);
           },
         ),
       ),
       actions: <Widget>[
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: Colors.blueAccent
-          ),
-          child: Icon(Icons.edit),
-          onPressed: (){
-            editHandler(goal);
-          },
-        ),
+        IconSlideAction(
+          caption: 'Edit',
+          color: Colors.blueAccent,
+          icon: Icons.edit,
+          onTap: () => widget.editHandler(goal),
+        )
       ],
       secondaryActions: <Widget>[
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.redAccent
-          ),
-
-          child: Icon(Icons.delete),
-          onPressed: (){
-            deleteHandler(goal);
-
-          },
+        IconSlideAction(
+          caption: 'Delete',
+          color: Colors.redAccent,
+          icon: Icons.delete,
+          onTap: () => widget.deleteHandler(goal),
         ),
       ],
     );
-
-    // return ListTile(
-    //   leading: getIcon(goal),
-    //   title: Text(goal.title),
-    //   subtitle: Text(goal.getSubTitle()),
-    //   isThreeLine: true,
-    //   dense: true,
-    //   trailing: Row(
-    //     mainAxisSize: MainAxisSize.min,
-    //     children: <Widget>[
-    //       IconButton(
-    //         icon: Icon(
-    //           Icons.delete_outline,
-    //           size: 20.0,
-    //           color: Colors.brown[900],
-    //         ),
-    //         onPressed: (){
-    //           deleteHandler(goal);
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // onTap: () {
-    //     openSubGoalHandler(goal);
-    //   },
-    // );
   }
 
   getIcon(Goal goal) {
@@ -124,7 +96,7 @@ class GoalList extends StatelessWidget {
             semanticLabel: 'Text to announce in accessibility modes',
           ),
           onPressed: () {
-            toggleCompleteHandler(goal);
+            widget.toggleCompleteHandler(goal);
           }
       );
     }
@@ -137,7 +109,7 @@ class GoalList extends StatelessWidget {
               semanticLabel: 'Text to announce in accessibility modes',
             ),
             onPressed: () {
-              toggleCompleteHandler(goal);
+              widget.toggleCompleteHandler(goal);
             }
         );
     }
@@ -147,7 +119,7 @@ class GoalList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: _buildItem,
-      itemCount: goals.length,
+      itemCount: widget.goals.length,
     );
   }
 }
