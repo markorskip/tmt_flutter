@@ -84,7 +84,9 @@ class _GoalListScreenState extends State<GoalListScreen> {
       titleStack.add(this.title);
       this.title = goal.title;
       goalsStack.add(this.currentlyDisplayedGoals);
+      goal.goals.sort();
       this.currentlyDisplayedGoals = goal.goals;
+
     });
   }
 
