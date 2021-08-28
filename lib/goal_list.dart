@@ -12,7 +12,7 @@ class GoalList extends StatefulWidget {
   final Function editHandler;
   final List<Goal> goals;
 
-  GoalList({@required this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler});
+  GoalList(this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler);
 
   @override
   _GoalListState createState() => _GoalListState();

@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:tmt_flutter/main.dart';
 import 'package:tmt_flutter/goal.dart';
-
+// @dart=2.9
 void main() {
 
   test('List should be modified by reference', () {
@@ -31,6 +31,16 @@ void main() {
     goal.addSubGoal(new Goal("test3","",0,0));
     expect(goal.getPercentageCompleteCost(),0.0);
     expect(goal.getPercentageCompleteCost(),0.0);
+  });
+
+  test('Test serialization process', () {
+    Goal goal = new Goal("test","test",0,0);
+    goal.isDeleted = true;
+    goal.addSubGoal(new Goal("subgoal","subgoal",0,0));
+    Map<String, dynamic> json = goal.toJson();
+    print(json);
+    Goal result = Goal.fromJson(json);
+    expect(result.isDeleted,true);
   });
 
 }

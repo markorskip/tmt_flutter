@@ -9,7 +9,7 @@ class EditGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
 
-  EditGoalDialog({Key key, @required this.goalToEdit}) : super(key: key);
+  EditGoalDialog(this.goalToEdit);
 
   @override
   _EditGoalDialogState createState() => _EditGoalDialogState();
@@ -38,7 +38,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
   @override
   Widget build(BuildContext context) {
     titleController.text = widget.goalToEdit.title;
-    descriptionController.text = widget.goalToEdit.description;
+    descriptionController.text = widget.goalToEdit.description!;
     moneyController.text = widget.goalToEdit.costInDollars.toString();
     timeController.text = widget.goalToEdit.timeInHours.toString();
     return AlertDialog(

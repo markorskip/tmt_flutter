@@ -1,14 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'goal.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Goal {
   String title;
-  String description;
-  double costInDollars;
-  int timeInHours;
-  bool complete;
-  bool isDeleted;
+  String? description;
+  double costInDollars = 0.0;
+  int timeInHours = 0;
+  bool complete = false;
+  bool isDeleted = false;
   int levelDeep = 0;  // start at 0
 
   List<Goal> goals = [];
@@ -58,7 +62,7 @@ class Goal {
   }
 
   double roundDouble(double value, int places){
-    double mod = pow(10.0, places);
+    num mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
 
@@ -123,4 +127,9 @@ class Goal {
   String getPercentageCompleteCostFormatted() {
     return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
+
+  factory Goal.fromJson(Map<String,dynamic> data) => _$GoalFromJson(data);
+
+  Map<String,dynamic> toJson() => _$GoalToJson(this);
+
 }

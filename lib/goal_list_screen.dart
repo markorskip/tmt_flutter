@@ -13,10 +13,9 @@ class GoalListScreen extends StatefulWidget {
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
-
-
   List<Goal> currentlyDisplayedGoals = [];
-  String title;
+  String title = "TMT";
+
   @override
   void initState() {
     //adding item to list, you can add using json from network
@@ -27,7 +26,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
     houseUpgrades.addSubGoal(replaceCarpet);
 
     currentlyDisplayedGoals.add(houseUpgrades);
-    title = "TMT";
     super.initState();
   }
 
@@ -47,10 +45,10 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   _editGoal(Goal goal) async {
-    Goal editedGoal = await showDialog<Goal>(
+    Goal? editedGoal = await showDialog<Goal>(
       context: context,
       builder: (BuildContext context) {
-        return EditGoalDialog(goalToEdit: goal);
+        return EditGoalDialog(goal);
       },
     );
 
@@ -110,13 +108,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: GoalList(
-        goals: goalsToDisplay(),
-        deleteHandler: _deleteGoal,
-        openSubGoalHandler: _openGoal,
-        toggleCompleteHandler: _toggleComplete,
-        editHandler: _editGoal,
-      ),
+      body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal),
       bottomSheet: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
