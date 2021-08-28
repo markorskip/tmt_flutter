@@ -109,33 +109,33 @@ class _GoalListScreenState extends State<GoalListScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal),
-      bottomSheet: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('BUY TICKETS'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Text('LISTEN'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
-        ),
-      ),
+      // bottomSheet: Card(
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: <Widget>[
+      //       const ListTile(
+      //         leading: Icon(Icons.album),
+      //         title: Text('The Enchanted Nightingale'),
+      //         subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+      //       ),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.end,
+      //         children: <Widget>[
+      //           TextButton(
+      //             child: const Text('BUY TICKETS'),
+      //             onPressed: () {/* ... */},
+      //           ),
+      //           const SizedBox(width: 8),
+      //           TextButton(
+      //             child: const Text('LISTEN'),
+      //             onPressed: () {/* ... */},
+      //           ),
+      //           const SizedBox(width: 8),
+      //         ],
+      //       ),
+      //     ],
+      //   ),
+      // ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
