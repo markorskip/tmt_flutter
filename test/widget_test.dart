@@ -33,14 +33,17 @@ void main() {
     expect(goal.getPercentageCompleteCost(),0.0);
   });
 
-  test('Test serialization process', () {
+  test('Test serialization process for sub goal', () {
     Goal goal = new Goal("test","test",0,0);
     goal.isDeleted = true;
-    goal.addSubGoal(new Goal("subgoal","subgoal",0,0));
+    Goal subGoal = new Goal("test","test1",0,0);
+    subGoal.addSubGoal(new Goal("third deep","",0,0));
+    goal.addSubGoal(subGoal);
+
     Map<String, dynamic> json = goal.toJson();
-    print(json);
     Goal result = Goal.fromJson(json);
     expect(result.isDeleted,true);
+    expect(result.goals.first.goals.length,1);
   });
 
 }

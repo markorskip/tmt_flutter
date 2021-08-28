@@ -1,11 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'goal.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class Goal {
   String title;
   String? description;
@@ -128,8 +124,24 @@ class Goal {
     return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
 
-  factory Goal.fromJson(Map<String,dynamic> data) => _$GoalFromJson(data);
+  Goal.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+      description = json['description'],
+      costInDollars = json['costInDollars'],
+      timeInHours = json['timeInHours'],
+      complete = json['complete'],
+      isDeleted = json['isDeleted'],
+      levelDeep = json['levelDeep'],
+      goals = json['goals'];
 
-  Map<String,dynamic> toJson() => _$GoalToJson(this);
-
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'description': description,
+    'costInDollars':costInDollars,
+    'timeInHours':timeInHours,
+    'complete':complete,
+    'isDeleted':isDeleted,
+    'levelDeep':levelDeep,
+    'goals': goals
+  };
 }
