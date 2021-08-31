@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/goal_list_screen.dart';
+import 'package:tmt_flutter/goal_storage.dart';
 
 
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo List',
-      home: GoalListScreen(),
+      home: GoalListScreen(GoalStorage()),
     );
   }
 }

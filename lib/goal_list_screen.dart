@@ -3,29 +3,41 @@ import 'package:tmt_flutter/edit_goal_dialog.dart';
 
 import 'package:tmt_flutter/goal_list.dart';
 import 'package:tmt_flutter/goal.dart';
+import 'package:tmt_flutter/goal_storage.dart';
 import 'new_goal_dialog.dart';
 
 class GoalListScreen extends StatefulWidget {
+  GoalListScreen(this.goalStorage);
+
+  final GoalStorage goalStorage;
 
   @override
   _GoalListScreenState createState() => _GoalListScreenState();
-
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
   List<Goal> currentlyDisplayedGoals = [];
   String title = "TMT";
+  List<String> titleStack = [];
+  List<List<Goal>> goalsStack = [];
 
   @override
   void initState() {
+    // TODO replace with local storage
+    super.initState();
+    widget.goalStorage.readGoals().then((goals) {
+      setState(() {
+        currentlyDisplayedGoals = goals;
+      });
+    });
     //adding item to list, you can add using json from network
-    Goal houseUpgrades = new Goal("House Upgrades", "Improvements to make the house better",0,0);
-    houseUpgrades.addSubGoal(new Goal("Paint interior","Professional Qoute",6000,5));
-    Goal replaceCarpet = new Goal("Replace Carpet","Professional Quote",3500,5);
-    replaceCarpet.complete = true;
-    houseUpgrades.addSubGoal(replaceCarpet);
-
-    currentlyDisplayedGoals.add(houseUpgrades);
+    // Goal houseUpgrades = new Goal("House Upgrades", "Improvements to make the house better",0,0);
+    // houseUpgrades.addSubGoal(new Goal("Paint interior","Professional Qoute",6000,5));
+    // Goal replaceCarpet = new Goal("Replace Carpet","Professional Quote",3500,5);
+    // replaceCarpet.complete = true;
+    // houseUpgrades.addSubGoal(replaceCarpet);
+    //
+    // currentlyDisplayedGoals.add(houseUpgrades);
     super.initState();
   }
 
@@ -84,7 +96,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
       titleStack.add(this.title);
       this.title = goal.title;
       goalsStack.add(this.currentlyDisplayedGoals);
-      goal.goals.sort();
+      //goal.goals.sort(); // TODO fix the sort to move completed on the bottom
       this.currentlyDisplayedGoals = goal.goals;
 
     });
@@ -99,8 +111,12 @@ class _GoalListScreenState extends State<GoalListScreen> {
     });
   }
 
-  List<String> titleStack = [];
-  List<List<Goal>> goalsStack = [];
+  _save() {
+    // TODO save current state to file
+    widget.goalStorage.writeGoals(currentlyDisplayedGoals);
+  }
+
+
 
   goalsToDisplay() {
     return currentlyDisplayedGoals.where((element) => element.isDeleted == false).toList();
@@ -111,39 +127,12 @@ class _GoalListScreenState extends State<GoalListScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal),
-      // bottomSheet: Card(
-      //   child: Column(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: <Widget>[
-      //       const ListTile(
-      //         leading: Icon(Icons.album),
-      //         title: Text('The Enchanted Nightingale'),
-      //         subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-      //       ),
-      //       Row(
-      //         mainAxisAlignment: MainAxisAlignment.end,
-      //         children: <Widget>[
-      //           TextButton(
-      //             child: const Text('BUY TICKETS'),
-      //             onPressed: () {/* ... */},
-      //           ),
-      //           const SizedBox(width: 8),
-      //           TextButton(
-      //             child: const Text('LISTEN'),
-      //             onPressed: () {/* ... */},
-      //           ),
-      //           const SizedBox(width: 8),
-      //         ],
-      //       ),
-      //     ],
-      //   ),
-      // ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
             showBackButton(),
             Spacer(),
-            //IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            showSaveButton()
             //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
           ],
         ),
@@ -152,6 +141,10 @@ class _GoalListScreenState extends State<GoalListScreen> {
       FloatingActionButton(child: Icon(Icons.add), onPressed: _addGoal),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  showSaveButton() {
+      return IconButton(icon: Icon(Icons.save), onPressed: _save);
   }
 
   showBackButton() {

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ class Goal {
   bool complete = false;
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0
-
   List<Goal> goals = [];
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
@@ -124,15 +124,16 @@ class Goal {
     return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
 
-  Goal.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-      description = json['description'],
-      costInDollars = json['costInDollars'],
-      timeInHours = json['timeInHours'],
-      complete = json['complete'],
-      isDeleted = json['isDeleted'],
-      levelDeep = json['levelDeep'],
-      goals = json['goals'];
+
+  factory Goal.fromJson(Map<String, dynamic> jsonMap) {
+    Goal result = new Goal(jsonMap["title"], jsonMap["description"],jsonMap["costInDollars"],jsonMap["timeInHours"]);
+    result.complete = jsonMap['complete'];
+    result.isDeleted = jsonMap['isDeleted'];
+    result.levelDeep = jsonMap['levelDeep'];
+    var list = jsonMap['goals'] as List;
+    result.goals = list.map((i) => Goal.fromJson(i)).toList();
+    return result;
+  }
 
   Map<String, dynamic> toJson() => {
     'title': title,

@@ -10,6 +10,8 @@ modify list view formatting
 move percentage complete to more info view
 User the stepper widget to show user how to use the app
 
+In Progress:
+Read and write JSON tasks to local phone storage on save
 
 
 Completed:

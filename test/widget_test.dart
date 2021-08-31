@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -45,6 +47,20 @@ void main() {
     expect(result.isDeleted,true);
     expect(result.goals.first.goals.length,1);
   });
+
+  test('Test encoding and decodings JSON', () {
+    Goal goal = new Goal("title","description",0,0);
+    goal.goals.add(new Goal("test sub goal","test",0,0));
+    String jsonString = json.encode(goal);
+    print(jsonString);
+
+
+    Map<String, dynamic> map = json.decode(jsonString);
+    print(map);
+    Goal result  = Goal.fromJson(map);
+    //expect(result.title, "title");
+  });
+
 
 }
 
