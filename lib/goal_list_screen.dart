@@ -144,7 +144,11 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   showSaveButton() {
+    if (goalsStack.isEmpty) {
       return IconButton(icon: Icon(Icons.save), onPressed: _save);
+    } else {
+      return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
+    }
   }
 
   showBackButton() {

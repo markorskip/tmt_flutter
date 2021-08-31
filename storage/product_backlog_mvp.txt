@@ -1,20 +1,27 @@
 TMT Flutter
 
+
+bugs:
+save doesnt' work outside of the rootgoal
+calculations only work for one level deep
+
 v1: Basic app functionality
 When a goal is complete - change formatting
 When looking at subgoals, also view details of parent goal
 Modify add goal dialog to show text appropriate for the context (goal / task)
 fix percentage display to only display like 50.000 as 50%
-modify percentage displays to indicate money and time
+
 modify list view formatting
 move percentage complete to more info view
 User the stepper widget to show user how to use the app
 
 In Progress:
-Read and write JSON tasks to local phone storage on save
+
 
 
 Completed:
+modify percentage displays to indicate money and time
+Read and write JSON tasks to local phone storage on save
 fix infinity error (write units tests for model calculations, edge cases)
 Create a way to edit a goal
 sliding delete
