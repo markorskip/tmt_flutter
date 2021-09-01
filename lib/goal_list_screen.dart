@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tmt_flutter/edit_goal_dialog.dart';
 
 import 'package:tmt_flutter/goal_list.dart';
-import 'package:tmt_flutter/goal.dart';
+import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/goal_storage.dart';
 import 'new_goal_dialog.dart';
 
@@ -16,28 +16,20 @@ class GoalListScreen extends StatefulWidget {
 }
 
 class _GoalListScreenState extends State<GoalListScreen> {
-  List<Goal> currentlyDisplayedGoals = [];
-  String title = "TMT";
-  List<String> titleStack = [];
-  List<List<Goal>> goalsStack = [];
+  AppState appState = new AppState();
 
   @override
   void initState() {
     // TODO replace with local storage
     super.initState();
-    widget.goalStorage.readGoals().then((goals) {
+    widget.goalStorage.readAppState().then((storedState) {
       setState(() {
-        currentlyDisplayedGoals = goals;
+        appState.currentlyDisplayedRRGoals = storedState.currentlyDisplayedGoals;
+        appState.title = storedState.title;
+        appState.titleStack = storedState.titleStack;
+        appState.goalsStack = storedState.goalsStack;
       });
     });
-    //adding item to list, you can add using json from network
-    // Goal houseUpgrades = new Goal("House Upgrades", "Improvements to make the house better",0,0);
-    // houseUpgrades.addSubGoal(new Goal("Paint interior","Professional Qoute",6000,5));
-    // Goal replaceCarpet = new Goal("Replace Carpet","Professional Quote",3500,5);
-    // replaceCarpet.complete = true;
-    // houseUpgrades.addSubGoal(replaceCarpet);
-    //
-    // currentlyDisplayedGoals.add(houseUpgrades);
     super.initState();
   }
 
@@ -51,7 +43,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
 
     if (goal != null) {
       setState(() {
-        currentlyDisplayedGoals.add(goal);
+        appState.currentlyDisplayedGoals.add(goal);
       });
     }
   }
@@ -93,39 +85,36 @@ class _GoalListScreenState extends State<GoalListScreen> {
 
   _openGoal(Goal goal) {
     setState(() {
-      titleStack.add(this.title);
-      this.title = goal.title;
-      goalsStack.add(this.currentlyDisplayedGoals);
+      appState.titleStack.add(appState.title);
+      appState.title = goal.title;
+      appState.goalsStack.add(appState.currentlyDisplayedGoals);
       //goal.goals.sort(); // TODO fix the sort to move completed on the bottom
-      this.currentlyDisplayedGoals = goal.goals;
+      appState.currentlyDisplayedGoals = goal.goals;
 
     });
   }
 
   _backUp() {
     setState(() {
-      this.title = titleStack.last;
-      this.currentlyDisplayedGoals = goalsStack.last;
-      goalsStack.removeLast();
-      titleStack.removeLast();
+      appState.title = appState.titleStack.last;
+      appState.currentlyDisplayedGoals = appState.goalsStack.last;
+      appState.goalsStack.removeLast();
+      appState.titleStack.removeLast();
     });
   }
 
   _save() {
-    // TODO save current state to file
-    widget.goalStorage.writeGoals(currentlyDisplayedGoals);
+    widget.goalStorage.writeAppState(appState);
   }
 
-
-
   goalsToDisplay() {
-    return currentlyDisplayedGoals.where((element) => element.isDeleted == false).toList();
+    return appState.currentlyDisplayedGoals.where((element) => element.isDeleted == false).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text(appState.title)),
       body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -144,15 +133,11 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   showSaveButton() {
-    if (goalsStack.isEmpty) {
-      return IconButton(icon: Icon(Icons.save), onPressed: _save);
-    } else {
-      return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
-    }
+    return IconButton(icon: Icon(Icons.save), onPressed: _save);
   }
 
   showBackButton() {
-    if (goalsStack.isNotEmpty) {
+    if (appState.goalsStack.isNotEmpty) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
      return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);

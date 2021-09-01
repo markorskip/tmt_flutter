@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-import 'package:tmt_flutter/goal.dart';
+import 'package:tmt_flutter/model/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class GoalList extends StatefulWidget {

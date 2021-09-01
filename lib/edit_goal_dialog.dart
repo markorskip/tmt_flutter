@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/goal.dart';
+import 'package:tmt_flutter/model/goal.dart';
 
 
 // TODO For the edit dialog, add complete on/off as well as notes for updates

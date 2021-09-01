@@ -7,11 +7,13 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tmt_flutter/goal_storage.dart';
 
 import 'package:tmt_flutter/main.dart';
-import 'package:tmt_flutter/goal.dart';
+import 'package:tmt_flutter/model/goal.dart';
 // @dart=2.9
 void main() {
 
@@ -58,7 +60,21 @@ void main() {
     Map<String, dynamic> map = json.decode(jsonString);
     print(map);
     Goal result  = Goal.fromJson(map);
-    //expect(result.title, "title");
+    expect(result.title, "title");
+  });
+
+  test('Test encoding and decodings JSON appState', () {
+    AppState appState = new AppState();
+    appState.title = "title";
+    appState.titleStack = ["Test","Testing"];
+    appState.goalsStack = [[new Goal("test goal stack","",0,0)]];
+    appState.currentlyDisplayedGoals = [new Goal("Currently displayed goals","",0,0)];
+
+    String appStateString = json.encode(appState);
+
+    Map<String, dynamic> jsonDecoded = json.decode(appStateString);
+    AppState newAppState = AppState.fromJson(jsonDecoded);
+    expect(newAppState.title, "title");
   });
 
 
