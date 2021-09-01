@@ -24,7 +24,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
     super.initState();
     widget.goalStorage.readAppState().then((storedState) {
       setState(() {
-        appState.currentlyDisplayedRRGoals = storedState.currentlyDisplayedGoals;
+        appState.currentlyDisplayedGoals = storedState.currentlyDisplayedGoals;
         appState.title = storedState.title;
         appState.titleStack = storedState.titleStack;
         appState.goalsStack = storedState.goalsStack;
