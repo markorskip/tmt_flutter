@@ -42,7 +42,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
     moneyController.text = widget.goalToEdit.costInDollars.toString();
     timeController.text = widget.goalToEdit.timeInHours.toString();
     return AlertDialog(
-      title: Text('Edit:'),
+      title: Text('Edit Goal'),
       content: ListView(
         children: [
           TextField(

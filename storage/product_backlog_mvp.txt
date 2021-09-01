@@ -2,16 +2,23 @@ TMT Flutter
 
 
 bugs:
-
+None
 
 v1: Basic app functionality
+
+UI Changes:
 When a goal is complete - change formatting
+
+Info Panel:
 When looking at subgoals, also view details of parent goal
+Include percentage complete to more info view
+
 Modify add goal dialog to show text appropriate for the context (goal / task)
-fix percentage display to only display like 50.000 as 50%
 
 modify list view formatting
-move percentage complete to more info view
+
+
+
 User the stepper widget to show user how to use the app
 
 In Progress:
@@ -19,6 +26,7 @@ In Progress:
 
 
 Completed:
+fix percentage display to only display like 50.000 as 50%
 calculations only work for one level deep
 save doesnt' work outside of the rootgoal
 modify percentage displays to indicate money and time
