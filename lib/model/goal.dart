@@ -46,7 +46,7 @@ class Goal {
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
-      completedCost += element.getEstimatedTime() * element.getPercentageCompleteCost();
+      completedCost += element.getEstimatedCost() * element.getPercentageCompleteCost();
     });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
 

@@ -78,16 +78,16 @@ void main() {
   test('Test calculations for multiple levels of goals', () {
     Goal parent = Goal.fromString("parent");
     Goal child1 = new Goal("child goal","",0,0);
-    Goal grandChildGoal = new Goal("grandchild","",100,100);
-    Goal grandChildGoal2 = new Goal("grandchild","",100,100);
+    Goal grandChildGoal = new Goal("grandchild","",50,110);
+    Goal grandChildGoal2 = new Goal("grandchild","",50,110);
     grandChildGoal2.complete = true;
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
 
     Goal child2 = new Goal("child goal","",0,0);
-    Goal grandChildGoal3 = new Goal("grandchild","",100,100);
+    Goal grandChildGoal3 = new Goal("grandchild","",50,110);
     grandChildGoal3.complete = true;
-    Goal grandChildGoal4 = new Goal("grandchild","",100,100);
+    Goal grandChildGoal4 = new Goal("grandchild","",75,120);
     child1.addSubGoal(grandChildGoal3);
     child1.addSubGoal(grandChildGoal4);
     print(child1.getPercentageCompleteTime());
@@ -100,10 +100,10 @@ void main() {
     print(parent.getPercentageCompleteTime());
     print(parent.getPercentageCompleteCost());
 
-    expect(parent.getEstimatedTime(),400);
-    expect(parent.getPercentageCompleteTime(),.50);
-    expect(parent.getEstimatedCost(),400);
-    expect(parent.getPercentageCompleteCost(),.50);
+    expect(parent.getEstimatedTime(),450);
+    expect(parent.getPercentageCompleteTime(),.49);
+    expect(parent.getEstimatedCost(),225.0);
+    expect(parent.getPercentageCompleteCost(),.44);
 
   });
 
