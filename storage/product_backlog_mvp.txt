@@ -2,8 +2,7 @@ TMT Flutter
 
 
 bugs:
-save doesnt' work outside of the rootgoal
-calculations only work for one level deep
+
 
 v1: Basic app functionality
 When a goal is complete - change formatting
@@ -20,6 +19,8 @@ In Progress:
 
 
 Completed:
+calculations only work for one level deep
+save doesnt' work outside of the rootgoal
 modify percentage displays to indicate money and time
 Read and write JSON tasks to local phone storage on save
 fix infinity error (write units tests for model calculations, edge cases)

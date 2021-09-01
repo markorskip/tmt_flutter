@@ -55,8 +55,6 @@ void main() {
     goal.goals.add(new Goal("test sub goal","test",0,0));
     String jsonString = json.encode(goal);
     print(jsonString);
-
-
     Map<String, dynamic> map = json.decode(jsonString);
     print(map);
     Goal result  = Goal.fromJson(map);
@@ -75,6 +73,38 @@ void main() {
     Map<String, dynamic> jsonDecoded = json.decode(appStateString);
     AppState newAppState = AppState.fromJson(jsonDecoded);
     expect(newAppState.title, "title");
+  });
+
+  test('Test calculations for multiple levels of goals', () {
+    Goal parent = Goal.fromString("parent");
+    Goal child1 = new Goal("child goal","",0,0);
+    Goal grandChildGoal = new Goal("grandchild","",100,100);
+    Goal grandChildGoal2 = new Goal("grandchild","",100,100);
+    grandChildGoal2.complete = true;
+    child1.addSubGoal(grandChildGoal);
+    child1.addSubGoal(grandChildGoal2);
+
+    Goal child2 = new Goal("child goal","",0,0);
+    Goal grandChildGoal3 = new Goal("grandchild","",100,100);
+    grandChildGoal3.complete = true;
+    Goal grandChildGoal4 = new Goal("grandchild","",100,100);
+    child1.addSubGoal(grandChildGoal3);
+    child1.addSubGoal(grandChildGoal4);
+    print(child1.getPercentageCompleteTime());
+
+    parent.addSubGoal(child1);
+    parent.addSubGoal(child2);
+
+    print(parent.getEstimatedTime());
+    print(parent.getEstimatedCost());
+    print(parent.getPercentageCompleteTime());
+    print(parent.getPercentageCompleteCost());
+
+    expect(parent.getEstimatedTime(),400);
+    expect(parent.getPercentageCompleteTime(),.50);
+    expect(parent.getEstimatedCost(),400);
+    expect(parent.getPercentageCompleteCost(),.50);
+
   });
 
 

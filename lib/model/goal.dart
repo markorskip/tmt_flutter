@@ -19,6 +19,10 @@ class Goal {
     this.complete = false;
   }
 
+  factory Goal.fromString(String title) {
+    return new Goal(title, "",0,0);
+  }
+
   getEstimatedTime() {
     if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;
@@ -39,6 +43,11 @@ class Goal {
     num totalCost = 0;
     num completedCost = 0;
     getActiveGoals().forEach((element) {totalCost += element.getEstimatedCost(); });
+    getActiveGoals()
+        .where((element) => element.complete == false)
+        .forEach((element) {
+      completedCost += element.getEstimatedTime() * element.getPercentageCompleteCost();
+    });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
 
     if (completedCost == 0) return 0.0;
@@ -51,7 +60,13 @@ class Goal {
     num totalTime = 0;
     num completedTime = 0;
     getActiveGoals().forEach((element) {totalTime += element.getEstimatedTime(); });
+    getActiveGoals()
+        .where((element) => element.complete == false)
+        .forEach((element) {
+          completedTime += element.getEstimatedTime() * element.getPercentageCompleteTime();
+        });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
+
 
     if (completedTime == 0) return 0.0;
     return roundDouble(completedTime/totalTime, 2);
