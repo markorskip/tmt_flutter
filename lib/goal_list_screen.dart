@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/edit_goal_dialog.dart';
 
 import 'package:tmt_flutter/goal_list.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/goal_storage.dart';
+import 'model/edited_goal.dart';
 import 'new_goal_dialog.dart';
 
 class GoalListScreen extends StatefulWidget {
@@ -49,16 +51,20 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   _editGoal(Goal goal) async {
-    Goal? editedGoal = await showDialog<Goal>(
+    EditedGoal? editedGoal = await showDialog<EditedGoal>(
       context: context,
       builder: (BuildContext context) {
-        return EditGoalDialog(goal);
+        return EditGoalDialog(goal, appState.currentlyDisplayedGoals);
       },
     );
 
     if (editedGoal != null) {
       setState(() {
         goal.update(editedGoal);
+        if (editedGoal.moveUp = true) {
+          appState.goalsStack.last.add(goal);
+          appState.currentlyDisplayedGoals.remove(goal);
+        }
       });
     }
   }
