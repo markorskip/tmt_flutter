@@ -20,7 +20,6 @@ class _GoalListScreenState extends State<GoalListScreen> {
 
   @override
   void initState() {
-    // TODO replace with local storage
     super.initState();
     widget.goalStorage.readAppState().then((storedState) {
       setState(() {
@@ -88,9 +87,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
       appState.titleStack.add(appState.title);
       appState.title = goal.title;
       appState.goalsStack.add(appState.currentlyDisplayedGoals);
-      //goal.goals.sort(); // TODO fix the sort to move completed on the bottom
       appState.currentlyDisplayedGoals = goal.goals;
-
     });
   }
 
