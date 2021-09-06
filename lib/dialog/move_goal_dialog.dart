@@ -22,7 +22,7 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Edit Goal'),
+      title: Text('Move Goal'),
       content: ListView(
         children: [
           //if (widget.siblingGoals.isNotEmpty) { TODO implement this logic
