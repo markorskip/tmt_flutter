@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'edited_goal.dart';
+
 class Goal {
   String title;
   String? description;
@@ -11,12 +13,11 @@ class Goal {
   bool complete = false;
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0
-  List<Goal> goals = [];
+  List<Goal> goals = []; // children
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
     this.levelDeep = 0;
     this.isDeleted = false;
-    this.complete = false;
   }
 
   factory Goal.fromString(String title) {
@@ -111,13 +112,12 @@ class Goal {
     this.goals.add(goal);
   }
 
-  void update(Goal editedGoal) {
+  void update(EditGoal editedGoal) {
     this.title = editedGoal.title;
     this.description = editedGoal.description;
     this.timeInHours = editedGoal.timeInHours;
     this.costInDollars = editedGoal.costInDollars;
     this.complete = editedGoal.complete;
-
   }
 
   getActiveGoals() {

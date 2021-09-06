@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tmt_flutter/goal_storage.dart';
+import 'package:tmt_flutter/model/goal_storage.dart';
 
 import 'package:tmt_flutter/main.dart';
 import 'package:tmt_flutter/model/goal.dart';

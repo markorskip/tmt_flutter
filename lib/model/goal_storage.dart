@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'model/goal.dart';
+import 'goal.dart';
 
 class GoalStorage {
   Future<String> get _localPath async {
@@ -17,47 +17,9 @@ class GoalStorage {
     return File('$path/goal_storage.txt');
   }
 
-  Future<List<Goal>> readGoals() async {
-    try {
-      final file = await _localFile;
-
-      // Read the file
-      final contents = await file.readAsString();
-      print("Contents written to local storage");
-      print(contents);
-
-      String jsonString = contents;
-      Map<String, dynamic> goalsJson = json.decode(jsonString);
-
-      Goal rootGoal = Goal.fromJson(goalsJson);
-      return rootGoal.goals;
-    } catch (e) {
-      // If encountering an error, return 0
-      // return default goals
-      print("error caught");
-      print(e);
-      List<Goal> goals = [];
-      Goal error = new Goal("App not loading ", "Improvements to make the house better",0,0);
-      goals.add(error);
-      return goals;
-    }
-  }
-
-  Future<File> writeGoals(List<Goal> goals) async {
-    final file = await _localFile;
-
-    Goal rootGoal = new Goal("root goal","used for storage",0,0);
-    rootGoal.goals = goals;
-
-    String jsonString = json.encode(rootGoal.toJson());
-    print(jsonString);
-    return file.writeAsString(jsonString);
-  }
-
   Future<File> writeAppState(AppState appState) async {
     final file = await _localFile;
     String jsonString = json.encode(appState.toJson());
-    print(jsonString);
     return file.writeAsString(jsonString);
   }
 

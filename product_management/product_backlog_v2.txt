@@ -1,3 +1,5 @@
+Feature:
+When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
 
 TODO:
 Create a way for user to login

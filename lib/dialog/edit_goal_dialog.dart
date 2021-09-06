@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/model/goal.dart';
 
+import '../model/edited_goal.dart';
+
 
 // TODO For the edit dialog, add complete on/off as well as notes for updates
 
@@ -9,7 +11,7 @@ class EditGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
 
-  EditGoalDialog(this.goalToEdit);
+  EditGoalDialog(this.goalToEdit); // TODO if duplicate name then what?
 
   @override
   _EditGoalDialogState createState() => _EditGoalDialogState();
@@ -49,7 +51,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
           controller: titleController,
           autofocus: true,
          ),
-          Text("Title:"),
+          Text("Title"),
           TextField(
             controller: descriptionController,
             autofocus: true,
@@ -69,27 +71,34 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
         ],
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('Save'),
           onPressed: () {
-            final editedGoal = new Goal(titleController.value.text,
-                descriptionController.value.text,
-                getMoneyValue(),
-                getTimeValue());
-            titleController.clear();
-            descriptionController.clear();
-            moneyController.clear();
-            timeController.clear();
-            Navigator.of(context).pop(editedGoal);
+            editGoal();
           },
         ),
       ],
     );
   }
+
+  void editGoal() {
+    final editedGoal = new EditGoal(titleController.value.text,
+        descriptionController.value.text,
+        getMoneyValue(),
+        getTimeValue());
+    titleController.clear();
+    descriptionController.clear();
+    moneyController.clear();
+    timeController.clear();
+    Navigator.of(context).pop(editedGoal);
+  }
+
+
 }
+

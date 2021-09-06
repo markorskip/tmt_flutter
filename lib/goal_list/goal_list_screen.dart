@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmt_flutter/edit_goal_dialog.dart';
+import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
+import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
 
-import 'package:tmt_flutter/goal_list.dart';
+import 'package:tmt_flutter/goal_list/goal_list.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/goal_storage.dart';
-import 'new_goal_dialog.dart';
+import 'package:tmt_flutter/model/goal_storage.dart';
+import 'package:tmt_flutter/model/move_goal.dart';
+import '../model/edited_goal.dart';
+import '../dialog/new_goal_dialog.dart';
 
 class GoalListScreen extends StatefulWidget {
   GoalListScreen(this.goalStorage);
@@ -48,18 +52,30 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   _editGoal(Goal goal) async {
-    Goal? editedGoal = await showDialog<Goal>(
+    EditGoal? editedGoal = await showDialog<EditGoal>(
       context: context,
       builder: (BuildContext context) {
         return EditGoalDialog(goal);
       },
     );
+  }
 
-    if (editedGoal != null) {
-      setState(() {
-        goal.update(editedGoal);
-      });
-    }
+  _moveGoal(Goal goal) async {
+    MoveGoal? movedGoal = await showDialog<MoveGoal>(
+      context: context,
+      builder: (BuildContext context) {
+        return MoveGoalDialog(goal);
+      },
+    );
+
+    if (movedGoal != null) {
+    setState(() {
+      if (movedGoal.moveUp = true) {
+        appState.goalsStack.last.add(goal);
+        appState.currentlyDisplayedGoals.remove(goal);
+      }
+    });
+  }
   }
 
 
@@ -112,7 +128,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(appState.title)),
-      body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal),
+      body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, _moveGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
