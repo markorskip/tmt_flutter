@@ -112,7 +112,7 @@ class Goal {
     this.goals.add(goal);
   }
 
-  void update(EditedGoal editedGoal) {
+  void update(EditGoal editedGoal) {
     this.title = editedGoal.title;
     this.description = editedGoal.description;
     this.timeInHours = editedGoal.timeInHours;

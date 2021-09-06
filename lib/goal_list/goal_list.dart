@@ -10,9 +10,10 @@ class GoalList extends StatefulWidget {
   final Function openSubGoalHandler;
   final Function toggleCompleteHandler;
   final Function editHandler;
+  final Function moveHandler;
   final List<Goal> goals;
 
-  GoalList(this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler);
+  GoalList(this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler, this.moveHandler);
 
   @override
   _GoalListState createState() => _GoalListState();
@@ -33,7 +34,7 @@ class _GoalListState extends State<GoalList> {
           title: Text(goal.title),
           subtitle: goal.getSubTitleRichText(),
           isThreeLine: true,
-          //dense: true,
+          dense: true,
           onTap: () {
             widget.openSubGoalHandler(goal);
           },
@@ -45,6 +46,12 @@ class _GoalListState extends State<GoalList> {
           color: Colors.blueAccent,
           icon: Icons.edit,
           onTap: () => widget.editHandler(goal),
+        ),
+        IconSlideAction(
+          caption: 'Move',
+          color: Colors.greenAccent,
+          icon: Icons.folder,
+          onTap: () => widget.moveHandler(goal),
         )
       ],
       secondaryActions: <Widget>[

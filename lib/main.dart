@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/goal_list_screen.dart';
-import 'package:tmt_flutter/goal_storage.dart';
+import 'package:tmt_flutter/goal_list/goal_list_screen.dart';
+import 'package:tmt_flutter/model/goal_storage.dart';
 
 
 

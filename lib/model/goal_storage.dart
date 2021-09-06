@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'model/goal.dart';
+import 'goal.dart';
 
 class GoalStorage {
   Future<String> get _localPath async {
