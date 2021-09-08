@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 import 'edited_goal.dart';
 
@@ -160,4 +161,31 @@ class Goal {
     'levelDeep':levelDeep,
     'goals': goals
   };
+
+  Function deepEq = const DeepCollectionEquality().equals;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Goal &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          description == other.description &&
+          costInDollars == other.costInDollars &&
+          timeInHours == other.timeInHours &&
+          complete == other.complete &&
+          isDeleted == other.isDeleted &&
+          levelDeep == other.levelDeep &&
+          deepEq(goals, other.goals);
+
+  @override
+  int get hashCode =>
+      title.hashCode ^
+      description.hashCode ^
+      costInDollars.hashCode ^
+      timeInHours.hashCode ^
+      complete.hashCode ^
+      isDeleted.hashCode ^
+      levelDeep.hashCode ^
+      goals.hashCode;
 }

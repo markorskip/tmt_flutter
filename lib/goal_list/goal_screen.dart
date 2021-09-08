@@ -3,36 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
 
-import 'package:tmt_flutter/goal_list/goal_list.dart';
+import 'package:tmt_flutter/goal_list/goal_slideable.dart';
+import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
 import 'package:tmt_flutter/model/move_goal.dart';
 import '../model/edited_goal.dart';
 import '../dialog/new_goal_dialog.dart';
 
-class GoalListScreen extends StatefulWidget {
-  GoalListScreen(this.goalStorage);
+class GoalScreen extends StatefulWidget {
+  GoalScreen(this.readWriteAppState);
 
-  final GoalStorage goalStorage;
+  final ReadWriteAppState readWriteAppState;
 
   @override
-  _GoalListScreenState createState() => _GoalListScreenState();
+  _GoalScreenState createState() => _GoalScreenState();
 }
 
-class _GoalListScreenState extends State<GoalListScreen> {
+class _GoalScreenState extends State<GoalScreen> {
   AppState appState = new AppState();
 
   @override
   void initState() {
     super.initState();
-    widget.goalStorage.readAppState().then((storedState) {
+    widget.readWriteAppState.readAppState().then((storedState) {
       setState(() {
-        appState.currentlyDisplayedGoals = storedState.currentlyDisplayedGoals;
-        appState.title = storedState.title;
-        appState.titleStack = storedState.titleStack;
-        appState.goalsStack = storedState.goalsStack;
+        appState = storedState;
       });
     });
+    print("init");
+    print(appState.toString());
     super.initState();
   }
 
@@ -60,7 +60,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
     );
   }
 
-  _moveGoal(Goal goal) async {
+  moveGoal(Goal goal) async {
     MoveGoal? movedGoal = await showDialog<MoveGoal>(
       context: context,
       builder: (BuildContext context) {
@@ -71,8 +71,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
     if (movedGoal != null) {
     setState(() {
       if (movedGoal.moveUp = true) {
-        appState.goalsStack.last.add(goal);
-        appState.currentlyDisplayedGoals.remove(goal);
+        appState.moveUp(goal);
       }
     });
   }
@@ -117,7 +116,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   _save() {
-    widget.goalStorage.writeAppState(appState);
+    widget.readWriteAppState.writeAppState(appState);
   }
 
   goalsToDisplay() {
@@ -128,7 +127,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(appState.title)),
-      body: GoalList(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, _moveGoal),
+      body: GoalSlideable(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, moveGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [
@@ -150,6 +149,9 @@ class _GoalListScreenState extends State<GoalListScreen> {
   }
 
   showBackButton() {
+    print("Goals Stack");
+    print(appState.goalsStack);
+
     if (appState.goalsStack.isNotEmpty) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }

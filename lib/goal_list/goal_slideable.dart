@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class GoalList extends StatefulWidget {
+class GoalSlideable extends StatefulWidget {
 
   final Function deleteHandler;
   final Function openSubGoalHandler;
@@ -13,13 +13,13 @@ class GoalList extends StatefulWidget {
   final Function moveHandler;
   final List<Goal> goals;
 
-  GoalList(this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler, this.moveHandler);
+  GoalSlideable(this.goals, this.deleteHandler, this.openSubGoalHandler, this.toggleCompleteHandler, this.editHandler, this.moveHandler);
 
   @override
-  _GoalListState createState() => _GoalListState();
+  _GoalSlideableState createState() => _GoalSlideableState();
 }
 
-class _GoalListState extends State<GoalList> {
+class _GoalSlideableState extends State<GoalSlideable> {
 
   Widget _buildItem(BuildContext context, int index) {
     final goal = widget.goals[index];
