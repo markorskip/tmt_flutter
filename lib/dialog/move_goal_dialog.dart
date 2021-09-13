@@ -7,10 +7,10 @@ class MoveGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
 
-  //final List<Goal> siblingGoals;
+  final List<Goal> siblingGoals;
 
   MoveGoalDialog(
-      this.goalToEdit); // chose a sibling goals, can move inside this to move down
+      this.goalToEdit, this.siblingGoals); // chose a sibling goals, can move inside this to move down
 
 
   @override
@@ -26,28 +26,28 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
       content: ListView(
         children: [
           //if (widget.siblingGoals.isNotEmpty) { TODO implement this logic
-          // Container(
-          //   child: DropdownButton<String>(
-          //     //value: _chosenValue,
-          //     //elevation: 5,
-          //     style: TextStyle(color: Colors.black),
-          //
-          //     items: widget.siblingGoals.map<DropdownMenuItem<String>>((
-          //         Goal sibling) {
-          //       return DropdownMenuItem<String>(
-          //         value: sibling.title,
-          //         child: Text(sibling.title),
-          //       );
-          //     }).toList(),
-          //     hint: Text(
-          //       "Move into this goal",
-          //       style: TextStyle(
-          //           color: Colors.black,
-          //           fontSize: 12,
-          //           fontWeight: FontWeight.w600),
-          //     ),
-          //   ),
-          // ),
+          Container(
+            child: DropdownButton<String>(
+              //value: _chosenValue,
+              //elevation: 5,
+              style: TextStyle(color: Colors.black),
+
+              items: widget.siblingGoals.map<DropdownMenuItem<String>>((
+                  Goal sibling) {
+                return DropdownMenuItem<String>(
+                  value: sibling.title,
+                  child: Text(sibling.title),
+                );
+              }).toList(),
+              hint: Text(
+                "Move into this goal",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
         ],
       ),
       actions: <Widget>[

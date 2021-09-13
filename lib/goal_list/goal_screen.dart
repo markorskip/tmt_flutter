@@ -64,7 +64,7 @@ class _GoalScreenState extends State<GoalScreen> {
     MoveGoal? movedGoal = await showDialog<MoveGoal>(
       context: context,
       builder: (BuildContext context) {
-        return MoveGoalDialog(goal);
+        return MoveGoalDialog(goal, appState.currentlyDisplayedGoals);
       },
     );
 
@@ -99,19 +99,13 @@ class _GoalScreenState extends State<GoalScreen> {
 
   _openGoal(Goal goal) {
     setState(() {
-      appState.titleStack.add(appState.title);
-      appState.title = goal.title;
-      appState.goalsStack.add(appState.currentlyDisplayedGoals);
-      appState.currentlyDisplayedGoals = goal.goals;
+      appState.openGoal(goal);
     });
   }
 
   _backUp() {
     setState(() {
-      appState.title = appState.titleStack.last;
-      appState.currentlyDisplayedGoals = appState.goalsStack.last;
-      appState.goalsStack.removeLast();
-      appState.titleStack.removeLast();
+      appState.backUp();
     });
   }
 

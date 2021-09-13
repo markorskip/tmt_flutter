@@ -45,15 +45,33 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{currentlyDisplayedGoals: $currentlyDisplayedGoals, title: $title, titleStack: $titleStack, goalsStack: $goalsStack}';
+    return 'AppState{\ncurrentlyDisplayedGoals: $currentlyDisplayedGoals, \ntitle: $title, \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
   }
 
   void moveUp(Goal goal) {
-    if (this.currentlyDisplayedGoals.contains(goal)) {
+    if (this.currentlyDisplayedGoals.contains(goal) && isAtRootGoal() == false) {
       this.goalsStack.last.add(goal);
       this.currentlyDisplayedGoals.remove(goal);
     }
   }
 
+  isAtRootGoal() {  // When we are at the root we want certain operations to not work such as moving a goal up.
+    if (this.goalsStack.length == 1) return true;
+    return false;
+  }
+
+  void openGoal(Goal goal) {  // TODO create test
+    this.titleStack.add(this.title);
+    this.title = goal.title;
+    this.goalsStack.add(this.currentlyDisplayedGoals);
+    this.currentlyDisplayedGoals = goal.goals;
+  }
+
+  void backUp() {
+    this.title = this.titleStack.last;
+    this.currentlyDisplayedGoals = this.goalsStack.last;
+    this.goalsStack.removeLast();
+    this.titleStack.removeLast();
+  }
 
 }
