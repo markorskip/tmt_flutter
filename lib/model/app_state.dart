@@ -74,4 +74,11 @@ class AppState {
     this.titleStack.removeLast();
   }
 
+  void moveGoal(Goal goalToMove, Goal goalToMoveTo) {
+    if (currentlyDisplayedGoals.contains(goalToMove) && currentlyDisplayedGoals.contains(goalToMoveTo) && goalToMove != goalToMoveTo) {
+     currentlyDisplayedGoals.remove(goalToMove);
+     goalToMoveTo.addSubGoal(goalToMove);
+    }
+  }
+
 }
