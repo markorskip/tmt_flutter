@@ -1,16 +1,17 @@
 import 'goal.dart';
 
 class AppState {
-  List<Goal> currentlyDisplayedGoals = [];
+  List<Goal> _currentlyDisplayedGoals = [];
   String title = "";
   List<String> titleStack = [];
   List<List<Goal>> goalsStack = [[]];
+  bool testMode = false;
 
   AppState();
 
   Map<String, dynamic> toJson() => {
     'title': title,
-    'currentlyDisplayedGoals' : currentlyDisplayedGoals,
+    'currentlyDisplayedGoals' : _currentlyDisplayedGoals,
     'titleStack' : titleStack,
     'goalsStack' : goalsStack
   };
@@ -19,7 +20,7 @@ class AppState {
     AppState appState = new AppState();
     appState.title = jsonMap["title"];
     var list = jsonMap['currentlyDisplayedGoals'] as List;
-    appState.currentlyDisplayedGoals = list.map((i) => Goal.fromJson(i)).toList();
+    appState._currentlyDisplayedGoals = list.map((i) => Goal.fromJson(i)).toList();
 
     list = jsonMap['titleStack'] as List;
     appState.titleStack = list.map((e) => e as String).toList();
@@ -37,7 +38,7 @@ class AppState {
   static Future<AppState> defaultState() {
     AppState appState = new AppState();
     appState.title = "Learn Time Money TaskList";
-    appState.currentlyDisplayedGoals = [new Goal("Welcome to TMT","",0,0)];
+    appState._currentlyDisplayedGoals = [new Goal("Welcome to TMT","",0,0)];
     appState.titleStack = [];
     appState.goalsStack = [];
     return Future.value(appState);
@@ -45,13 +46,14 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{\ncurrentlyDisplayedGoals: $currentlyDisplayedGoals, \ntitle: $title, \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
+    return 'AppState{\ncurrentlyDisplayedGoals: $_currentlyDisplayedGoals, \ntitle: $title, \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
   }
 
   void moveUp(Goal goal) {
-    if (this.currentlyDisplayedGoals.contains(goal) && isAtRootGoal() == false) {
+    if (this._currentlyDisplayedGoals.contains(goal) && isAtRootGoal() == false) {
+      goal.levelDeep -= 1;
       this.goalsStack.last.add(goal);
-      this.currentlyDisplayedGoals.remove(goal);
+      this._currentlyDisplayedGoals.remove(goal);
     }
   }
 
@@ -63,21 +65,33 @@ class AppState {
   void openGoal(Goal goal) {  // TODO create test
     this.titleStack.add(this.title);
     this.title = goal.title;
-    this.goalsStack.add(this.currentlyDisplayedGoals);
-    this.currentlyDisplayedGoals = goal.goals;
+    this.goalsStack.add(this._currentlyDisplayedGoals);
+    this._currentlyDisplayedGoals = goal.goals;
   }
 
   void backUp() {
     this.title = this.titleStack.last;
-    this.currentlyDisplayedGoals = this.goalsStack.last;
+    this._currentlyDisplayedGoals = this.goalsStack.last;
     this.goalsStack.removeLast();
     this.titleStack.removeLast();
   }
 
   void moveGoal(Goal goalToMove, Goal goalToMoveTo) {
-    if (currentlyDisplayedGoals.contains(goalToMove) && currentlyDisplayedGoals.contains(goalToMoveTo) && goalToMove != goalToMoveTo) {
-     currentlyDisplayedGoals.remove(goalToMove);
+    if (_currentlyDisplayedGoals.contains(goalToMove) && _currentlyDisplayedGoals.contains(goalToMoveTo) && goalToMove != goalToMoveTo) {
+     _currentlyDisplayedGoals.remove(goalToMove);
      goalToMoveTo.addSubGoal(goalToMove);
+    }
+  }
+
+  getCurrentlyDisplayedGoals() {
+    return this._currentlyDisplayedGoals;
+  }
+
+  void setCurrentlyDisplayedGoals(List<Goal> list) {
+    if (testMode) {
+      this._currentlyDisplayedGoals = list;
+    } else {
+      throw new Exception('Not allowed to set the currently displayed goals outside of testing');
     }
   }
 

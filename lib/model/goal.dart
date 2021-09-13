@@ -188,4 +188,8 @@ class Goal {
       isDeleted.hashCode ^
       levelDeep.hashCode ^
       goals.hashCode;
+
+  getGoals() {
+    return this.goals;
+  }
 }

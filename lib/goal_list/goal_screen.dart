@@ -46,7 +46,7 @@ class _GoalScreenState extends State<GoalScreen> {
 
     if (goal != null) {
       setState(() {
-        appState.currentlyDisplayedGoals.add(goal);
+        appState.getCurrentlyDisplayedGoals().add(goal);
       });
     }
   }
@@ -64,7 +64,7 @@ class _GoalScreenState extends State<GoalScreen> {
     MoveGoal? movedGoal = await showDialog<MoveGoal>(
       context: context,
       builder: (BuildContext context) {
-        return MoveGoalDialog(goal, appState.currentlyDisplayedGoals);
+        return MoveGoalDialog(goal, appState.getCurrentlyDisplayedGoals());
       },
     );
 
@@ -114,7 +114,7 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   goalsToDisplay() {
-    return appState.currentlyDisplayedGoals.where((element) => element.isDeleted == false).toList();
+    return appState.getCurrentlyDisplayedGoals().where((element) => element.isDeleted == false).toList();
   }
 
   @override

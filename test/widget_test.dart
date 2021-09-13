@@ -64,10 +64,11 @@ void main() {
 
   test('Test encoding and decodings JSON appState', () {
     AppState appState = new AppState();
+    appState.testMode = true;
     appState.title = "title";
     appState.titleStack = ["Test","Testing"];
     appState.goalsStack = [[new Goal("test goal stack","",0,0)]];
-    appState.currentlyDisplayedGoals = [new Goal("Currently displayed goals","",0,0)];
+    appState.setCurrentlyDisplayedGoals([new Goal("Currently displayed goals","",0,0)]);
 
     String appStateString = json.encode(appState);
 
