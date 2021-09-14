@@ -146,10 +146,7 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   showBackButton() {
-    print("Goals Stack");
-    print(appState.goalsStack);
-
-    if (appState.goalsStack.isNotEmpty) {
+    if (appState.isAtRootGoal()) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
      return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);

@@ -2,16 +2,16 @@ import 'goal.dart';
 
 class AppState {
   List<Goal> _currentlyDisplayedGoals = [];
-  List<String> titleStack = [];
-  List<List<Goal>> goalsStack = [[]];
+  List<String> _titleStack = [];
+  List<List<Goal>> _goalsStack = [[]];
   bool testMode = false;
 
   AppState();
 
   Map<String, dynamic> toJson() => {
     'currentlyDisplayedGoals' : _currentlyDisplayedGoals,
-    'titleStack' : titleStack,
-    'goalsStack' : goalsStack
+    'titleStack' : _titleStack,
+    'goalsStack' : _goalsStack
   };
 
   factory AppState.fromJson(Map<String, dynamic> jsonMap) {
@@ -20,13 +20,13 @@ class AppState {
     appState._currentlyDisplayedGoals = list.map((i) => Goal.fromJson(i)).toList();
 
     list = jsonMap['titleStack'] as List;
-    appState.titleStack = list.map((e) => e as String).toList();
+    appState._titleStack = list.map((e) => e as String).toList();
 
     list =  jsonMap['goalsStack'] as List;
     list.forEach((element) {
       List innerList = element as List;
       List<Goal> innerGoalList = innerList.map((e) => Goal.fromJson(e)).toList();
-      appState.goalsStack.add(innerGoalList);
+      appState._goalsStack.add(innerGoalList);
     });
 
     return appState;
@@ -35,39 +35,39 @@ class AppState {
   static AppState defaultAppState() {
     AppState appState = new AppState();
     appState._currentlyDisplayedGoals = [new Goal("Welcome to TMT","",0,0)];
-    appState.titleStack = ["Learn Time Money TaskList"];
-    appState.goalsStack = [];
+    appState._titleStack = ["Learn Time Money TaskList"];
+    appState._goalsStack = [];
     return appState;
   }
 
   @override
   String toString() {
-    return 'AppState{\ncurrentlyDisplayedGoals: $_currentlyDisplayedGoals, \ntitle: $getTitle(), \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
+    return 'AppState{\ncurrentlyDisplayedGoals: $_currentlyDisplayedGoals, \ntitle: $getTitle(), \ntitleStack: $_titleStack, \ngoalsStack: $_goalsStack}';
   }
 
   void moveUp(Goal goal) {
     if (this._currentlyDisplayedGoals.contains(goal) && isAtRootGoal() == false) {
       goal.levelDeep -= 1;
-      this.goalsStack.last.add(goal);
+      this._goalsStack.last.add(goal);
       this._currentlyDisplayedGoals.remove(goal);
     }
   }
 
   isAtRootGoal() {  // When we are at the root we want certain operations to not work such as moving a goal up.
-    if (this.goalsStack.length == 1) return true;
+    if (this._goalsStack.length == 1) return true;
     return false;
   }
 
   void openGoal(Goal goal) {  // TODO create test
-    this.titleStack.add(goal.title);
-    this.goalsStack.add(this._currentlyDisplayedGoals);
+    this._titleStack.add(goal.title);
+    this._goalsStack.add(this._currentlyDisplayedGoals);
     this._currentlyDisplayedGoals = goal.goals;
   }
 
   void backUp() {
-    this._currentlyDisplayedGoals = this.goalsStack.last;
-    this.goalsStack.removeLast();
-    this.titleStack.removeLast();
+    this._currentlyDisplayedGoals = this._goalsStack.last;
+    this._goalsStack.removeLast();
+    this._titleStack.removeLast();
   }
 
   void moveGoal(Goal goalToMove, Goal goalToMoveTo) {
@@ -94,10 +94,10 @@ class AppState {
   }
 
   String getTitle() {
-    if (titleStack.isEmpty) {
+    if (_titleStack.isEmpty) {
       return "TMT";
     }
-    return this.titleStack.last;
+    return this._titleStack.last;
   }
 
 }
