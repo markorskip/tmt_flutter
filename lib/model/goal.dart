@@ -113,7 +113,7 @@ class Goal {
     this.goals.add(goal);
   }
 
-  void update(EditGoal editedGoal) {
+  void editGoal(EditGoal editedGoal) {
     this.title = editedGoal.title;
     this.description = editedGoal.description;
     this.timeInHours = editedGoal.timeInHours;
@@ -191,5 +191,9 @@ class Goal {
 
   getGoals() {
     return this.goals;
+  }
+
+  void toggleComplete() {
+    complete = !complete;
   }
 }

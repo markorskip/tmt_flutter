@@ -2,7 +2,6 @@ import 'goal.dart';
 
 class AppState {
   List<Goal> _currentlyDisplayedGoals = [];
-  String title = "";
   List<String> titleStack = [];
   List<List<Goal>> goalsStack = [[]];
   bool testMode = false;
@@ -10,7 +9,6 @@ class AppState {
   AppState();
 
   Map<String, dynamic> toJson() => {
-    'title': title,
     'currentlyDisplayedGoals' : _currentlyDisplayedGoals,
     'titleStack' : titleStack,
     'goalsStack' : goalsStack
@@ -18,7 +16,6 @@ class AppState {
 
   factory AppState.fromJson(Map<String, dynamic> jsonMap) {
     AppState appState = new AppState();
-    appState.title = jsonMap["title"];
     var list = jsonMap['currentlyDisplayedGoals'] as List;
     appState._currentlyDisplayedGoals = list.map((i) => Goal.fromJson(i)).toList();
 
@@ -37,16 +34,15 @@ class AppState {
 
   static Future<AppState> defaultState() {
     AppState appState = new AppState();
-    appState.title = "Learn Time Money TaskList";
     appState._currentlyDisplayedGoals = [new Goal("Welcome to TMT","",0,0)];
-    appState.titleStack = [];
+    appState.titleStack = ["Learn Time Money TaskList"];
     appState.goalsStack = [];
     return Future.value(appState);
   }
 
   @override
   String toString() {
-    return 'AppState{\ncurrentlyDisplayedGoals: $_currentlyDisplayedGoals, \ntitle: $title, \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
+    return 'AppState{\ncurrentlyDisplayedGoals: $_currentlyDisplayedGoals, \ntitle: $getTitle(), \ntitleStack: $titleStack, \ngoalsStack: $goalsStack}';
   }
 
   void moveUp(Goal goal) {
@@ -63,14 +59,12 @@ class AppState {
   }
 
   void openGoal(Goal goal) {  // TODO create test
-    this.titleStack.add(this.title);
-    this.title = goal.title;
+    this.titleStack.add(goal.title);
     this.goalsStack.add(this._currentlyDisplayedGoals);
     this._currentlyDisplayedGoals = goal.goals;
   }
 
   void backUp() {
-    this.title = this.titleStack.last;
     this._currentlyDisplayedGoals = this.goalsStack.last;
     this.goalsStack.removeLast();
     this.titleStack.removeLast();
@@ -93,6 +87,17 @@ class AppState {
     } else {
       throw new Exception('Not allowed to set the currently displayed goals outside of testing');
     }
+  }
+
+  getGoalsToDisplay() {
+    return getCurrentlyDisplayedGoals().where((element) => element.isDeleted == false).toList();
+  }
+
+  String getTitle() {
+    if (titleStack.isEmpty) {
+      return "TMT";
+    }
+    return this.titleStack.last;
   }
 
 }

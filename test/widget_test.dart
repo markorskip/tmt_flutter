@@ -38,22 +38,9 @@ void main() {
     expect(goal.getPercentageCompleteCost(),0.0);
   });
 
-  test('Test serialization process for sub goal', () {
-    Goal goal = new Goal("test","test",0,0);
-    goal.isDeleted = true;
-    Goal subGoal = new Goal("test","test1",0,0);
-    subGoal.addSubGoal(new Goal("third deep","",0,0));
-    goal.addSubGoal(subGoal);
-
-    Map<String, dynamic> json = goal.toJson();
-    Goal result = Goal.fromJson(json);
-    expect(result.isDeleted,true);
-    expect(result.goals.first.goals.length,1);
-  });
-
   test('Test encoding and decodings JSON', () {
     Goal goal = new Goal("title","description",0,0);
-    goal.goals.add(new Goal("test sub goal","test",0,0));
+    goal.addSubGoal(new Goal("test sub goal","test",0,0));
     String jsonString = json.encode(goal);
     print(jsonString);
     Map<String, dynamic> map = json.decode(jsonString);
@@ -65,8 +52,7 @@ void main() {
   test('Test encoding and decodings JSON appState', () {
     AppState appState = new AppState();
     appState.testMode = true;
-    appState.title = "title";
-    appState.titleStack = ["Test","Testing"];
+    appState.titleStack = ["root title"];
     appState.goalsStack = [[new Goal("test goal stack","",0,0)]];
     appState.setCurrentlyDisplayedGoals([new Goal("Currently displayed goals","",0,0)]);
 
@@ -74,7 +60,7 @@ void main() {
 
     Map<String, dynamic> jsonDecoded = json.decode(appStateString);
     AppState newAppState = AppState.fromJson(jsonDecoded);
-    expect(newAppState.title, "title");
+    expect(newAppState.getTitle(), "root title");
   });
 
   test('Test calculations for multiple levels of goals', () {

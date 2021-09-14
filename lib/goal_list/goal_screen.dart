@@ -31,8 +31,6 @@ class _GoalScreenState extends State<GoalScreen> {
         appState = storedState;
       });
     });
-    print("init");
-    print(appState.toString());
     super.initState();
   }
 
@@ -58,6 +56,11 @@ class _GoalScreenState extends State<GoalScreen> {
         return EditGoalDialog(goal);
       },
     );
+    if (editedGoal != null) {
+      goal.editGoal(editedGoal);
+    }
+    setState(() {}); // Update changes on screen
+
   }
 
   moveGoal(Goal goal) async {
@@ -77,7 +80,6 @@ class _GoalScreenState extends State<GoalScreen> {
   }
   }
 
-
   _showHelpDialog() async {  // TODO fix this - it's not working
       return new AlertDialog(
         title: new Text("My Super title"),
@@ -93,7 +95,7 @@ class _GoalScreenState extends State<GoalScreen> {
 
   _toggleComplete(Goal goal) {
     setState(() {
-      goal.complete = !goal.complete;
+      goal.toggleComplete();
     });
   }
 
@@ -114,13 +116,14 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   goalsToDisplay() {
-    return appState.getCurrentlyDisplayedGoals().where((element) => element.isDeleted == false).toList();
+    return appState.getGoalsToDisplay();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(appState.title)),
+      appBar: AppBar(title: Text(appState.getTitle())),
       body: GoalSlideable(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, moveGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(
