@@ -36,7 +36,7 @@ class GoalStorage implements ReadWriteAppState {
       // If encountering an error, return 0
       // return default goals
       print("error caught $e");
-      return AppState.defaultState();
+      return Future.value(AppState.defaultAppState());
     }
   }
 }

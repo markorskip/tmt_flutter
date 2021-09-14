@@ -50,17 +50,11 @@ void main() {
   });
 
   test('Test encoding and decodings JSON appState', () {
-    AppState appState = new AppState();
-    appState.testMode = true;
-    appState.titleStack = ["root title"];
-    appState.goalsStack = [[new Goal("test goal stack","",0,0)]];
-    appState.setCurrentlyDisplayedGoals([new Goal("Currently displayed goals","",0,0)]);
-
+    AppState appState = AppState.defaultAppState();
     String appStateString = json.encode(appState);
-
     Map<String, dynamic> jsonDecoded = json.decode(appStateString);
     AppState newAppState = AppState.fromJson(jsonDecoded);
-    expect(newAppState.getTitle(), "root title");
+    expect(newAppState.getTitle(), "Learn Time Money TaskList");
   });
 
   test('Test calculations for multiple levels of goals', () {

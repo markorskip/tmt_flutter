@@ -32,12 +32,12 @@ class AppState {
     return appState;
   }
 
-  static Future<AppState> defaultState() {
+  static AppState defaultAppState() {
     AppState appState = new AppState();
     appState._currentlyDisplayedGoals = [new Goal("Welcome to TMT","",0,0)];
     appState.titleStack = ["Learn Time Money TaskList"];
     appState.goalsStack = [];
-    return Future.value(appState);
+    return appState;
   }
 
   @override
