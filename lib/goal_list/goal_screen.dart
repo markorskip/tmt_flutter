@@ -115,9 +115,8 @@ class _GoalScreenState extends State<GoalScreen> {
     widget.readWriteAppState.writeAppState(appState);
   }
 
-  goalsToDisplay() {
+  List<Goal> goalsToDisplay() {
     return appState.getGoalsToDisplay();
-
   }
 
   @override
@@ -141,14 +140,16 @@ class _GoalScreenState extends State<GoalScreen> {
     );
   }
 
-  showSaveButton() {
+  IconButton showSaveButton() {
     return IconButton(icon: Icon(Icons.save), onPressed: _save);
   }
 
-  showBackButton() {
-    if (appState.isAtRootGoal()) {
+  IconButton showBackButton() {
+    print("App State for backButton");
+    print(appState);
+    if (!appState.isAtRoot()) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
-     return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
+    return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
   }
 }

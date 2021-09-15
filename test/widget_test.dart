@@ -6,16 +6,10 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/app_state.dart';
-import 'package:tmt_flutter/model/goal_storage.dart';
-
-import 'package:tmt_flutter/main.dart';
 import 'package:tmt_flutter/model/goal.dart';
-// @dart=2.9
+
 void main() {
 
   test('List should be modified by reference', () {
@@ -54,7 +48,7 @@ void main() {
     String appStateString = json.encode(appState);
     Map<String, dynamic> jsonDecoded = json.decode(appStateString);
     AppState newAppState = AppState.fromJson(jsonDecoded);
-    expect(newAppState.getTitle(), "Learn Time Money TaskList");
+    expect(newAppState.getTitle(), AppState.getRootTitle());
   });
 
   test('Test calculations for multiple levels of goals', () {

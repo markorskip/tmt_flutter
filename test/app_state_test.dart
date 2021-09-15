@@ -20,9 +20,9 @@ void main() {
   }
 
   _createTestAppStateWith2RootGoalsWith3ChildrenEach() {
-    AppState appState = new AppState();
-    appState.testMode = true;
-    appState.setCurrentlyDisplayedGoals([_generateGoal("remodel home"), _generateGoal("landscaping")]);
+    AppState appState = AppState.defaultAppState();
+    appState.getCurrentlyDisplayedGoals().first.addSubGoal(_generateGoal("remodel home"));
+    appState.getCurrentlyDisplayedGoals().first.addSubGoal(_generateGoal("landscaping"));
     return appState;
   }
 
@@ -31,7 +31,7 @@ void main() {
     Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
     int length = appState.getCurrentlyDisplayedGoals().length;
     appState.moveUp(goal);
-    expect(appState.isAtRootGoal(),true);
+    expect(appState.isAtRoot(),true);
     expect(appState.getCurrentlyDisplayedGoals().length, length); // if we are in the root of the application, don't move up
   });
 
@@ -43,8 +43,8 @@ void main() {
     int length = appState.getCurrentlyDisplayedGoals().length;
     int depth = goalToMove.levelDeep;
     appState.moveUp(goalToMove);
-    expect(appState.isAtRootGoal(),false);
-    expect(appState.getCurrentlyDisplayedGoals().length, length-1); // if we are in the root of the application, don't move up
+    expect(appState.isAtRoot(),false);
+    expect(appState.getCurrentlyDisplayedGoals().length, length-1);
     appState.backUp();
     expect(appState.getCurrentlyDisplayedGoals().length, parentLength + 1);
     expect(goalToMove.levelDeep, depth - 1);
@@ -52,6 +52,7 @@ void main() {
 
   test('moving a goal down', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
     int lengthBeforeMove = appState.getCurrentlyDisplayedGoals().length;
 
     Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
@@ -70,13 +71,16 @@ void main() {
     int lengthBeforeMove = appState.getCurrentlyDisplayedGoals().length;
 
     Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
-    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().first;
-    print(goalToMove);
-    int numberOfChildrenBeforeMove = goalToMoveTo.goals.length;
-    appState.moveGoal(goalToMove, goalToMoveTo);
-    print(appState);
-    expect(appState.getCurrentlyDisplayedGoals().length, lengthBeforeMove);
-    expect(goalToMoveTo.getGoals().length, numberOfChildrenBeforeMove);
+    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().first;  // Pick the same goal - not allowed
+
+    expect(()=> appState.moveGoal(goalToMove, goalToMoveTo), throwsA(isA<Exception>()));
   });
 
+  test('isAtRoot works', () {
+    AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+    expect(appState.isAtRoot(), true);
+    expect(appState.getCurrentlyDisplayedGoals().first.title,"Welcome to TMT");
+    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
+    expect(appState.isAtRoot(), false);
+  });
 }

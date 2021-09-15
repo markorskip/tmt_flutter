@@ -9,9 +9,7 @@ class MoveGoalDialog extends StatefulWidget {
 
   final List<Goal> siblingGoals;
 
-  MoveGoalDialog(
-      this.goalToEdit, this.siblingGoals); // chose a sibling goals, can move inside this to move down
-
+  MoveGoalDialog(this.goalToEdit, this.siblingGoals); // chose a sibling goals, can move inside this to move down
 
   @override
   State<StatefulWidget> createState() => _MoveGoalDialogState();
