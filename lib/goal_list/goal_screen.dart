@@ -67,7 +67,7 @@ class _GoalScreenState extends State<GoalScreen> {
     MoveGoal? moveGoal = await showDialog<MoveGoal>(
       context: context,
       builder: (BuildContext context) {
-        return MoveGoalDialog(goalToMove, appState.getGoalsToDisplay());
+        return MoveGoalDialog(goalToMove, appState.getGoalsToDisplay(), appState.getGrandParentGoal());
       },
     );
 

@@ -32,10 +32,7 @@ void main() {
     Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
     int length = appState.getCurrentlyDisplayedGoals().length;
     MoveGoal moveGoal = new MoveGoal(goal);
-    moveGoal.setMoveUp(true);
-    appState.move(moveGoal);
-    expect(appState.isAtRoot(),true);
-    expect(appState.getCurrentlyDisplayedGoals().length, length); // if we are in the root of the application, don't move up
+    expect(()=> appState.move(moveGoal), throwsA(isA<Exception>())); // if we are in the root of the application, don't move up
   });
 
   test('moving a goal up when not at the root', () {
@@ -46,7 +43,6 @@ void main() {
     int length = appState.getCurrentlyDisplayedGoals().length;
     int depth = goalToMove.levelDeep;
     MoveGoal moveGoal = new MoveGoal(goalToMove);
-    moveGoal.setMoveUp(true);
     appState.move(moveGoal);
     expect(appState.isAtRoot(),false);
     expect(appState.getCurrentlyDisplayedGoals().length, length-1);
@@ -64,6 +60,7 @@ void main() {
     int depth = goalToMove.levelDeep;
     Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().last;
     int numberOfChildrenBeforeMove = goalToMoveTo.goals.length;
+
     MoveGoal moveGoal = new MoveGoal(goalToMove);
     moveGoal.setGoalToMoveTo(goalToMoveTo);
     appState.move(moveGoal);

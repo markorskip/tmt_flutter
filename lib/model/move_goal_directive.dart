@@ -2,12 +2,13 @@ import 'goal.dart';
 
 class MoveGoal {
 
-bool _moveUp = false;
-bool _moveDown = false;
-Goal goalToMove;
-Goal? goalToMoveTo;
+  bool _moveUp = false;
+  Goal _goalToMove;
+  Goal? goalToMoveTo;
 
-MoveGoal(this.goalToMove);
+  MoveGoal(this._goalToMove) {
+    this._moveUp = true;
+  }
 
   bool isMoveUp() {
     return _moveUp;
@@ -15,21 +16,15 @@ MoveGoal(this.goalToMove);
 
   setGoalToMoveTo(Goal? goalToMoveTo) {
     this.goalToMoveTo = goalToMoveTo;
-    this._moveDown = true;
+    this._moveUp = false;
   }
 
   Goal? getGoalToMoveTo() {
     return goalToMoveTo;
   }
 
-  bool isMoveDown() {
-    return _moveDown;
+  Goal getGoalToMove() {
+    return this._goalToMove;
   }
-
-  void setMoveUp(bool bool) {
-    this._moveUp = bool;
-  }
-
-
 
 }

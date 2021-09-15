@@ -39,8 +39,10 @@ class AppState {
   }
 
 
-  Goal _getGrandParentGoal() {
-    return _goalStack[_goalStack.length-2];
+  Goal? getGrandParentGoal() {
+    if (!isAtRoot()) {
+      return _goalStack[_goalStack.length - 2];
+    }
   }
 
   bool isAtRoot() {  // When we are at the root we want certain operations to not work such as moving a goal up.
@@ -59,27 +61,20 @@ class AppState {
   }
 
   void move(MoveGoal moveGoal) {
-    if (moveGoal.isMoveDown()) {
-      _moveGoalDown(moveGoal.goalToMove, moveGoal.getGoalToMoveTo());
+    if (moveGoal.getGoalToMoveTo() == null) {
+      if (isAtRoot()) {
+        throw Exception("Can't move up when at the root");
+      }
+      moveGoal.goalToMoveTo = getGrandParentGoal();
     }
-    if (moveGoal.isMoveUp()) {
-      _moveUp(moveGoal.goalToMove);
-    }
+    _moveGoal(moveGoal.getGoalToMove(), moveGoal.getGoalToMoveTo());
   }
 
-  void _moveUp(Goal goal) {
-    if (this.getCurrentlyDisplayedGoals().contains(goal) && isAtRoot() == false) {
-      goal.levelDeep -= 1;
-      _getGrandParentGoal().addSubGoal(goal);
-      this.getCurrentlyDisplayedGoals().remove(goal);
-    }
-  }
-
-  void _moveGoalDown(Goal goalToMove, Goal? goalToMoveTo) {
+  void _moveGoal(Goal goalToMove, Goal? goalToMoveTo) {
     if (goalToMove == goalToMoveTo) {
       throw Exception('Cant move a goal inside itself');
     }
-    if (getCurrentlyDisplayedGoals().contains(goalToMove) && getCurrentlyDisplayedGoals().contains(goalToMoveTo) && goalToMove != goalToMoveTo) {
+    if (getCurrentlyDisplayedGoals().contains(goalToMove) && goalToMove != goalToMoveTo) {
       getCurrentlyDisplayedGoals().remove(goalToMove);
       goalToMoveTo!.addSubGoal(goalToMove);
     }

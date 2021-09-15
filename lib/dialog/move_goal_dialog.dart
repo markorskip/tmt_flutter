@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
@@ -9,7 +11,9 @@ class MoveGoalDialog extends StatefulWidget {
 
   final List<Goal> siblingGoals;
 
-  MoveGoalDialog(this.goalToMove, this.siblingGoals); // chose a sibling goals, can move inside this to move down
+  final Goal? grandParentGoal;
+
+  MoveGoalDialog(this.goalToMove, this.siblingGoals, this.grandParentGoal); // chose a sibling goals, can move inside this to move down
 
   @override
   State<StatefulWidget> createState() => _MoveGoalDialogState();
@@ -18,6 +22,15 @@ class MoveGoalDialog extends StatefulWidget {
 class _MoveGoalDialogState extends State<MoveGoalDialog> {
 
   Goal? dropdownValue;
+
+  List<Goal> getGoalsInDropDown() {
+    List<Goal> list = [];
+    if (widget.grandParentGoal != null) {
+      list.add(widget.grandParentGoal!);
+    }
+    list.addAll(widget.siblingGoals);
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +42,10 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
             child: DropdownButton(
               icon: const Icon(Icons.arrow_drop_down),
               value: dropdownValue,
-              items: widget.siblingGoals.where((goal) => goal != widget.goalToMove).map<DropdownMenuItem<Goal>>((Goal goal) {
+              items:
+              getGoalsInDropDown().where((goal) => goal != widget.goalToMove).map<DropdownMenuItem<Goal>>((Goal goal) {
                 return DropdownMenuItem<Goal>(
-                  child: Text(goal.title),
+                  child: Text(getText(goal)),
                   value: goal,
                 );
               }).toList(),
@@ -47,35 +61,33 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Move Down'),
+          child: Text('Cancel'),
           onPressed: () {
-            moveDown();
+            Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: Text('Move up'),
+          child: Text('Move'),
           onPressed: () {
-            moveUp();
+            move();
           },
         ),
       ],
     );
   }
 
-  void moveDown() {
+  void move() {
     final MoveGoal moveGoal = new MoveGoal(widget.goalToMove);
-    moveGoal.setMoveUp(false);
     moveGoal.setGoalToMoveTo(dropdownValue);
     Navigator.of(context).pop(moveGoal);
   }
 
-  void moveUp() {
-    final MoveGoal moveGoal = new MoveGoal(widget.goalToMove);
-    moveGoal.setMoveUp(true);
-    Navigator.of(context).pop(moveGoal);
+  String getText(Goal goal) {
+    if (goal == widget.grandParentGoal) {
+      return 'MOVE UP TO: ' + widget.grandParentGoal!.title;
+    }
+    return goal.title;
   }
-
-
 
 }
 
