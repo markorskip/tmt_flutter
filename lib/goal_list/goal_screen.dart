@@ -123,7 +123,7 @@ class _GoalScreenState extends State<GoalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(appState.getTitle())),
+      appBar: AppBar(title: Text(appState.getTitle())), // TODO make this editable
       body: GoalSlideable(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, moveGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(

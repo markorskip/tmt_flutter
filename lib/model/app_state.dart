@@ -18,7 +18,7 @@ class AppState {
   }
 
   static String getRootTitle() {
-    return "TMT";
+    return "Time Money Tasklist";
   }
 
   static Goal _getRootGoal() {
