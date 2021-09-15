@@ -1,3 +1,5 @@
+import 'package:tmt_flutter/model/move_goal_directive.dart';
+
 import 'goal.dart';
 
 class AppState {
@@ -36,18 +38,12 @@ class AppState {
     return 'AppState{\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoals(), \ntitle: $getTitle(), \ngoalStack: $_goalStack}';
   }
 
-  void moveUp(Goal goal) {
-    if (this.getCurrentlyDisplayedGoals().contains(goal) && isAtRoot() == false) {
-      goal.levelDeep -= 1;
-      _getGrandParentGoal().addSubGoal(goal);
-      this.getCurrentlyDisplayedGoals().remove(goal);
-    }
-  }
+
   Goal _getGrandParentGoal() {
     return _goalStack[_goalStack.length-2];
   }
 
-  isAtRoot() {  // When we are at the root we want certain operations to not work such as moving a goal up.
+  bool isAtRoot() {  // When we are at the root we want certain operations to not work such as moving a goal up.
     if (this._goalStack.length == 1) return true;
     return false;
   }
@@ -62,13 +58,30 @@ class AppState {
     }
   }
 
-  void moveGoal(Goal goalToMove, Goal goalToMoveTo) {
+  void move(MoveGoal moveGoal) {
+    if (moveGoal.isMoveDown()) {
+      _moveGoalDown(moveGoal.goalToMove, moveGoal.getGoalToMoveTo());
+    }
+    if (moveGoal.isMoveUp()) {
+      _moveUp(moveGoal.goalToMove);
+    }
+  }
+
+  void _moveUp(Goal goal) {
+    if (this.getCurrentlyDisplayedGoals().contains(goal) && isAtRoot() == false) {
+      goal.levelDeep -= 1;
+      _getGrandParentGoal().addSubGoal(goal);
+      this.getCurrentlyDisplayedGoals().remove(goal);
+    }
+  }
+
+  void _moveGoalDown(Goal goalToMove, Goal? goalToMoveTo) {
     if (goalToMove == goalToMoveTo) {
       throw Exception('Cant move a goal inside itself');
     }
     if (getCurrentlyDisplayedGoals().contains(goalToMove) && getCurrentlyDisplayedGoals().contains(goalToMoveTo) && goalToMove != goalToMoveTo) {
       getCurrentlyDisplayedGoals().remove(goalToMove);
-      goalToMoveTo.addSubGoal(goalToMove);
+      goalToMoveTo!.addSubGoal(goalToMove);
     }
   }
 
@@ -76,7 +89,7 @@ class AppState {
     return _goalStack.last.getGoals();
   }
 
-  getGoalsToDisplay() { // excludes deleted goals
+  List<Goal> getGoalsToDisplay() { // excludes deleted goals
     return getCurrentlyDisplayedGoals().where((element) => element.isDeleted == false).toList();
   }
 
@@ -86,5 +99,7 @@ class AppState {
     }
     return this._goalStack.last.title;
   }
+
+
 
 }

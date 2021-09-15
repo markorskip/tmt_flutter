@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/move_goal.dart';
+import 'package:tmt_flutter/model/move_goal_directive.dart';
 
 class MoveGoalDialog extends StatefulWidget {
 
-  final Goal goalToEdit;
+  final Goal goalToMove;
 
   final List<Goal> siblingGoals;
 
-  MoveGoalDialog(this.goalToEdit, this.siblingGoals); // chose a sibling goals, can move inside this to move down
+  MoveGoalDialog(this.goalToMove, this.siblingGoals); // chose a sibling goals, can move inside this to move down
 
   @override
   State<StatefulWidget> createState() => _MoveGoalDialogState();
@@ -17,39 +17,41 @@ class MoveGoalDialog extends StatefulWidget {
 
 class _MoveGoalDialogState extends State<MoveGoalDialog> {
 
+  Goal? dropdownValue;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Move Goal'),
       content: ListView(
         children: [
-          //if (widget.siblingGoals.isNotEmpty) { TODO implement this logic
           Container(
-            child: DropdownButton<String>(
-              //value: _chosenValue,
-              //elevation: 5,
-              style: TextStyle(color: Colors.black),
-
-              items: widget.siblingGoals.map<DropdownMenuItem<String>>((
-                  Goal sibling) {
-                return DropdownMenuItem<String>(
-                  value: sibling.title,
-                  child: Text(sibling.title),
+            child: DropdownButton(
+              icon: const Icon(Icons.arrow_drop_down),
+              value: dropdownValue,
+              items: widget.siblingGoals.where((goal) => goal != widget.goalToMove).map<DropdownMenuItem<Goal>>((Goal goal) {
+                return DropdownMenuItem<Goal>(
+                  child: Text(goal.title),
+                  value: goal,
                 );
               }).toList(),
-              hint: Text(
-                "Move into this goal",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600),
-              ),
+              onChanged: (Goal? value) {
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+              hint: Text("Select a goal to move to"),
             ),
           ),
         ],
       ),
       actions: <Widget>[
-
+        TextButton(
+          child: Text('Move Down'),
+          onPressed: () {
+            moveDown();
+          },
+        ),
         TextButton(
           child: Text('Move up'),
           onPressed: () {
@@ -60,12 +62,20 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
     );
   }
 
-
-  void moveUp() {
-    final MoveGoal moveGoal = new MoveGoal();
-    moveGoal.moveUp = true;
+  void moveDown() {
+    final MoveGoal moveGoal = new MoveGoal(widget.goalToMove);
+    moveGoal.setMoveUp(false);
+    moveGoal.setGoalToMoveTo(dropdownValue);
     Navigator.of(context).pop(moveGoal);
   }
+
+  void moveUp() {
+    final MoveGoal moveGoal = new MoveGoal(widget.goalToMove);
+    moveGoal.setMoveUp(true);
+    Navigator.of(context).pop(moveGoal);
+  }
+
+
 
 }
 

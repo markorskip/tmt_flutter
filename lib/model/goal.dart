@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-import 'edited_goal.dart';
+import 'edit_goal_directive.dart';
 
 class Goal {
   String title;

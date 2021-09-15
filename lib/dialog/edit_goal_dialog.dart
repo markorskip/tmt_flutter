@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/model/goal.dart';
 
-import '../model/edited_goal.dart';
-
+import '../model/edit_goal_directive.dart';
 
 // TODO For the edit dialog, add complete on/off as well as notes for updates
 
@@ -11,7 +10,7 @@ class EditGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
 
-  EditGoalDialog(this.goalToEdit); // TODO if duplicate name then what?
+  EditGoalDialog(this.goalToEdit);
 
   @override
   _EditGoalDialogState createState() => _EditGoalDialogState();

@@ -1,6 +1,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tmt_flutter/model/edited_goal.dart';
+import 'package:tmt_flutter/model/edit_goal_directive.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 void main () {

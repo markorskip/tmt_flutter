@@ -7,8 +7,8 @@ import 'package:tmt_flutter/goal_list/goal_slideable.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
-import 'package:tmt_flutter/model/move_goal.dart';
-import '../model/edited_goal.dart';
+import 'package:tmt_flutter/model/move_goal_directive.dart';
+import '../model/edit_goal_directive.dart';
 import '../dialog/new_goal_dialog.dart';
 
 class GoalScreen extends StatefulWidget {
@@ -63,18 +63,19 @@ class _GoalScreenState extends State<GoalScreen> {
 
   }
 
-  moveGoal(Goal goal) async {
-    MoveGoal? movedGoal = await showDialog<MoveGoal>(
+  moveGoal(Goal goalToMove) async {
+    MoveGoal? moveGoal = await showDialog<MoveGoal>(
       context: context,
       builder: (BuildContext context) {
-        return MoveGoalDialog(goal, appState.getCurrentlyDisplayedGoals());
+        return MoveGoalDialog(goalToMove, appState.getGoalsToDisplay());
       },
     );
 
-    if (movedGoal != null) {
+    if (moveGoal != null) {
     setState(() {
-      if (movedGoal.moveUp = true) {
-        appState.moveUp(goal);
+      appState.move(moveGoal);
+      if (appState.getGoalsToDisplay().length == 0) {
+        _backUp();
       }
     });
   }
