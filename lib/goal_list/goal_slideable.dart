@@ -30,7 +30,7 @@ class _GoalSlideableState extends State<GoalSlideable> {
       child: Container(
         color: Colors.white,
         child: ListTile(
-          leading: getIcon(goal),
+          leading: getGoalLeadingDisplay(goal),
           title: Text(goal.title),
           subtitle: goal.getSubTitleRichText(),
           isThreeLine: true,
@@ -65,8 +65,8 @@ class _GoalSlideableState extends State<GoalSlideable> {
     );
   }
 
-  getIcon(Goal goal) {
-    if (goal.goals.length > 0) {
+  getGoalLeadingDisplay(Goal goal) {
+    if (!goal.isCompletable()) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

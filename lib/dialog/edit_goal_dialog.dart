@@ -4,8 +4,6 @@ import 'package:tmt_flutter/model/goal.dart';
 
 import '../model/edit_goal_directive.dart';
 
-// TODO For the edit dialog, add complete on/off as well as notes for updates
-
 class EditGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
@@ -35,6 +33,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
     return result;
   }
 
+  bool? _complete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +41,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
     descriptionController.text = widget.goalToEdit.description!;
     moneyController.text = widget.goalToEdit.costInDollars.toString();
     timeController.text = widget.goalToEdit.timeInHours.toString();
+
     return AlertDialog(
       title: Text('Edit Goal'),
       content: ListView(
@@ -67,6 +67,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
             autofocus: true,
           ),
           Text("Estimated time to complete (in hours)"),
+          if (widget.goalToEdit.isCompletable()) getCompleteBox()
         ],
       ),
       actions: <Widget>[
@@ -91,6 +92,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
         descriptionController.value.text,
         getMoneyValue(),
         getTimeValue());
+    editedGoal.complete = this._complete!;
     titleController.clear();
     descriptionController.clear();
     moneyController.clear();
@@ -98,6 +100,29 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
     Navigator.of(context).pop(editedGoal);
   }
 
+  Widget getCompleteBox() {
+      return Row(
+        children: <Widget>[
+          SizedBox(
+            width: 10,
+          ), //SizedBox
+          Text(
+            'Complete: ',
+            style: TextStyle(fontSize: 17.0),
+          ), //Text
+          SizedBox(width: 10), //SizedBox
+          /** Checkbox Widget **/
+          Checkbox(
+            value: this._complete,
+            onChanged: (bool? value) {
+              setState(() {
+                this._complete = value;
+              });
+            },
+          ), //Checkbox
+        ], //<Widget>[]
+      ); //Row
+    }
 
 }
 

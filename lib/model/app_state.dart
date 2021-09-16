@@ -50,7 +50,7 @@ class AppState {
     return false;
   }
 
-  void openGoal(Goal goal) {  // TODO create test
+  void openGoal(Goal goal) {
     this._goalStack.add(goal);
   }
 

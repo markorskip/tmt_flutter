@@ -5,6 +5,10 @@ import 'package:tmt_flutter/model/goal.dart';
 
 void main () {
 
+  Goal createTestGoal() {
+    return new Goal("Test Goal","description",0,0);
+  }
+
   test('Test editing a goal works', () {
     Goal goal = new Goal("Goal 1","description",0,0);
     EditGoal editedGoal = new EditGoal("Edited","description 2",5,5);
@@ -16,4 +20,16 @@ void main () {
     expect(goal.timeInHours, 5);
     expect(goal.complete, true);
   });
+
+
+  test('test a goal is completeable', () {
+    Goal goal = createTestGoal();
+    expect(goal.isCompletable(), true);
+    goal.addSubGoal(new Goal("Child goal","should no longer be completable",0,0));
+    expect(goal.isCompletable(), false);
+    goal.getGoals().first.isDeleted = true; // Once we delete all children, a goal should be completable again
+    expect(goal.isCompletable(), true);
+  });
+
+
 }

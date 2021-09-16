@@ -10,13 +10,15 @@ Home remodel, project at work, software development, invoice
 
 v1 FREE
 Basic app functionality.  Everything stored locally in memory.  User can create goals, which can have children goals, so on
-and so forth.  Data is stored on local device.  Can be deployed.
+and so forth.  Data is stored on local device.  Can be deployed. FREE
 
 v2 PAID
-User can now login to the app.  Data is stored on a server. User can login in to multiple devices and sync data between them.
+User can now login to the app.  Data is stored on a server. User can login in to multiple devices and sync data between them. .99 a month
 
 v3 PAID
-User can now share goals with other users.
+User can now share goals with other users. Other users can edit the users.  Users can add notes to updates.
+System has to manage merging incoming changes for multiple users, and how to handle conflicts. 4.99 a month
+
 
 v4 PAID
 Calendar integration?

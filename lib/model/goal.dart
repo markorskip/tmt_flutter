@@ -189,11 +189,15 @@ class Goal {
       levelDeep.hashCode ^
       goals.hashCode;
 
-  getGoals() {
+  List<Goal> getGoals() {
     return this.goals;
   }
 
   void toggleComplete() {
     complete = !complete;
+  }
+
+  bool isCompletable() {
+    return this.goals.where((goal) => goal.isDeleted == false).length < 1;
   }
 }

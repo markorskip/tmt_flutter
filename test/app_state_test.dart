@@ -27,6 +27,14 @@ void main() {
     return appState;
   }
 
+  test('test opening a goal changes state', () {
+    AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+    int appStateLength = appState.getCurrentlyDisplayedGoals().length;
+    Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
+    appState.openGoal(goal);
+    expect(appState.getCurrentlyDisplayedGoals().length,isNot(appStateLength));
+  });
+
   test('moving a goal up when at the root', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
     Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
