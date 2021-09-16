@@ -25,12 +25,14 @@ class _GoalScreenState extends State<GoalScreen> {
   late AppState appState;
 
   Future<AppState> getAppState() async {
+    await Future.delayed(const Duration(seconds: 1));
     return widget.readWriteAppState.readAppState();
   }
 
   @override
   void initState() {
     super.initState();
+    widget.readWriteAppState.readAppState().then((value) => this.appState = value);
   }
 
   _addGoal() async {
@@ -121,7 +123,7 @@ class _GoalScreenState extends State<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //_save(); // Auto saves every time the setState is called
+
     return Container(
       alignment: Alignment.center,
       child:
@@ -129,7 +131,7 @@ class _GoalScreenState extends State<GoalScreen> {
           future: getAppState(),
             builder: (context, AsyncSnapshot<AppState> snapshot) {
               if (snapshot.hasData) {
-                this.appState = snapshot.data!;
+                //this.appState = snapshot.data!;
                 return getScaffold();
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
