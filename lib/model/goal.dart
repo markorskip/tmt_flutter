@@ -132,8 +132,6 @@ class Goal {
     return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
   }
 
-  // TODO separate UI logic from calculation/model logic
-
   String getPercentageCompleteTimeFormatted() {
     return (getPercentageCompleteTime() * 100).toString().split('.').first + "%";
   }
