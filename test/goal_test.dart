@@ -31,5 +31,11 @@ void main () {
     expect(goal.isCompletable(), true);
   });
 
+  test('test new two goals are the same', () {
+    Goal goal1 = createTestGoal();
+    Goal goal2 = createTestGoal();
+    expect(goal1 == goal2, false);
+  });
+
 
 }
