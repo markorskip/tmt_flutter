@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app_state.dart';
@@ -33,13 +34,14 @@ class GoalStorage implements ReadWriteAppState {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
-      print(contents);
       Map<String, dynamic> appStateJson = json.decode(contents);
-      return AppState.fromJson(appStateJson);
+      AppState appState = AppState.fromJson(appStateJson);
+      if (appState.isAppStateHealthy()) {
+        return appState;
+      } throw Exception("App State unhealthy reading"+ appState.toString());
     } catch (e) {
       // If encountering an error, return 0
       // return default goals
-      print("error caught $e");
       return Future.value(AppState.defaultAppState());
     }
   }

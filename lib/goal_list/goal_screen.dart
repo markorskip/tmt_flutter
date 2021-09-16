@@ -28,7 +28,6 @@ class _GoalScreenState extends State<GoalScreen> {
     super.initState();
     widget.readWriteAppState.readAppState().then((storedState) {
       setState(() {
-        print(storedState);
         appState = storedState;
       });
     });
@@ -123,6 +122,9 @@ class _GoalScreenState extends State<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    _save(); // Auto saves every time the setState is called
+
     return Scaffold(
       appBar: AppBar(title: Text(appState.getTitle())), // TODO make this editable
       body: GoalSlideable(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, moveGoal),
@@ -147,8 +149,6 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   IconButton showBackButton() {
-    print("App State for backButton");
-    print(appState);
     if (!appState.isAtRoot()) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
