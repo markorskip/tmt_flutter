@@ -95,6 +95,11 @@ class AppState {
     return this._goalStack.last.title;
   }
 
+  bool isAppStateHealthy() {
+    if (this._goalStack.length == 0) return false; // always need at least one goal, the root
+    return true;
+  }
+
 
 
 }

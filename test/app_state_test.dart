@@ -1,13 +1,9 @@
 
 
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tmt_flutter/goal_list/goal_screen.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/goal_storage.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
 
 void main() {
@@ -38,7 +34,6 @@ void main() {
   test('moving a goal up when at the root', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
     Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
-    int length = appState.getCurrentlyDisplayedGoals().length;
     MoveGoal moveGoal = new MoveGoal(goal);
     expect(()=> appState.move(moveGoal), throwsA(isA<Exception>())); // if we are in the root of the application, don't move up
   });
@@ -79,7 +74,6 @@ void main() {
 
   test('moving a goal down when there are no siblings', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    int lengthBeforeMove = appState.getCurrentlyDisplayedGoals().length;
 
     Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
     Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().first;  // Pick the same goal - not allowed

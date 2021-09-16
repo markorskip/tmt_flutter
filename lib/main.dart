@@ -14,6 +14,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print(context);
     return MaterialApp(
       title: 'Todo List',
       home: GoalScreen(GoalStorage()), // TODO implement spinner while goal storage loads

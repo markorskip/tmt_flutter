@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app_state.dart';
-import 'goal.dart';
 
 class GoalStorage implements ReadWriteAppState {
   Future<String> get _localPath async {
@@ -20,9 +18,14 @@ class GoalStorage implements ReadWriteAppState {
 
   @override
   Future<File> writeAppState(AppState appState) async {
-    final file = await _localFile;
-    String jsonString = json.encode(appState.toJson());
-    return file.writeAsString(jsonString);
+    // TODO - never write the appState if it is an inconsistent state
+    if (appState.isAppStateHealthy()) {
+      final file = await _localFile;
+      String jsonString = json.encode(appState.toJson());
+      return file.writeAsString(jsonString);
+    } else {
+      throw Exception("AppState is not healthy. Will not write" + appState.toString());
+    }
   }
 
   @override
@@ -30,6 +33,7 @@ class GoalStorage implements ReadWriteAppState {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
+      print(contents);
       Map<String, dynamic> appStateJson = json.decode(contents);
       return AppState.fromJson(appStateJson);
     } catch (e) {

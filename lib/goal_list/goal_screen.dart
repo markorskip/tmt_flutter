@@ -28,6 +28,7 @@ class _GoalScreenState extends State<GoalScreen> {
     super.initState();
     widget.readWriteAppState.readAppState().then((storedState) {
       setState(() {
+        print(storedState);
         appState = storedState;
       });
     });
