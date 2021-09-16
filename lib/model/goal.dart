@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:uuid/uuid.dart';
+
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
@@ -12,10 +12,8 @@ class Goal {
   int timeInHours = 0;
   bool complete = false;
   bool isDeleted = false;
-  int levelDeep = 0; // start at 0
+  int levelDeep = 0;  // start at 0
   List<Goal> goals = []; // children
-
-  Uuid? uuid;
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
     this.levelDeep = 0;
@@ -23,24 +21,20 @@ class Goal {
   }
 
   factory Goal.fromString(String title) {
-    return new Goal(title, "", 0, 0);
+    return new Goal(title, "",0,0);
   }
 
   getEstimatedTime() {
     if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;
-    getActiveGoals().forEach((element) {
-      sum += element.getEstimatedTime();
-    });
+    getActiveGoals().forEach((element) {sum += element.getEstimatedTime(); });
     return sum;
   }
 
   getEstimatedCost() {
     if (getActiveGoals().length == 0) return costInDollars;
     num sum = 0;
-    getActiveGoals().forEach((element) {
-      sum += element.getEstimatedCost();
-    });
+    getActiveGoals().forEach((element) {sum += element.getEstimatedCost(); });
     return sum;
   }
 
@@ -49,22 +43,16 @@ class Goal {
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalCost = 0;
     num completedCost = 0;
-    getActiveGoals().forEach((element) {
-      totalCost += element.getEstimatedCost();
-    });
+    getActiveGoals().forEach((element) {totalCost += element.getEstimatedCost(); });
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
-      completedCost +=
-          element.getEstimatedCost() * element.getPercentageCompleteCost();
+      completedCost += element.getEstimatedCost() * element.getPercentageCompleteCost();
     });
-    getActiveGoals().where((element) => element.complete == true).forEach((
-        element) {
-      completedCost += element.getEstimatedCost();
-    });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
 
     if (completedCost == 0) return 0.0;
-    return roundDouble(completedCost / totalCost, 2);
+    return roundDouble(completedCost/totalCost, 2);
   }
 
   getPercentageCompleteTime() {
@@ -72,33 +60,26 @@ class Goal {
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalTime = 0;
     num completedTime = 0;
-    getActiveGoals().forEach((element) {
-      totalTime += element.getEstimatedTime();
-    });
+    getActiveGoals().forEach((element) {totalTime += element.getEstimatedTime(); });
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
-      completedTime +=
-          element.getEstimatedTime() * element.getPercentageCompleteTime();
-    });
-    getActiveGoals().where((element) => element.complete == true).forEach((
-        element) {
-      completedTime += element.getEstimatedTime();
-    });
+          completedTime += element.getEstimatedTime() * element.getPercentageCompleteTime();
+        });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
 
 
     if (completedTime == 0) return 0.0;
-    return roundDouble(completedTime / totalTime, 2);
+    return roundDouble(completedTime/totalTime, 2);
   }
 
-  double roundDouble(double value, int places) {
+  double roundDouble(double value, int places){
     num mod = pow(10.0, places);
     return ((value * mod).round().toDouble() / mod);
   }
 
   String getSubTitle() {
-    return "Time: " + getEstimatedTime().toString() + " hrs \nCost: \$" +
-        getEstimatedCost().toString();
+    return "Time: " +  getEstimatedTime().toString() + " hrs \nCost: \$" + getEstimatedCost().toString();
   }
 
   RichText getSubTitleRichText() {
@@ -111,13 +92,8 @@ class Goal {
           color: Colors.black,
         ),
         children: <TextSpan>[
-          new TextSpan(
-              text: "Time: " + getEstimatedTime().toString() + " hours \n",
-              style: new TextStyle(color: Colors.blue)),
-          new TextSpan(text: "Cost: \$" + getEstimatedCost()
-              .toString()
-              .split('.')
-              .first, style: new TextStyle(color: Colors.green)),
+          new TextSpan(text: "Time: " +  getEstimatedTime().toString() + " hours \n", style: new TextStyle(color: Colors.blue)),
+          new TextSpan(text: "Cost: \$" +  getEstimatedCost().toString().split('.').first, style: new TextStyle(color: Colors.green)),
         ],
       ),
     );
@@ -153,29 +129,19 @@ class Goal {
     return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
   }
 
+  // TODO separate UI logic from calculation/model logic
+
   String getPercentageCompleteTimeFormatted() {
-    return (getPercentageCompleteTime() * 100)
-        .toString()
-        .split('.')
-        .first + "%";
+    return (getPercentageCompleteTime() * 100).toString().split('.').first + "%";
   }
 
   String getPercentageCompleteCostFormatted() {
-    return (getPercentageCompleteCost() * 100)
-        .toString()
-        .split('.')
-        .first + "%";
+    return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
 
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
-    Goal result = new Goal(
-        jsonMap["title"], jsonMap["description"], jsonMap["costInDollars"],
-        jsonMap["timeInHours"]);
-    result.uuid = jsonMap['uuid'];
-    if (result.uuid == null) {
-      result.uuid = result.getUniqueId();
-    }
+    Goal result = new Goal(jsonMap["title"], jsonMap["description"],jsonMap["costInDollars"],jsonMap["timeInHours"]);
     result.complete = jsonMap['complete'];
     result.isDeleted = jsonMap['isDeleted'];
     result.levelDeep = jsonMap['levelDeep'];
@@ -184,35 +150,32 @@ class Goal {
     return result;
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'uuid': uuid,
-        'title': title,
-        'description': description,
-        'costInDollars': costInDollars,
-        'timeInHours': timeInHours,
-        'complete': complete,
-        'isDeleted': isDeleted,
-        'levelDeep': levelDeep,
-        'goals': goals
-      };
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'description': description,
+    'costInDollars':costInDollars,
+    'timeInHours':timeInHours,
+    'complete':complete,
+    'isDeleted':isDeleted,
+    'levelDeep':levelDeep,
+    'goals': goals
+  };
 
   Function deepEq = const DeepCollectionEquality().equals;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Goal &&
-              this.getUniqueId() == other.getUniqueId() && //call getter to generate
-              runtimeType == other.runtimeType &&
-              title == other.title &&
-              description == other.description &&
-              costInDollars == other.costInDollars &&
-              timeInHours == other.timeInHours &&
-              complete == other.complete &&
-              isDeleted == other.isDeleted &&
-              levelDeep == other.levelDeep &&
-              deepEq(goals, other.goals);
+      other is Goal &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          description == other.description &&
+          costInDollars == other.costInDollars &&
+          timeInHours == other.timeInHours &&
+          complete == other.complete &&
+          isDeleted == other.isDeleted &&
+          levelDeep == other.levelDeep &&
+          deepEq(goals, other.goals);
 
   @override
   int get hashCode =>
@@ -234,18 +197,6 @@ class Goal {
   }
 
   bool isCompletable() {
-    return this.goals
-        .where((goal) => goal.isDeleted == false)
-        .length < 1;
+    return this.goals.where((goal) => goal.isDeleted == false).length < 1;
   }
-
-  getUniqueId() {
-    if (this.uuid == null) {
-      uuid = new Uuid();
-    }
-    return this.uuid;
-  }
-
 }
-
-

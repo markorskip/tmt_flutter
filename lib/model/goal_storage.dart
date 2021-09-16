@@ -19,6 +19,7 @@ class GoalStorage implements ReadWriteAppState {
 
   @override
   Future<File> writeAppState(AppState appState) async {
+    // TODO - never write the appState if it is an inconsistent state
     if (appState.isAppStateHealthy()) {
       final file = await _localFile;
       String jsonString = json.encode(appState.toJson());
