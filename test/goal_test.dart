@@ -32,10 +32,13 @@ void main () {
   });
 
 
+<<<<<<< HEAD
   test('test no two goals are the same', () {
     Goal goal1 = createTestGoal();
     Goal goal2 = createTestGoal();
     expect(goal1 == goal2, false);
   });
 
+=======
+>>>>>>> parent of 10cff05 (added unique ids)
 }
