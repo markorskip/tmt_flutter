@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:uuid/uuid.dart';
 
+import 'app_state.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -14,6 +16,7 @@ class Goal {
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0
   List<Goal> goals = []; // children
+  late int id = getUniqueID();
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
     this.levelDeep = 0;
@@ -142,6 +145,7 @@ class Goal {
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     Goal result = new Goal(jsonMap["title"], jsonMap["description"],jsonMap["costInDollars"],jsonMap["timeInHours"]);
+    result.id = jsonMap['id'];
     result.complete = jsonMap['complete'];
     result.isDeleted = jsonMap['isDeleted'];
     result.levelDeep = jsonMap['levelDeep'];
@@ -151,6 +155,7 @@ class Goal {
   }
 
   Map<String, dynamic> toJson() => {
+    'id': id,
     'title': title,
     'description': description,
     'costInDollars':costInDollars,
@@ -167,6 +172,7 @@ class Goal {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Goal &&
+          id == other.id &&
           runtimeType == other.runtimeType &&
           title == other.title &&
           description == other.description &&
@@ -198,5 +204,9 @@ class Goal {
 
   bool isCompletable() {
     return this.goals.where((goal) => goal.isDeleted == false).length < 1;
+  }
+
+  int getUniqueID() {
+    return Random().nextInt(999999);
   }
 }

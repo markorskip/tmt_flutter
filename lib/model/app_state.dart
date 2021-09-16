@@ -100,6 +100,10 @@ class AppState {
     return true;
   }
 
+  int idCount = 1;
 
+  int generateUniqueID() {
+    return this.idCount++;
+  }
 
 }
