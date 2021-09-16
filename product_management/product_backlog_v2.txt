@@ -5,6 +5,7 @@ TODO:
 Create a way for user to login
 Create a way for user to save data to a server connected to their login
 Create a way for user to login to different devices and get their data
+Make title editable
 
 Ready For Dev:
 

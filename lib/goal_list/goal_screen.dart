@@ -21,16 +21,15 @@ class GoalScreen extends StatefulWidget {
 }
 
 class _GoalScreenState extends State<GoalScreen> {
-  AppState appState = new AppState();
+
+  late AppState appState;
+
+  Future<AppState> getAppState() async {
+    return widget.readWriteAppState.readAppState();
+  }
 
   @override
   void initState() {
-    super.initState();
-    widget.readWriteAppState.readAppState().then((storedState) {
-      setState(() {
-        appState = storedState;
-      });
-    });
     super.initState();
   }
 
@@ -122,12 +121,32 @@ class _GoalScreenState extends State<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //_save(); // Auto saves every time the setState is called
+    return Container(
+      alignment: Alignment.center,
+      child:
+          FutureBuilder<AppState>(
+          future: getAppState(),
+            builder: (context, AsyncSnapshot<AppState> snapshot) {
+              if (snapshot.hasData) {
+                this.appState = snapshot.data!;
+                return getScaffold();
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              } else {
+                return CircularProgressIndicator(); // By default, show a loading spinner
+              }
+            }
+        ),
+    );
+  }
 
-    _save(); // Auto saves every time the setState is called
-
+  Scaffold getScaffold() {
     return Scaffold(
-      appBar: AppBar(title: Text(appState.getTitle())), // TODO make this editable
-      body: GoalSlideable(goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal, moveGoal),
+      appBar: AppBar(title: Text(appState.getTitle())),
+      body: GoalSlideable(
+          goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
+          moveGoal),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: [

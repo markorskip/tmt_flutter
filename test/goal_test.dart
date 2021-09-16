@@ -22,7 +22,7 @@ void main () {
   });
 
 
-  test('test a goal is completeable', () {
+  test('test a goal is completable', () {
     Goal goal = createTestGoal();
     expect(goal.isCompletable(), true);
     goal.addSubGoal(new Goal("Child goal","should no longer be completable",0,0));
@@ -31,7 +31,7 @@ void main () {
     expect(goal.isCompletable(), true);
   });
 
-  test('test new two goals are the same', () {
+  test('test no two goals are the same', () {
     Goal goal1 = createTestGoal();
     Goal goal2 = createTestGoal();
     expect(goal1 == goal2, false);
