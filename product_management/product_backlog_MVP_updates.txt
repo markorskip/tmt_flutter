@@ -5,6 +5,8 @@ UI Changes:
 When a goal is complete - change formatting
 modify list view formatting
 make list drag and droppable
+add cool title screen/splash screen while loading the app
+Hide Move button when only one root goal exists
 
 Info Panel:
 When looking at subgoals, also view details of parent goal

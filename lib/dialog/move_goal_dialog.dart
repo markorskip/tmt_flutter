@@ -37,24 +37,23 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
       title: Text('Move Goal'),
       content: ListView(
         children: [
-          Container(
-            child: DropdownButton(
-              icon: const Icon(Icons.arrow_drop_down),
-              value: dropdownValue,
-              items:
-              getGoalsInDropDown().where((goal) => goal != widget.goalToMove).map<DropdownMenuItem<Goal>>((Goal goal) {
-                return DropdownMenuItem<Goal>(
-                  child: Text(getText(goal)),
-                  value: goal,
-                );
-              }).toList(),
-              onChanged: (Goal? value) {
-                setState(() {
-                  dropdownValue = value!;
-                });
-              },
-              hint: Text("Select a goal to move to"),
-            ),
+           DropdownButton(
+            icon: const Icon(Icons.arrow_drop_down),
+            isDense: true, isExpanded: true,
+            value: dropdownValue,
+            items:
+            getGoalsInDropDown().where((goal) => goal != widget.goalToMove).map<DropdownMenuItem<Goal>>((Goal goal) {
+              return DropdownMenuItem<Goal>(
+                child: Text(getText(goal), overflow: TextOverflow.ellipsis),
+                value: goal,
+              );
+            }).toList(),
+            onChanged: (Goal? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            hint: Text("Select a goal to move to"),
           ),
         ],
       ),
@@ -83,7 +82,7 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
 
   String getText(Goal goal) {
     if (goal == widget.grandParentGoal) {
-      return 'MOVE UP TO: ' + widget.grandParentGoal!.title;
+      return 'MOVE UP: ' + widget.grandParentGoal!.title;
     }
     return goal.title;
   }

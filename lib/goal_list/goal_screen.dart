@@ -26,7 +26,7 @@ class _GoalScreenState extends State<GoalScreen> {
   late AppState appState;
 
   Future<AppState> getAppState() async {
-    await Future.delayed(const Duration(seconds: 1)); // TODO add cool title screen while waiting
+    await Future.delayed(const Duration(milliseconds: 200));
     return widget.readWriteAppState.readAppState();
   }
 

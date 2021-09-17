@@ -48,10 +48,10 @@ class _GoalSlideableState extends State<GoalSlideable> {
           onTap: () => widget.editHandler(goal),
         ),
         IconSlideAction(
-          caption: 'Move',
-          color: Colors.greenAccent,
-          icon: Icons.folder,
-          onTap: () => widget.moveHandler(goal),
+        caption: 'Move',
+        color: Colors.greenAccent,
+        icon: Icons.folder,
+        onTap: () => widget.moveHandler(goal),
         )
       ],
       secondaryActions: <Widget>[
