@@ -1,0 +1,19 @@
+After the app is deployed, additional features can
+be added before paid version is released:
+
+UI Changes:
+When a goal is complete - change formatting
+modify list view formatting
+make list drag and droppable
+
+Info Panel:
+When looking at subgoals, also view details of parent goal
+Include percentage complete to more info view
+
+User Help:
+User the stepper widget to show user how to use the app
+Allow the user to rate the app
+
+
+Platform:
+Deploy to Android

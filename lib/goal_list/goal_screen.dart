@@ -1,3 +1,4 @@
+import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
@@ -82,12 +83,21 @@ class _GoalScreenState extends State<GoalScreen> {
   }
   }
 
-  _showHelpDialog() async {  // TODO fix this - it's not working
-      return new AlertDialog(
-        title: new Text("My Super title"),
-        content: new Text("Hello World"),
-      );
+  // Easy Dialog using title and description
+  void _basicEasyDialog() {
+    EasyDialog(
+        title: Text(
+          "Time Money Tasklist",
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textScaleFactor: 1.2,
+        ),
+        description: Text(
+          "1. Create goals and subgoals \n2. Save to not lose work",
+          textScaleFactor: 1.1,
+          textAlign: TextAlign.center,
+        )).show(context);
   }
+
 
   _deleteGoal(Goal goal) {
     setState(() {
@@ -173,6 +183,6 @@ class _GoalScreenState extends State<GoalScreen> {
     if (!appState.isAtRoot()) {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
-    return IconButton(icon: Icon(Icons.info), onPressed: _showHelpDialog);
+    return IconButton(icon: Icon(Icons.info), onPressed: _basicEasyDialog);
   }
 }

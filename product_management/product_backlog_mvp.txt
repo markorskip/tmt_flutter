@@ -1,25 +1,7 @@
-TMT Flutter
+TMT Flutter MVP
 
-
-bugs:
-None
-
-v1: Basic app functionality
-
-UI Changes:
-When a goal is complete - change formatting
-modify list view formatting
-make list drag and droppable
-
-Info Panel:
-When looking at subgoals, also view details of parent goal
-Include percentage complete to more info view
-
-User Help:
-User the stepper widget to show user how to use the app
-
-In Progress:
-
+Pending:
+Help/About dialog
 
 
 Completed:
