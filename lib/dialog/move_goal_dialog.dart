@@ -35,7 +35,9 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Move Goal'),
-      content: ListView(
+      content:Container(
+      width: double.minPositive,
+      child: ListView(
         children: [
            DropdownButton(
             icon: const Icon(Icons.arrow_drop_down),
@@ -56,6 +58,7 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
             hint: Text("Select a goal to move to"),
           ),
         ],
+        ),
       ),
       actions: <Widget>[
         TextButton(

@@ -1,0 +1,21 @@
+Running In Simulator:
+Open simulator
+flutter run
+
+IOS:
+
+Export Signing Cert stored in /ios/export_signing_cert_do_not_lost.p12
+password: standard cor****** pw
+
+In flutter:
+
+In XCode:
+From finder, open runner.xcworkspace in xcode
+
+Product->Scheme->Runner checked
+Product->Destination->Any iOs device
+
+From terminal: flutter build ios
+
+Product->Archive->Validate
+From here you can deploy to App Store

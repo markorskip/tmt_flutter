@@ -44,31 +44,34 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
 
     return AlertDialog(
       title: Text('Edit Goal'),
-      content: ListView(
-        children: [
-          TextField(
-          controller: titleController,
-          autofocus: true,
-         ),
-          Text("Title"),
-          TextField(
-            controller: descriptionController,
+      content: Container(
+      width: double.minPositive,
+      child: ListView(
+          children: [
+            TextField(
+            controller: titleController,
             autofocus: true,
-          ),
-          Text("Description (optional)"),
+           ),
+            Text("Title"),
+            TextField(
+              controller: descriptionController,
+              autofocus: true,
+            ),
+            Text("Description (optional)"),
 
-          TextField(
-            controller: moneyController,
-            autofocus: true,
-          ),
-          Text("Estimated cost (in dollars)"),
-          TextField(
-            controller: timeController,
-            autofocus: true,
-          ),
-          Text("Estimated time to complete (in hours)"),
-          if (widget.goalToEdit.isCompletable()) getCompleteBox()
-        ],
+            TextField(
+              controller: moneyController,
+              autofocus: true,
+            ),
+            Text("Estimated cost (in dollars)"),
+            TextField(
+              controller: timeController,
+              autofocus: true,
+            ),
+            Text("Estimated time to complete (in hours)"),
+            if (widget.goalToEdit.isCompletable()) getCompleteBox()
+          ],
+        ),
       ),
       actions: <Widget>[
         TextButton(

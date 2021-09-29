@@ -25,30 +25,35 @@ class NewGoalDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('New Goal'),
-      content: ListView(
-        children: [
-          TextField(
-          controller: titleController,
-          autofocus: true,
-         ),
-          Text("Name of Goal/Task/Project"),
-          TextField(
-            controller: descriptionController,
-            autofocus: true,
-          ),
-          Text("Description (optional)"),
 
-          TextField(
-            controller: moneyController,
-            autofocus: true,
-          ),
-          Text("Estimated cost (in dollars)"),
-          TextField(
-            controller: timeController,
-            autofocus: true,
-          ),
-          Text("Estimated time to complete (in hours)"),
-        ],
+      content: Container(
+        width: double.minPositive,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            TextField(
+              controller: titleController,
+              autofocus: true,
+            ),
+            Text("Name of Goal/Task/Project"),
+            TextField(
+              controller: descriptionController,
+              autofocus: true,
+            ),
+            Text("Description (optional)"),
+
+            TextField(
+              controller: moneyController,
+              autofocus: true,
+            ),
+            Text("Estimated cost (in dollars)"),
+            TextField(
+              controller: timeController,
+              autofocus: true,
+            ),
+            Text("Estimated time to complete (in hours)"),
+          ],
+        ),
       ),
       actions: <Widget>[
         FlatButton(
