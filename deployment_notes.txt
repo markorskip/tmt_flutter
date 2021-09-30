@@ -2,20 +2,45 @@ Running In Simulator:
 Open simulator
 flutter run
 
-IOS:
 
 Export Signing Cert stored in /ios/export_signing_cert_do_not_lost.p12
 password: standard cor****** pw
 
-In flutter:
+IOS:
+https://flutter.dev/docs/deployment/ios
 
 In XCode:
 From finder, open runner.xcworkspace in xcode
 
+Set Display Name: Time Money TaskList
+Bundle Identifier: com.efficientsoftware.tmt
+Increment version and build:
+
 Product->Scheme->Runner checked
-Product->Destination->Any iOs device
+Product->Destination->Any iOs device ? (may just leave default)
 
-From terminal: flutter build ios
+From terminal: flutter build ipa
+From explorer: Open /Users/marksorenson/IdeaProjects/tmt_flutter/build/ios/archive/Runner.xcarchive in Xcode
+Validate app -> Next -> Automatically Manage Signing -> Next->
 
-Product->Archive->Validate
-From here you can deploy to App Store
+Distribute App -> App Store Connect -> Upload -> Next -> Next -> Upload
+
+SUMMARY
+Team: Mark Sorenson
+Certificate: Apple Distribution (Expires 9/29/22)
+Profile: iOS Team Store Provisioning Profile: com.efficientsoftware.tmt￼
+Symbols: Included
+Bitcode: Not included
+Architectures: armv7 and arm64
+￼
+ENTITLEMENTS
+application-identifier
+266Y6DBZWZ.com.efficientsoftware.tmt
+beta-reports-active
+true
+get-task-allow
+false
+keychain-access-groups
+266Y6DBZWZ.com.efficientsoftware.tmt
+com.apple.developer.team-identifier
+266Y6DBZWZ
