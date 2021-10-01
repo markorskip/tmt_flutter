@@ -44,3 +44,8 @@ keychain-access-groups
 266Y6DBZWZ.com.efficientsoftware.tmt
 com.apple.developer.team-identifier
 266Y6DBZWZ
+
+
+App Icon Generator:
+
+https://appicon.co/
