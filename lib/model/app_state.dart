@@ -4,6 +4,9 @@ import 'goal.dart';
 
 class AppState {
   List<Goal> _goalStack = [];
+
+  String userId;
+
   AppState();
 
   Map<String, dynamic> toJson() => {
