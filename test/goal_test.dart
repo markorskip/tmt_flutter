@@ -37,4 +37,18 @@ void main () {
     expect(goal1 == goal2, false);
   });
 
+  test('Test cost and time is complete on a goal when they add are 0', () {
+    double cost = 0.0;
+    Goal parent = Goal("Test Goal","description",cost,0);
+    Goal sub1 = Goal("Test Goal","description",cost,0);
+    Goal sub2 = Goal("Test Goal","description",cost,0);
+    parent.addSubGoal(sub1);
+    parent.addSubGoal(sub2);
+    double completeCost = parent.getPercentageCompleteCost();
+    double completeTime = parent.getPercentageCompleteTime();
+    expect(completeCost, 1.0);
+    expect(completeTime, 1.0);
+  });
+
+
 }

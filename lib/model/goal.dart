@@ -41,7 +41,7 @@ class Goal {
     return sum;
   }
 
-  getPercentageCompleteCost() {
+  double getPercentageCompleteCost() {
     if (getActiveGoals().length == 0 && !complete) return 0.0;
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalCost = 0;
@@ -54,11 +54,12 @@ class Goal {
     });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
 
+    if (totalCost == 0) return 1.0;
     if (completedCost == 0) return 0.0;
     return roundDouble(completedCost/totalCost, 2);
   }
 
-  getPercentageCompleteTime() {
+  double getPercentageCompleteTime() {
     if (getActiveGoals().length == 0 && !complete) return 0.0;
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalTime = 0;
@@ -71,7 +72,7 @@ class Goal {
         });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
 
-
+    if (totalTime == 0) return 1.0;
     if (completedTime == 0) return 0.0;
     return roundDouble(completedTime/totalTime, 2);
   }
