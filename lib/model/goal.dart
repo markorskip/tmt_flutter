@@ -11,7 +11,7 @@ class Goal {
   String title;
   String? description;
   double costInDollars = 0.0;
-  int timeInHours = 0;
+  double timeInHours = 0;
   bool complete = false;
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0

@@ -14,8 +14,8 @@ class NewGoalDialog extends StatelessWidget {
     return result;
   }
 
-  int getTimeValue() {
-    final result = int.tryParse(timeController.value.text);
+  double getTimeValue() {
+    final result = double.tryParse(timeController.value.text);
     if (result == null) return 0;
     return result;
   }

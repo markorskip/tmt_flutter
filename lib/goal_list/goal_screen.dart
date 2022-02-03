@@ -1,5 +1,4 @@
 import 'package:easy_dialog/easy_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
