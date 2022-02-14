@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -143,7 +144,13 @@ class Goal {
 
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
-    Goal result = new Goal(jsonMap["title"], jsonMap["description"],jsonMap["costInDollars"],jsonMap["timeInHours"]);
+    double costInDollars = jsonMap["costInDollars"];
+
+    var timeInHours = jsonMap["timeInHours"];
+    if (timeInHours.runtimeType == int) {
+      timeInHours = timeInHours.toDouble();
+    }
+    Goal result = new Goal(jsonMap["title"], jsonMap["description"],costInDollars,timeInHours);
     result.id = jsonMap['id'];
     result.complete = jsonMap['complete'];
     result.isDeleted = jsonMap['isDeleted'];
