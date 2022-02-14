@@ -1,11 +1,6 @@
-import 'dart:ffi';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:uuid/uuid.dart';
-
-import 'app_state.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {

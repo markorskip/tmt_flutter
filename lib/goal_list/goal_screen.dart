@@ -1,5 +1,6 @@
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
 
@@ -153,7 +154,7 @@ class _GoalScreenState extends State<GoalScreen> {
 
   Scaffold getScaffold() {
     return Scaffold(
-      appBar: AppBar(title: Text(appState.getTitle())),
+      appBar: buildAppBar(),
       body: GoalSlideable(
           goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
           moveGoal),
@@ -173,6 +174,17 @@ class _GoalScreenState extends State<GoalScreen> {
     );
   }
 
+  AppBar buildAppBar() {
+    Goal currentGoal = appState.getCurrentGoal();
+    return AppBar(
+        title: Text(appState.getTitle()),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(40),
+          child: buildGoalDisplay(currentGoal)
+        )
+    );
+  }
+
   IconButton showSaveButton() {
     return IconButton(icon: Icon(Icons.save), onPressed: _save);
   }
@@ -182,5 +194,51 @@ class _GoalScreenState extends State<GoalScreen> {
       return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
     }
     return IconButton(icon: Icon(Icons.info), onPressed: _basicEasyDialog);
+  }
+
+  Widget buildGoalDisplay(Goal goal) {
+    if (!goal.isCompletable()) {
+      return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(
+              Icons.timer,
+              color: Colors.blueAccent,
+              size: 15.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            ),
+            new CircularPercentIndicator(
+              radius: 40.0,
+              lineWidth: 5.0,
+              percent: goal.getPercentageCompleteTime(),
+              center: new Text(goal.getPercentageCompleteTimeFormatted(),
+                style:
+                new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+              ),
+              progressColor: Colors.blue,
+              animation: true,
+            ),
+            Icon(
+              Icons.attach_money,
+              color: Colors.green,
+              size: 15.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            ),
+            new CircularPercentIndicator(
+              radius: 40.0,
+              lineWidth: 5.0,
+              percent: goal.getPercentageCompleteCost(),
+              center: new Text(goal.getPercentageCompleteCostFormatted(),
+                style:
+                new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+              ),
+              progressColor: Colors.green,
+              animation: true,
+            ),
+          ]);
+    }
+
+    String description = "Time in hours:" + goal.timeInHours.toString();
+    return Text(description);
   }
 }

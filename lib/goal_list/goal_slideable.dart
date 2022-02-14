@@ -30,7 +30,7 @@ class _GoalSlideableState extends State<GoalSlideable> {
       child: Container(
         color: Colors.white,
         child: ListTile(
-          leading: getGoalLeadingDisplay(goal),
+          leading: buildGoalLeadingDisplay(widget: widget, goal: goal),
           title: Text(goal.title),
           subtitle: goal.getSubTitleRichText(),
           isThreeLine: true,
@@ -65,7 +65,27 @@ class _GoalSlideableState extends State<GoalSlideable> {
     );
   }
 
-  getGoalLeadingDisplay(Goal goal) {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: _buildItem,
+      itemCount: widget.goals.length,
+    );
+  }
+}
+
+class buildGoalLeadingDisplay extends StatelessWidget {
+  const buildGoalLeadingDisplay({
+    Key? key,
+    required this.widget,
+    required this.goal,
+  }) : super(key: key);
+
+  final GoalSlideable widget;
+  final Goal goal;
+
+  @override
+  Widget build(BuildContext context) {
     if (!goal.isCompletable()) {
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -119,7 +139,7 @@ class _GoalSlideableState extends State<GoalSlideable> {
           }
       );
     }
-    if (goal.complete == true) {
+    //if (goal.complete == true) {
       return IconButton(
             icon: Icon(
               Icons.radio_button_checked,
@@ -131,14 +151,6 @@ class _GoalSlideableState extends State<GoalSlideable> {
               widget.toggleCompleteHandler(goal);
             }
         );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: _buildItem,
-      itemCount: widget.goals.length,
-    );
+    //}
   }
 }
