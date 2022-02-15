@@ -75,8 +75,9 @@ class _GoalSlideableState extends State<GoalSlideable> {
       secondaryActions: <Widget>[
         IconSlideAction(
           caption: 'Delete',
-          color: Colors.redAccent,
+          color: Theme.of(context).secondaryHeaderColor,
           icon: Icons.delete,
+          foregroundColor: Colors.white,
           onTap: () => widget.deleteHandler(goal),
         ),
       ],

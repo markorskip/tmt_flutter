@@ -157,6 +157,7 @@ class _GoalScreenState extends State<GoalScreen> {
           goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
           moveGoal),
       bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).colorScheme.primary,
         child: Row(
           children: [
             showBackButton(),
@@ -179,23 +180,26 @@ class _GoalScreenState extends State<GoalScreen> {
         title: Text(appState.getTitle()),
         //backgroundColor: Theme.of(context).backgroundColor,
 
-        bottom: PreferredSize(
-          preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
-          child: buildGoalDisplay(currentGoal)
-        )
+        // bottom: PreferredSize(
+        //   preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
+        //   child: buildGoalDisplay(currentGoal)
+        // )
     );
   }
 
   IconButton showSaveButton() {
     return IconButton(icon: Icon(Icons.save),
+        color: Colors.white,
         onPressed: _save);
   }
 
   IconButton showBackButton() {
     if (!appState.isAtRoot()) {
-      return IconButton(icon: Icon(Icons.arrow_back), onPressed: _backUp);
+      return IconButton(icon: Icon(Icons.arrow_back),
+        onPressed: _backUp,
+        color: Colors.white,);
     }
-    return IconButton(icon: Icon(Icons.info), onPressed: _basicEasyDialog);
+    return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
   }
 
   Widget buildGoalDisplay(Goal goal) {
