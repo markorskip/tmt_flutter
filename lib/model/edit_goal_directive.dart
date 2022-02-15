@@ -1,7 +1,7 @@
 
 class EditGoal {
   String title;
-  String? description;
+  String description;
   double costInDollars = 0.0;
   double timeInHours = 0;
   bool complete = false;

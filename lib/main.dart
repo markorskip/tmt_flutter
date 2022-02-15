@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/goal_list/goal_screen.dart';
+import 'package:tmt_flutter/view/goal_screen.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
 
 
@@ -29,12 +29,12 @@ class MyApp extends StatelessWidget {
       primaryVariant: lightGreen,
       secondary: blue,
       secondaryVariant: orange,
-      surface: white,
+      surface: yellow,
       background: white,
       error: orange,
       onPrimary: white,
       onSecondary: white,
-      onSurface: blue,
+      onSurface: orange,
       onBackground: orange,
       onError: orange,
       brightness: Brightness.light,
@@ -53,8 +53,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Hind',
 
         // Define the default `TextTheme`. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and rmore.
+        // text styling for headlines, titles, bodies of text, and more.
         textTheme: const TextTheme(
+              bodyText2: TextStyle(
+              color: blue
+              ),
           headline6: TextStyle(fontSize: 26.0),
           subtitle1: TextStyle(fontSize: 20.0),
         ),

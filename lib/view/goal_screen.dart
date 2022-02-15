@@ -1,16 +1,16 @@
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
 
-import 'package:tmt_flutter/goal_list/goal_slideable.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
 import '../model/edit_goal_directive.dart';
 import '../dialog/new_goal_dialog.dart';
+import 'app_bar_display.dart';
+import 'goal_slideable.dart';
 
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
@@ -176,14 +176,11 @@ class _GoalScreenState extends State<GoalScreen> {
   AppBar buildAppBar() {
     Goal currentGoal = appState.getCurrentGoal();
     return AppBar(
-
         title: Text(appState.getTitle()),
-        //backgroundColor: Theme.of(context).backgroundColor,
-
-        // bottom: PreferredSize(
-        //   preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
-        //   child: buildGoalDisplay(currentGoal)
-        // )
+        bottom: PreferredSize(
+            preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
+            child: AppBarDisplay(context: context, goal: appState.getCurrentGoal())
+        )
     );
   }
 
@@ -200,56 +197,5 @@ class _GoalScreenState extends State<GoalScreen> {
         color: Colors.white,);
     }
     return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
-  }
-
-  Widget buildGoalDisplay(Goal goal) {
-    if (!goal.isCompletable()) {
-      //var color = Theme.of(context).backgroundColor;
-      return Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            //goal.getSubTitleRichText(),
-            Spacer(),
-            Icon(
-              Icons.timer,
-              //color: color,
-              size: 15.0,
-              semanticLabel: 'Text to announce in acrcessibility modes',
-            ),
-            new CircularPercentIndicator(
-              radius: 40.0,
-              lineWidth: 5.0,
-              percent: goal.getPercentageCompleteTime(),
-              center: new Text(goal.getPercentageCompleteTimeFormatted(),
-                style:
-                new TextStyle(fontWeight: FontWeight.normal, fontSize: 10.0),
-              ),
-              progressColor: Theme.of(context).colorScheme.primaryVariant,
-              animation: true,
-            ),
-            Icon(
-              Icons.attach_money,
-              //color: color,
-              size: 15.0,
-              semanticLabel: 'Text to announce in accessibility modes',
-            ),
-            new CircularPercentIndicator(
-              radius: 40.0,
-              lineWidth: 5.0,
-              percent: goal.getPercentageCompleteCost(),
-              center: new Text(goal.getPercentageCompleteCostFormatted(),
-                style:
-                new TextStyle(fontWeight: FontWeight.normal, fontSize: 10.0),
-              ),
-              progressColor: Theme.of(context).colorScheme.primaryVariant,
-              animation: true,
-            ),
-          ]);
-    }
-
-    String description = "Time in hours:" + goal.timeInHours.toString();
-    return Text(description);
   }
 }

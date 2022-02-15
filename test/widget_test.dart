@@ -71,14 +71,14 @@ void main() {
     parent.addSubGoal(child1);
     parent.addSubGoal(child2);
 
-    print(parent.getEstimatedTime());
-    print(parent.getEstimatedCost());
+    print(parent.getTotalTime());
+    print(parent.getTotalCost());
     print(parent.getPercentageCompleteTime());
     print(parent.getPercentageCompleteCost());
 
-    expect(parent.getEstimatedTime(),450);
+    expect(parent.getTotalTime(),450);
     expect(parent.getPercentageCompleteTime(),.49);
-    expect(parent.getEstimatedCost(),225.0);
+    expect(parent.getTotalCost(),225.0);
     expect(parent.getPercentageCompleteCost(),.44);
 
   });

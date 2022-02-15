@@ -5,9 +5,9 @@ import 'edit_goal_directive.dart';
 
 class Goal {
   String title;
-  String? description;
-  double costInDollars = 0.0;
-  double timeInHours = 0;
+  String description;
+  double costInDollars;
+  double timeInHours;
   bool complete = false;
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0
@@ -23,17 +23,17 @@ class Goal {
     return new Goal(title, "",0,0);
   }
 
-  getEstimatedTime() {
+  getTotalTime() {
     if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getEstimatedTime(); });
+    getActiveGoals().forEach((element) {sum += element.getTotalTime(); });
     return sum;
   }
 
-  getEstimatedCost() {
+  getTotalCost() {
     if (getActiveGoals().length == 0) return costInDollars;
     num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getEstimatedCost(); });
+    getActiveGoals().forEach((element) {sum += element.getTotalCost(); });
     return sum;
   }
 
@@ -42,13 +42,13 @@ class Goal {
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalCost = 0;
     num completedCost = 0;
-    getActiveGoals().forEach((element) {totalCost += element.getEstimatedCost(); });
+    getActiveGoals().forEach((element) {totalCost += element.getTotalCost(); });
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
-      completedCost += element.getEstimatedCost() * element.getPercentageCompleteCost();
+      completedCost += element.getTotalCost() * element.getPercentageCompleteCost();
     });
-    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getEstimatedCost(); });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getTotalCost(); });
 
     if (totalCost == 0) return 1.0;
     if (completedCost == 0) return 0.0;
@@ -60,13 +60,13 @@ class Goal {
     if (getActiveGoals().length == 0 && complete) return 1.0;
     num totalTime = 0;
     num completedTime = 0;
-    getActiveGoals().forEach((element) {totalTime += element.getEstimatedTime(); });
+    getActiveGoals().forEach((element) {totalTime += element.getTotalTime(); });
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
-          completedTime += element.getEstimatedTime() * element.getPercentageCompleteTime();
+          completedTime += element.getTotalTime() * element.getPercentageCompleteTime();
         });
-    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getEstimatedTime(); });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getTotalTime(); });
 
     if (totalTime == 0) return 1.0;
     if (completedTime == 0) return 0.0;
@@ -79,7 +79,7 @@ class Goal {
   }
 
   String getSubTitle() {
-    return "Time: " +  getEstimatedTime().toString() + " hrs \nCost: \$" + getEstimatedCost().toString();
+    return "Time: " +  getTotalTime().toString() + " hrs \nCost: \$" + getTotalCost().toString();
   }
 
   delete() {
@@ -193,4 +193,5 @@ class Goal {
   int getUniqueID() {
     return Random().nextInt(999999);
   }
+
 }
