@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Theme colors: Item 8 from this url: https://www.envato.com/blog/color-scheme-trends-in-mobile-app-design/
     const blue = Color(0xff0a5688);
     const white = Color(0xffffffff);
     const yellow = Color(0xfff9d162);
