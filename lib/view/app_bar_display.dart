@@ -1,9 +1,7 @@
 
-import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 class AppBarDisplay extends StatelessWidget {
@@ -16,7 +14,6 @@ class AppBarDisplay extends StatelessWidget {
   final BuildContext context;
   final Goal goal;
 
-
   @override
   Widget build(BuildContext context) {
     if (!goal.isCompletable()) {
@@ -24,70 +21,33 @@ class AppBarDisplay extends StatelessWidget {
 
       return DefaultTextStyle(
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
+          fontSize: 15
         ),
         child: Padding(
-          padding: EdgeInsets.all(5),
-          child: Row(
-
-              children: <Widget>[
-                Column (
-                  children: [
-                    Text("Total:"),
-                    Text("Hours Needed: " + goal.getTotalTime().toString()),
-                    Text("Dollars Needed: " + goal.getTotalCost().toString())
-                  ],
-                ),
-                Column (
-                  children: [
-                    Text("Completed:"),
-                    Text("Hours Needed: " + goal.timeInHours.toString()),
-                    Text("Dollars Needed: " + goal.costInDollars.toString())
-                  ],
-                ),
-                //goal.getSubTitleRichText(),
-                //Spacer(),
-
-                // Icon(
-                //   Icons.timer,
-                //   color: color,
-                //   size: 15.0,
-                //   semanticLabel: 'Text to announce in acrcessibility modes',r
-                // ),
-                // new CircularPercentIndicator(
-                //   radius: 40.0,
-                //   lineWidth: 5.0,
-                //   percent: goal.getPercentageCompleteTime(),
-                //   center: new Text(goal.getPercentageCompleteTimeFormatted(),
-                //     style:
-                //     new TextStyle(fontWeight: FontWeight.normal,
-                //         fontSize: 10.0,
-                //         color: color),
-                //   ),
-                //   progressColor: color,
-                //   animation: true,
-                // ),
-                // Text("Cost Completed:"),
-                // Icon(
-                //   Icons.attach_money,
-                //   color: color,
-                //   size: 15.0,
-                //   semanticLabel: 'Text to announce in accessibility modes',
-                // ),
-                // new CircularPercentIndicator(
-                //   radius: 40.0,
-                //   lineWidth: 5.0,
-                //   percent: goal.getPercentageCompleteCost(),
-                //   center: new Text(goal.getPercentageCompleteCostFormatted(),
-                //     style:
-                //     new TextStyle(fontWeight: FontWeight.normal,
-                //         fontSize: 10.0,
-                //         color: color),
-                //   ),
-                //   progressColor: color,
-                //   animation: true,
-                // ),
-              ])
+          padding: EdgeInsets.all(0),
+              child:
+                Table(
+                    children: [
+                      TableRow(
+                          children: [
+                            Text(""),
+                            Text("Time"),
+                            Text("Money")
+                          ]),
+                    TableRow(
+                      children: [
+                        Text("Total", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                        Text(goal.getTotalTimeFormatted().toString() + " hours"),
+                        Text("\$" + goal.getTotalCostFormatted())
+                        ]),
+                  TableRow(
+                      children: [
+                        Text("Completed", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                        Text(" hours"),
+                        Text("test")
+                      ])
+                ])
       ));
     }
 
