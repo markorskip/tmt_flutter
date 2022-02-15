@@ -21,6 +21,24 @@ class GoalSlideable extends StatefulWidget {
 
 class _GoalSlideableState extends State<GoalSlideable> {
 
+  RichText getSubTitleRichText(Goal goal) {
+    return new RichText(
+      text: new TextSpan(
+        style: new TextStyle(
+          fontSize: 14.0,
+        ),
+        children: <TextSpan>[
+          new TextSpan(
+              text: "Time: " +  goal.getEstimatedTime().toString() + " hours \n",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary)
+          ),
+          new TextSpan(text: "Cost: \$" +  goal.getEstimatedCost().toString().split('.').first,
+              style: TextStyle(color: Theme.of(context).colorScheme.primaryVariant)),
+        ],
+      ),
+    );
+  }
+
   Widget _buildItem(BuildContext context, int index) {
     final goal = widget.goals[index];
 
@@ -28,11 +46,11 @@ class _GoalSlideableState extends State<GoalSlideable> {
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       child: Container(
-        color: Colors.white,
         child: ListTile(
           leading: buildGoalLeadingDisplay(widget: widget, goal: goal),
+          //textColor: Theme.of(context).primaryColor,
           title: Text(goal.title),
-          subtitle: goal.getSubTitleRichText(),
+          subtitle: getSubTitleRichText(goal),
           isThreeLine: true,
           dense: true,
           onTap: () {
@@ -43,13 +61,13 @@ class _GoalSlideableState extends State<GoalSlideable> {
       actions: <Widget>[
         IconSlideAction(
           caption: 'Edit',
-          color: Colors.blueAccent,
+          color: Theme.of(context).primaryColor,
           icon: Icons.edit,
           onTap: () => widget.editHandler(goal),
         ),
         IconSlideAction(
         caption: 'Move',
-        color: Colors.greenAccent,
+        color: Theme.of(context).secondaryHeaderColor,
         icon: Icons.folder,
         onTap: () => widget.moveHandler(goal),
         )
@@ -92,7 +110,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
         children: <Widget>[
           Icon(
             Icons.timer,
-            color: Colors.blueAccent,
+            //color: Colors.blueAccent,
             size: 15.0,
             semanticLabel: 'Text to announce in accessibility modes',
           ),
@@ -104,12 +122,12 @@ class buildGoalLeadingDisplay extends StatelessWidget {
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
             ),
-          progressColor: Colors.blue,
+            progressColor: Theme.of(context).colorScheme.primary,
             animation: true,
         ),
           Icon(
             Icons.attach_money,
-            color: Colors.green,
+            //color: Colors.green,
             size: 15.0,
             semanticLabel: 'Text to announce in accessibility modes',
           ),
@@ -121,7 +139,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
           ),
-          progressColor: Colors.green,
+          progressColor: Theme.of(context).colorScheme.primaryVariant,
             animation: true,
           ),
           ]);
@@ -130,7 +148,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
       return IconButton(
           icon: Icon(
             Icons.radio_button_unchecked,
-            color: Colors.blue,
+           // color: Colors.blue,
             size: 24.0,
             semanticLabel: 'Text to announce in accessibility modes',
           ),
@@ -143,7 +161,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
       return IconButton(
             icon: Icon(
               Icons.radio_button_checked,
-              color: Colors.blue,
+             // color: Colors.blue,
               size: 24.0,
               semanticLabel: 'Text to announce in accessibility modes',
             ),

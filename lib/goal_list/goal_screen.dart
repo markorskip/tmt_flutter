@@ -60,8 +60,7 @@ class _GoalScreenState extends State<GoalScreen> {
     if (editedGoal != null) {
       goal.editGoal(editedGoal);
     }
-    setState(() {}); // Update changes on screen
-
+    setState(() {}); // Update changes on screen=
   }
 
   moveGoal(Goal goalToMove) async {
@@ -96,7 +95,6 @@ class _GoalScreenState extends State<GoalScreen> {
           textAlign: TextAlign.center,
         )).show(context);
   }
-
 
   _deleteGoal(Goal goal) {
     setState(() {
@@ -177,16 +175,20 @@ class _GoalScreenState extends State<GoalScreen> {
   AppBar buildAppBar() {
     Goal currentGoal = appState.getCurrentGoal();
     return AppBar(
+
         title: Text(appState.getTitle()),
+        //backgroundColor: Theme.of(context).backgroundColor,
+
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(40),
+          preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
           child: buildGoalDisplay(currentGoal)
         )
     );
   }
 
   IconButton showSaveButton() {
-    return IconButton(icon: Icon(Icons.save), onPressed: _save);
+    return IconButton(icon: Icon(Icons.save),
+        onPressed: _save);
   }
 
   IconButton showBackButton() {
@@ -198,14 +200,19 @@ class _GoalScreenState extends State<GoalScreen> {
 
   Widget buildGoalDisplay(Goal goal) {
     if (!goal.isCompletable()) {
+      //var color = Theme.of(context).backgroundColor;
       return Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            //goal.getSubTitleRichText(),
+            Spacer(),
             Icon(
               Icons.timer,
-              color: Colors.blueAccent,
+              //color: color,
               size: 15.0,
-              semanticLabel: 'Text to announce in accessibility modes',
+              semanticLabel: 'Text to announce in acrcessibility modes',
             ),
             new CircularPercentIndicator(
               radius: 40.0,
@@ -213,14 +220,14 @@ class _GoalScreenState extends State<GoalScreen> {
               percent: goal.getPercentageCompleteTime(),
               center: new Text(goal.getPercentageCompleteTimeFormatted(),
                 style:
-                new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+                new TextStyle(fontWeight: FontWeight.normal, fontSize: 10.0),
               ),
-              progressColor: Colors.blue,
+              progressColor: Theme.of(context).colorScheme.primaryVariant,
               animation: true,
             ),
             Icon(
               Icons.attach_money,
-              color: Colors.green,
+              //color: color,
               size: 15.0,
               semanticLabel: 'Text to announce in accessibility modes',
             ),
@@ -230,9 +237,9 @@ class _GoalScreenState extends State<GoalScreen> {
               percent: goal.getPercentageCompleteCost(),
               center: new Text(goal.getPercentageCompleteCostFormatted(),
                 style:
-                new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
+                new TextStyle(fontWeight: FontWeight.normal, fontSize: 10.0),
               ),
-              progressColor: Colors.green,
+              progressColor: Theme.of(context).colorScheme.primaryVariant,
               animation: true,
             ),
           ]);

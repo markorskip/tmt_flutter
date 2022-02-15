@@ -82,23 +82,6 @@ class Goal {
     return "Time: " +  getEstimatedTime().toString() + " hrs \nCost: \$" + getEstimatedCost().toString();
   }
 
-  RichText getSubTitleRichText() {
-    return new RichText(
-      text: new TextSpan(
-        // Note: Styles for TextSpans must be explicitly defined.
-        // Child text spans will inherit styles from parent
-        style: new TextStyle(
-          fontSize: 14.0,
-          color: Colors.black,
-        ),
-        children: <TextSpan>[
-          new TextSpan(text: "Time: " +  getEstimatedTime().toString() + " hours \n", style: new TextStyle(color: Colors.blue)),
-          new TextSpan(text: "Cost: \$" +  getEstimatedCost().toString().split('.').first, style: new TextStyle(color: Colors.green)),
-        ],
-      ),
-    );
-  }
-
   delete() {
     this.isDeleted = true;
   }
