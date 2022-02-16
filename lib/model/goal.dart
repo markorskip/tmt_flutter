@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'display_util.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -24,31 +24,28 @@ class Goal {
   }
 
   String getTotalTimeFormatted() {
-    return getTotalTime().toString().split(".")[0];
+    return getTimeTotal().toString().split(".")[0];
   }
 
   String getTotalCostFormatted() {
     return getTotalCost().toString().split(".")[0];
   }
   
-  num getTotalTime() {
+  num getTimeTotal() {
     if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getTotalTime(); });
+    getActiveGoals().forEach((element) {sum += element.getTimeTotal(); });
     return sum;
   }
 
-  getTotalCost() {
+  num getTotalCost() {
     if (getActiveGoals().length == 0) return costInDollars;
     num sum = 0;
     getActiveGoals().forEach((element) {sum += element.getTotalCost(); });
     return sum;
   }
 
-  double getPercentageCompleteCost() {
-    if (getActiveGoals().length == 0 && !complete) return 0.0;
-    if (getActiveGoals().length == 0 && complete) return 1.0;
-    num totalCost = getTotalCost();
+  num getCompletedCostPercentage() {
     num completedCost = 0;
     getActiveGoals()
         .where((element) => element.complete == false)
@@ -56,29 +53,66 @@ class Goal {
       completedCost += element.getTotalCost() * element.getPercentageCompleteCost();
     });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getTotalCost(); });
+    return completedCost;
+  }
 
+  num getCompletedCostDollars() {
+    if (isLeaf() && complete) return costInDollars;
+    double completedDollars = 0;
+    getActiveGoals().forEach((goal) {
+      completedDollars += goal.getCompletedCostDollars();
+    });
+    return completedDollars;
+  }
+
+  double getPercentageCompleteCost() {
+    if (getActiveGoals().length == 0 && !complete) return 0.0;
+    if (getActiveGoals().length == 0 && complete) return 1.0;
+    num totalCost = getTotalCost();
+    num completedCost = getCompletedCostPercentage();
     if (totalCost == 0) return 1.0;
     if (completedCost == 0) return 0.0;
     return roundDouble(completedCost/totalCost, 2);
   }
 
+  double getTimeCompletedPercentage() {
+    double completedTime = 0.0;
+    getActiveGoals()  // TODO refactor with reducer pattern
+        .where((element) => element.complete == false)
+        .forEach((element) {
+      completedTime += element.getTimeTotal() * element.getPercentageCompleteTime();
+    });
+    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getTimeTotal(); });
+
+    return completedTime;
+  }
+
+  bool isLeaf() {
+    if (getActiveGoals().length == 0) {
+      return true;
+    }
+    return false;
+  }
+
+  double getTimeCompletedHrs() {
+    if (isLeaf() && complete) return timeInHours;
+    double completedHrs = 0;
+    getActiveGoals().forEach((goal) {
+      completedHrs += goal.getTimeCompletedHrs();
+    });
+    return completedHrs;
+  }
+
   double getPercentageCompleteTime() {
     if (getActiveGoals().length == 0 && !complete) return 0.0;
     if (getActiveGoals().length == 0 && complete) return 1.0;
-    num totalTime = 0;
-    num completedTime = 0;
-    getActiveGoals().forEach((element) {totalTime += element.getTotalTime(); });
-    getActiveGoals()
-        .where((element) => element.complete == false)
-        .forEach((element) {
-          completedTime += element.getTotalTime() * element.getPercentageCompleteTime();
-        });
-    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getTotalTime(); });
+    num totalTime = getTimeTotal();
+    num completedTime = getTimeCompletedPercentage();
 
     if (totalTime == 0) {
       num tasksCompleted = 0;
       num totalTasks = getActiveGoals().length;
-      getActiveGoals().forEach((goal) {  //refactor with reduce / accumulator pattern
+      getActiveGoals().forEach((goal) {  // TODO refactor with reduce / accumulator pattern
         if (goal.complete) tasksCompleted++;
       });
       if (tasksCompleted == 0) return 0.0;
@@ -95,7 +129,7 @@ class Goal {
   }
 
   String getSubTitle() {
-    return "Time: " +  getTotalTime().toString() + " hrs \nCost: \$" + getTotalCost().toString();
+    return "Time: " +  getTimeTotal().toString() + " hrs \nCost: \$" + getTotalCost().toString();
   }
 
   delete() {
@@ -209,5 +243,59 @@ class Goal {
   int getUniqueID() {
     return Random().nextInt(999999);
   }
+
+  String getCompletedTimeFormatted() {
+    return getTimeCompletedPercentage().toString();
+  }
+
+  String getCompletedCostFormatted() {
+    return getCompletedCostPercentage().toString();
+  }
+  
+  int getTasksTotalCount() {
+    if (getActiveGoals().length == 0) return 1;
+    int result = 1;
+    getActiveGoals().forEach((goal) {
+      result += goal.getTasksTotalCount();
+    });
+    return result;
+  }
+
+  int getTasksComplete() {
+    if (getActiveGoals().length == 0 && complete) return 1;
+    int result = 1;
+    getActiveGoals().forEach((goal) {
+      if (goal.complete) {
+        result += goal.getTasksTotalCount();
+      }
+    });
+    return result;
+  }
+
+  double getPercentageCompleteTasks() {
+    return getTasksComplete() / getTasksTotalCount();
+  }
+
+  String getTimeCompletedProgressText() {
+    int hoursCompleted = getTimeCompletedHrs().round();
+    int hoursTotal = getTimeTotal().round();
+    return hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
+  }
+
+  String getMoneyCompletedProgressText() {
+    int dollarsSpent = getCompletedCostDollars().round();
+    int totalDollars = getTotalCost().round();
+    String text = DisplayUtil.dollarsFormatter(dollarsSpent) + " / " + DisplayUtil.dollarsFormatter(totalDollars);
+    if (text == "\$0 / \$0") { text = "No Cost"; }
+    return text;
+  }
+
+  String getTasksCompletedProgressText() {
+    int numOfTasksComplete = getTasksComplete();
+    int tasksTotal = getTasksTotalCount();
+    return numOfTasksComplete.toString() + " / " + tasksTotal.toString() + " tasks";
+  }
+
+
 
 }

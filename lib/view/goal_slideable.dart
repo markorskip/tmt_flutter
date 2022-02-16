@@ -29,7 +29,7 @@ class _GoalSlideableState extends State<GoalSlideable> {
         ),
         children: <TextSpan>[
           new TextSpan(
-              text: "Time: " +  goal.getTotalTime().toString() + " hours \n",
+              text: "Time: " +  goal.getTimeTotal().toString() + " hours \n",
               style: TextStyle(color: Theme.of(context).colorScheme.primary)
           ),
           new TextSpan(text: "Cost: \$" +  goal.getTotalCost().toString().split('.').first,

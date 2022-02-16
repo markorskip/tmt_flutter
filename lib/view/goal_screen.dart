@@ -178,7 +178,7 @@ class _GoalScreenState extends State<GoalScreen> {
     return AppBar(
         title: Text(appState.getTitle()),
         bottom: PreferredSize(
-            preferredSize: currentGoal.isCompletable() ? Size.fromHeight(100) : Size.fromHeight(40),
+            preferredSize: currentGoal.isCompletable() ? Size.fromHeight(70) : Size.fromHeight(130),
             child: AppBarDisplay(context: context, goal: appState.getCurrentGoal())
         )
     );

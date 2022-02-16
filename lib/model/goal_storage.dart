@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app_state.dart';
@@ -21,7 +20,6 @@ class GoalStorage implements ReadWriteAppState {
   Future<File> writeAppState(AppState appState) async {
     if (appState.isAppStateHealthy()) {
       String jsonString = json.encode(appState.toJson());
-      print(jsonString);
       final file = await _localFile;
       return file.writeAsString(jsonString);
     } else {

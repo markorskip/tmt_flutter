@@ -18,8 +18,6 @@ void main() {
     List<Goal> list2 = [];
     list2 = list1;
     list2.add(new Goal("goal2","desc",1,1));
-    print(list1);
-    print(list2);
 
     expect(list1.length,2);
   });
@@ -36,9 +34,7 @@ void main() {
     Goal goal = new Goal("title","description",0,0);
     goal.addSubGoal(new Goal("test sub goal","test",0,0));
     String jsonString = json.encode(goal);
-    print(jsonString);
     Map<String, dynamic> map = json.decode(jsonString);
-    print(map);
     Goal result  = Goal.fromJson(map);
     expect(result.title, "title");
   });
@@ -66,23 +62,30 @@ void main() {
     Goal grandChildGoal4 = new Goal("grandchild","",75,120);
     child1.addSubGoal(grandChildGoal3);
     child1.addSubGoal(grandChildGoal4);
-    print(child1.getPercentageCompleteTime());
 
     parent.addSubGoal(child1);
     parent.addSubGoal(child2);
 
-    print(parent.getTotalTime());
-    print(parent.getTotalCost());
-    print(parent.getPercentageCompleteTime());
-    print(parent.getPercentageCompleteCost());
-
-    expect(parent.getTotalTime(),450);
+    expect(parent.getTimeTotal(),450);
     expect(parent.getPercentageCompleteTime(),.49);
     expect(parent.getTotalCost(),225.0);
     expect(parent.getPercentageCompleteCost(),.44);
 
   });
 
+  test('Test total tasks and total tasks complete is accurate', () {
+    Goal parent = Goal.fromString("parent");
+    Goal child1 = new Goal("child goal","",0,0);
+    Goal grandChildGoal = new Goal("grandchild","",50,110);
+    Goal grandChildGoal2 = new Goal("grandchild","",50,110);
+    grandChildGoal2.complete = true;
+    child1.addSubGoal(grandChildGoal);
+    child1.addSubGoal(grandChildGoal2);
+    parent.addSubGoal(child1);
+
+    expect(parent.getTasksTotalCount(),4);
+    expect(parent.getTasksComplete(),1);
+  });
 
 }
 
