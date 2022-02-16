@@ -1,0 +1,37 @@
+Ideas:
+When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
+
+TODO:
+Modify add goal dialog to show text appropriate for the context (goal / task)
+When a goal is complete - change formatting
+modify list view formatting
+make list drag and droppable
+add cool title screen/splash screen while loading the app
+Hide Move button when only one root goal exists
+User the stepper widget to show user how to use the app
+Allow the user to rate the app
+Deploy to Android
+Create a way for user to login
+Create a way for user to save data to a server connected to their login
+Make radio button cooler
+
+
+IN PROGRESS:
+
+
+DONE:
+When looking at subgoals, also view details of parent goal
+Help/About dialog
+fix percentage display to only display like 50.000 as 50%
+calculations only work for one level deep
+modify percentage displays to indicate money and time
+Read and write JSON tasks to local phone storage on save
+fix infinity error (write units tests for model calculations, edge cases)
+Create a way to edit a goal
+sliding delete
+Create a way to complete a goal
+Add percent complete indicator 8/25/2021
+Create a way to open a goal 8/24/2021
+Create a way to go from subgoal to parent goal 8/24/2021
+Create a way to add a subgoal 8/24/2021
+Create a way to delete a goal 8/23/2021

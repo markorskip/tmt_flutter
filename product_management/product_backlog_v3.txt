@@ -1,6 +1,0 @@
-In version 3:
-
-Analytics - analyze user's tasks and make recommendations for professionals to get the job done
-Analytics - compare various scenerios between tasks
-
-
