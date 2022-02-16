@@ -25,15 +25,15 @@ class AppBarDisplay extends StatelessWidget {
           fontSize: 15
         ),
         child: Padding(
-          padding: EdgeInsets.all(0),
+          padding: EdgeInsets.all(10),
               child:
                 Table(
                     children: [
                       TableRow(
                           children: [
                             Text(""),
-                            Text("Time"),
-                            Text("Money")
+                            Text("Time", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                            Text("Money", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                           ]),
                     TableRow(
                       children: [

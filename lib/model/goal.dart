@@ -48,9 +48,8 @@ class Goal {
   double getPercentageCompleteCost() {
     if (getActiveGoals().length == 0 && !complete) return 0.0;
     if (getActiveGoals().length == 0 && complete) return 1.0;
-    num totalCost = 0;
+    num totalCost = getTotalCost();
     num completedCost = 0;
-    getActiveGoals().forEach((element) {totalCost += element.getTotalCost(); });
     getActiveGoals()
         .where((element) => element.complete == false)
         .forEach((element) {
@@ -76,7 +75,16 @@ class Goal {
         });
     getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getTotalTime(); });
 
-    if (totalTime == 0) return 1.0;
+    if (totalTime == 0) {
+      num tasksCompleted = 0;
+      num totalTasks = getActiveGoals().length;
+      getActiveGoals().forEach((goal) {  //refactor with reduce / accumulator pattern
+        if (goal.complete) tasksCompleted++;
+      });
+      if (tasksCompleted == 0) return 0.0;
+      if (tasksCompleted == totalTasks) return 1.0;
+      return roundDouble(tasksCompleted/totalTasks, 2);
+    }
     if (completedTime == 0) return 0.0;
     return roundDouble(completedTime/totalTime, 2);
   }
@@ -111,7 +119,7 @@ class Goal {
     this.complete = editedGoal.complete;
   }
 
-  getActiveGoals() {
+  List<Goal> getActiveGoals() {
     return goals.where((element) => element.isDeleted == false).toList();
   }
 
