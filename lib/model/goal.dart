@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:collection/collection.dart';
-import 'display_util.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -42,7 +41,6 @@ class Goal {
     double result = getCompletedCostDollars() / getTotalCost();
     return roundDouble(result,2);
   }
-
 
   num getCompletedCostDollars() {
     if (isLeaf() && isComplete()) return costInDollars;

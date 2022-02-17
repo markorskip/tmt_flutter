@@ -1,10 +1,14 @@
-import 'package:tmt_flutter/model/display_util.dart';
+import 'package:intl/intl.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 class Formatter {
 
   static String removeDecimals(num) {
     return num.toString().split(".")[0];
+  }
+
+  static String dollarsFormatter(num amount) {
+    return NumberFormat.simpleCurrency(decimalDigits: 0).format(amount);
   }
 
   static String getTimeCompletedProgressText(Goal goal) {
@@ -18,7 +22,7 @@ class Formatter {
   static String getMoneyCompletedProgressText(Goal goal) {
     int dollarsSpent = goal.getCompletedCostDollars().round();
     int totalDollars = goal.getTotalCost().round();
-    String text = DisplayUtil.dollarsFormatter(dollarsSpent) + " / " + DisplayUtil.dollarsFormatter(totalDollars);
+    String text = dollarsFormatter(dollarsSpent) + " / " + dollarsFormatter(totalDollars);
     if (text == "\$0 / \$0") { text = ""; }
     return text;
   }
