@@ -3,6 +3,10 @@ When a task is idle and below a certain percentage complete threshold, make smar
 
 Bugs:
 time calculations are off when all time is 0 and their are children
+cost calculatation are off for COST when cost is a grandchilden
+CREATE UNIT TESTS TO COVER ALL SCENERIOS!!!!
+REFACTOR code so calulations and presentation are seperate
+Remove goal calculations from GOAL class, move them to a calculator class
 
 
 TODO:

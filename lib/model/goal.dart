@@ -87,10 +87,15 @@ class Goal {
     return completedTime;
   }
 
-  bool isLeaf() {
-    if (getActiveGoals().length == 0) {
-      return true;
+  double getPercentageCompleteTime() {
+    if (getTimeTotal() == 0) {
+      return getTasksComplete() / getTasksTotalCount();
     }
+    return roundDouble((getTimeCompletedHrs() / getTimeTotal()),2);
+  }
+
+  bool isLeaf() {
+    if (getActiveGoals().length == 0) return true;
     return false;
   }
 
@@ -103,25 +108,7 @@ class Goal {
     return completedHrs;
   }
 
-  double getPercentageCompleteTime() {
-    if (getActiveGoals().length == 0 && !complete) return 0.0;
-    if (getActiveGoals().length == 0 && complete) return 1.0;
-    num totalTime = getTimeTotal();
-    num completedTime = getTimeCompletedPercentage();
 
-    if (totalTime == 0) {
-      num tasksCompleted = 0;
-      num totalTasks = getActiveGoals().length;
-      getActiveGoals().forEach((goal) {  // TODO refactor with reduce / accumulator pattern
-        if (goal.complete) tasksCompleted++;
-      });
-      if (tasksCompleted == 0) return 0.0;
-      if (tasksCompleted == totalTasks) return 1.0;
-      return roundDouble(tasksCompleted/totalTasks, 2);
-    }
-    if (completedTime == 0) return 0.0;
-    return roundDouble(completedTime/totalTime, 2);
-  }
 
   double roundDouble(double value, int places){
     num mod = pow(10.0, places);
@@ -271,7 +258,6 @@ class Goal {
     return result;
   }
 
-
   int getTasksCompleteRecursive() {
     if (isLeaf()) {
       if (isComplete()) return 1;
@@ -290,9 +276,7 @@ class Goal {
       if (isComplete()) return 1;
       return 0;
     }
-
     int result = 0;
-    int totalTasks = getTasksTotalCount();
     getActiveGoals().forEach((goal) {
       result += goal.getTasksCompleteRecursive();
     });
