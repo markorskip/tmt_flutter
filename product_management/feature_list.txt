@@ -1,6 +1,10 @@
 Ideas:
 When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
 
+Bugs:
+time calculations are off when all time is 0 and their are children
+
+
 TODO:
 Fix leaf display formatting - when no description make smaller
 Fix title to fit
