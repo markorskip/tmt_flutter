@@ -39,52 +39,26 @@ class Goal {
   }
 
   num getTotalCost() {
-    if (getActiveGoals().length == 0) return costInDollars;
+    if (isLeaf()) return costInDollars;
     num sum = 0;
     getActiveGoals().forEach((element) {sum += element.getTotalCost(); });
     return sum;
   }
 
-  num getCompletedCostPercentage() {
-    num completedCost = 0;
-    getActiveGoals()
-        .where((element) => element.complete == false)
-        .forEach((element) {
-      completedCost += element.getTotalCost() * element.getPercentageCompleteCost();
-    });
-    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedCost += element.getTotalCost(); });
-    return completedCost;
+  double getPercentageCompleteCost() {
+    if (getTotalCost() == 0) return 1.0;
+    double result = getCompletedCostDollars() / getTotalCost();
+    return roundDouble(result,2);
   }
 
+
   num getCompletedCostDollars() {
-    if (isLeaf() && complete) return costInDollars;
+    if (isLeaf() && isComplete()) return costInDollars;
     double completedDollars = 0;
     getActiveGoals().forEach((goal) {
       completedDollars += goal.getCompletedCostDollars();
     });
     return completedDollars;
-  }
-
-  double getPercentageCompleteCost() {
-    if (getActiveGoals().length == 0 && !complete) return 0.0;
-    if (getActiveGoals().length == 0 && complete) return 1.0;
-    num totalCost = getTotalCost();
-    num completedCost = getCompletedCostPercentage();
-    if (totalCost == 0) return 1.0;
-    if (completedCost == 0) return 0.0;
-    return roundDouble(completedCost/totalCost, 2);
-  }
-
-  double getTimeCompletedPercentage() {
-    double completedTime = 0.0;
-    getActiveGoals()  // TODO refactor with reducer pattern
-        .where((element) => element.complete == false)
-        .forEach((element) {
-      completedTime += element.getTimeTotal() * element.getPercentageCompleteTime();
-    });
-    getActiveGoals().where((element) => element.complete == true).forEach((element) {completedTime += element.getTimeTotal(); });
-
-    return completedTime;
   }
 
   double getPercentageCompleteTime() {
@@ -107,8 +81,6 @@ class Goal {
     });
     return completedHrs;
   }
-
-
 
   double roundDouble(double value, int places){
     num mod = pow(10.0, places);
@@ -156,7 +128,6 @@ class Goal {
   String getPercentageCompleteCostFormatted() {
     return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
   }
-
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     double costInDollars = jsonMap["costInDollars"];
@@ -229,14 +200,6 @@ class Goal {
 
   int getUniqueID() {
     return Random().nextInt(999999);
-  }
-
-  String getCompletedTimeFormatted() {
-    return getTimeCompletedPercentage().toString();
-  }
-
-  String getCompletedCostFormatted() {
-    return getCompletedCostPercentage().toString();
   }
 
   int getTasksTotalCount() {
