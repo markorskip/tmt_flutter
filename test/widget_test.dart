@@ -26,8 +26,8 @@ void main() {
     Goal goal = new Goal("test","",0,0);
     goal.addSubGoal(new Goal("test2","",0,0));
     goal.addSubGoal(new Goal("test3","",0,0));
-    expect(goal.getPercentageCompleteCost(),0.0);
-    expect(goal.getPercentageCompleteCost(),0.0);
+    expect(goal.getPercentageCompleteCost(),1.0);
+    expect(goal.getPercentageCompleteCost(),1.0);
   });
 
   test('Test encoding and decodings JSON', () {
@@ -83,7 +83,7 @@ void main() {
     child1.addSubGoal(grandChildGoal2);
     parent.addSubGoal(child1);
 
-    expect(parent.getTasksTotalCount(),4);
+    expect(parent.getTasksTotalCount(),3);
     expect(parent.getTasksComplete(),1);
   });
 

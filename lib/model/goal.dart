@@ -251,26 +251,55 @@ class Goal {
   String getCompletedCostFormatted() {
     return getCompletedCostPercentage().toString();
   }
-  
+
   int getTasksTotalCount() {
-    if (getActiveGoals().length == 0) return 1;
-    int result = 1;
+    if (isLeaf()) return 0;
+    int result = 0;
+    getActiveGoals().forEach((g) {
+      result += g.getTasksTotalCount();
+    });
+    result += getActiveGoals().length;
+    return result;
+  }
+  
+  int getTotalLeafCount() {
+    if (isLeaf()) return 1;
+    int result = 0;
     getActiveGoals().forEach((goal) {
-      result += goal.getTasksTotalCount();
+      result += goal.getTotalLeafCount();
     });
     return result;
   }
 
-  int getTasksComplete() {
-    if (getActiveGoals().length == 0 && complete) return 1;
-    int result = 1;
+
+  int getTasksCompleteRecursive() {
+    if (isLeaf()) {
+      if (isComplete()) return 1;
+      return 0;
+    }
+    int result = 0;
     getActiveGoals().forEach((goal) {
-      if (goal.complete) {
-        result += goal.getTasksTotalCount();
-      }
+      result += goal.getTasksCompleteRecursive();
     });
+    if (isComplete()) result += 1;
     return result;
   }
+
+  int getTasksComplete() {
+    if (isLeaf()) {
+      if (isComplete()) return 1;
+      return 0;
+    }
+
+    int result = 0;
+    int totalTasks = getTasksTotalCount();
+    getActiveGoals().forEach((goal) {
+      result += goal.getTasksCompleteRecursive();
+    });
+
+    return result;
+  }
+
 
   double getPercentageCompleteTasks() {
     return getTasksComplete() / getTasksTotalCount();
@@ -279,14 +308,16 @@ class Goal {
   String getTimeCompletedProgressText() {
     int hoursCompleted = getTimeCompletedHrs().round();
     int hoursTotal = getTimeTotal().round();
-    return hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
+    String result =hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
+    if (result == "0 / 0 hours") return "";
+    return result;
   }
 
   String getMoneyCompletedProgressText() {
     int dollarsSpent = getCompletedCostDollars().round();
     int totalDollars = getTotalCost().round();
     String text = DisplayUtil.dollarsFormatter(dollarsSpent) + " / " + DisplayUtil.dollarsFormatter(totalDollars);
-    if (text == "\$0 / \$0") { text = "No Cost"; }
+    if (text == "\$0 / \$0") { text = ""; }
     return text;
   }
 
@@ -296,6 +327,19 @@ class Goal {
     return numOfTasksComplete.toString() + " / " + tasksTotal.toString() + " tasks";
   }
 
+  void setComplete(bool bool) {
+    this.complete = bool;
+  }
 
+  bool isComplete() {
+    if (isLeaf()) return complete;
+    int numberOfActiveGoals = getActiveGoals().length;
 
+    int numberCompleted = 0;
+    getActiveGoals().forEach((g) {
+      if (g.isComplete()) numberCompleted++;
+    });
+    if (numberCompleted == numberOfActiveGoals) return true;
+    return false;
+  }
 }
