@@ -194,16 +194,7 @@ class Goal {
     return Random().nextInt(999999);
   }
 
-  int getTasksTotalCount() {
-    if (isLeaf()) return 0;
-    int result = 0;
-    getActiveGoals().forEach((g) {
-      result += g.getTasksTotalCount();
-    });
-    result += getActiveGoals().length;
-    return result;
-  }
-  
+
   int getTotalLeafCount() {
     if (isLeaf()) return 1;
     int result = 0;
@@ -239,31 +230,18 @@ class Goal {
     return result;
   }
 
-
-  double getPercentageCompleteTasks() {
-    return getTasksComplete() / getTasksTotalCount();
-  }
-
-  String getTimeCompletedProgressText() {
-    int hoursCompleted = getTimeCompletedHrs().round();
-    int hoursTotal = getTimeTotal().round();
-    String result =hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
-    if (result == "0 / 0 hours") return "";
+  int getTasksTotalCount() {
+    if (isLeaf()) return 0;
+    int result = 0;
+    getActiveGoals().forEach((g) {
+      result += g.getTasksTotalCount();
+    });
+    result += getActiveGoals().length;
     return result;
   }
 
-  String getMoneyCompletedProgressText() {
-    int dollarsSpent = getCompletedCostDollars().round();
-    int totalDollars = getTotalCost().round();
-    String text = DisplayUtil.dollarsFormatter(dollarsSpent) + " / " + DisplayUtil.dollarsFormatter(totalDollars);
-    if (text == "\$0 / \$0") { text = ""; }
-    return text;
-  }
-
-  String getTasksCompletedProgressText() {
-    int numOfTasksComplete = getTasksComplete();
-    int tasksTotal = getTasksTotalCount();
-    return numOfTasksComplete.toString() + " / " + tasksTotal.toString() + " tasks";
+  double getPercentageCompleteTasks() {
+    return getTasksComplete() / getTasksTotalCount();
   }
 
   void setComplete(bool bool) {

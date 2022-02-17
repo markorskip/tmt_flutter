@@ -90,19 +90,19 @@ class AppBarDisplay extends StatelessWidget {
       case MetricType.TIME: {
         percentageComplete = goal.getPercentageCompleteTime();
         progressColor = GFColors.INFO;
-        displayText = goal.getTimeCompletedProgressText();
+        displayText = Formatter.getTimeCompletedProgressText(goal);
       }
       break;
       case MetricType.MONEY: {
         percentageComplete = goal.getPercentageCompleteCost();
         progressColor = Theme.of(context).colorScheme.primaryVariant;
-        displayText = goal.getMoneyCompletedProgressText();
+        displayText = Formatter.getMoneyCompletedProgressText(goal);
       }
       break;
       case MetricType.TASKS: {
         percentageComplete = goal.getPercentageCompleteTasks();
         progressColor = Theme.of(context).colorScheme.onSurface;
-        displayText = goal.getTasksCompletedProgressText();
+        displayText = Formatter.getTasksCompletedProgressText(goal);
       }
     }
      // MONEY color: Theme.of(context).colorScheme.primaryVariant
