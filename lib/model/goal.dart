@@ -23,14 +23,6 @@ class Goal {
     return new Goal(title, "",0,0);
   }
 
-  String getTotalTimeFormatted() {
-    return getTimeTotal().toString().split(".")[0];
-  }
-
-  String getTotalCostFormatted() {
-    return getTotalCost().toString().split(".")[0];
-  }
-  
   num getTimeTotal() {
     if (getActiveGoals().length == 0) return timeInHours;
     num sum = 0;

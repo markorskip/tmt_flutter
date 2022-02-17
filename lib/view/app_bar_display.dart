@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:tmt_flutter/util/formatter.dart';
 
 enum MetricType {
 TIME, MONEY, TASKS
@@ -30,8 +31,8 @@ class AppBarDisplay extends StatelessWidget {
       ), child: Column(
     children:[
       Text(goal.description),
-      Text("Time: " + goal.getTotalTimeFormatted()),
-      Text("Cost: " + goal.getTotalCostFormatted()),
+      Text("Time: " + Formatter.removeDecimals(goal.getTimeTotal())),
+      Text("Cost: " + Formatter.removeDecimals(goal.getTotalCost())),
     ]),
   );
   }
