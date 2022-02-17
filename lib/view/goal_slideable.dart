@@ -32,7 +32,7 @@ class _GoalSlideableState extends State<GoalSlideable> {
               text: "Time: " +  goal.getTimeTotal().toString() + " hours \n",
               style: TextStyle(color: Theme.of(context).colorScheme.primary)
           ),
-          new TextSpan(text: "Cost: \$" +  goal.getTotalCost().toString().split('.').first,
+          new TextSpan(text: "Cost: \$" +  goal.getCostTotal().toString().split('.').first,
               style: TextStyle(color: Theme.of(context).colorScheme.primaryVariant)),
         ],
       ),
@@ -118,7 +118,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           new CircularPercentIndicator(
             radius: 40.0,
             lineWidth: 5.0,
-            percent: goal.getPercentageCompleteTime(),
+            percent: goal.getTimePercentageComplete(),
             center: new Text(goal.getPercentageCompleteTimeFormatted(),
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
@@ -135,7 +135,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           new CircularPercentIndicator(
             radius: 40.0,
             lineWidth: 5.0,
-            percent: goal.getPercentageCompleteCost(),
+            percent: goal.getCostPercentageComplete(),
             center: new Text(goal.getPercentageCompleteCostFormatted(),
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),

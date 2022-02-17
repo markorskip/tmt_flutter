@@ -32,7 +32,7 @@ class AppBarDisplay extends StatelessWidget {
     children:[
       Text(goal.description),
       Text("Time: " + Formatter.removeDecimals(goal.getTimeTotal())),
-      Text("Cost: " + Formatter.removeDecimals(goal.getTotalCost())),
+      Text("Cost: " + Formatter.removeDecimals(goal.getCostTotal())),
     ]),
   );
   }
@@ -88,13 +88,13 @@ class AppBarDisplay extends StatelessWidget {
     Color progressColor;
     switch(metricType) {
       case MetricType.TIME: {
-        percentageComplete = goal.getPercentageCompleteTime();
+        percentageComplete = goal.getTimePercentageComplete();
         progressColor = GFColors.INFO;
         displayText = Formatter.getTimeCompletedProgressText(goal);
       }
       break;
       case MetricType.MONEY: {
-        percentageComplete = goal.getPercentageCompleteCost();
+        percentageComplete = goal.getCostPercentageComplete();
         progressColor = Theme.of(context).colorScheme.primaryVariant;
         displayText = Formatter.getMoneyCompletedProgressText(goal);
       }

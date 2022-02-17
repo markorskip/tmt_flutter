@@ -1,5 +1,7 @@
 import 'dart:math';
+
 import 'package:collection/collection.dart';
+import 'package:tmt_flutter/util/formatter.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -29,33 +31,33 @@ class Goal {
     return sum;
   }
 
-  num getTotalCost() {
+  num getCostTotal() {
     if (isLeaf()) return costInDollars;
     num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getTotalCost(); });
+    getActiveGoals().forEach((element) {sum += element.getCostTotal(); });
     return sum;
   }
 
-  double getPercentageCompleteCost() {
-    if (getTotalCost() == 0) return 1.0;
-    double result = getCompletedCostDollars() / getTotalCost();
-    return roundDouble(result,2);
+  double getCostPercentageComplete() {
+    if (getCostTotal() == 0) return 1.0;
+    double result = getCostCompletedDollars() / getCostTotal();
+    return Formatter.roundDouble(result,2);
   }
 
-  num getCompletedCostDollars() {
+  num getCostCompletedDollars() {
     if (isLeaf() && isComplete()) return costInDollars;
     double completedDollars = 0;
     getActiveGoals().forEach((goal) {
-      completedDollars += goal.getCompletedCostDollars();
+      completedDollars += goal.getCostCompletedDollars();
     });
     return completedDollars;
   }
 
-  double getPercentageCompleteTime() {
+  double getTimePercentageComplete() {
     if (getTimeTotal() == 0) {
       return getTasksComplete() / getTasksTotalCount();
     }
-    return roundDouble((getTimeCompletedHrs() / getTimeTotal()),2);
+    return Formatter.roundDouble((getTimeCompletedHrs() / getTimeTotal()),2);
   }
 
   bool isLeaf() {
@@ -72,13 +74,10 @@ class Goal {
     return completedHrs;
   }
 
-  double roundDouble(double value, int places){
-    num mod = pow(10.0, places);
-    return ((value * mod).round().toDouble() / mod);
-  }
+
 
   String getSubTitle() {
-    return "Time: " +  getTimeTotal().toString() + " hrs \nCost: \$" + getTotalCost().toString();
+    return "Time: " +  getTimeTotal().toString() + " hrs \nCost: \$" + getCostTotal().toString();
   }
 
   delete() {
@@ -112,11 +111,11 @@ class Goal {
   }
 
   String getPercentageCompleteTimeFormatted() {
-    return (getPercentageCompleteTime() * 100).toString().split('.').first + "%";
+    return (getTimePercentageComplete() * 100).toString().split('.').first + "%";
   }
 
   String getPercentageCompleteCostFormatted() {
-    return (getPercentageCompleteCost() * 100).toString().split('.').first + "%";
+    return (getCostPercentageComplete() * 100).toString().split('.').first + "%";
   }
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
@@ -192,24 +191,23 @@ class Goal {
     return Random().nextInt(999999);
   }
 
-
-  int getTotalLeafCount() {
+  int getLeafTotalCount() {
     if (isLeaf()) return 1;
     int result = 0;
     getActiveGoals().forEach((goal) {
-      result += goal.getTotalLeafCount();
+      result += goal.getLeafTotalCount();
     });
     return result;
   }
 
-  int getTasksCompleteRecursive() {
+  int _getTasksCompleteRecursive() {
     if (isLeaf()) {
       if (isComplete()) return 1;
       return 0;
     }
     int result = 0;
     getActiveGoals().forEach((goal) {
-      result += goal.getTasksCompleteRecursive();
+      result += goal._getTasksCompleteRecursive();
     });
     if (isComplete()) result += 1;
     return result;
@@ -222,7 +220,7 @@ class Goal {
     }
     int result = 0;
     getActiveGoals().forEach((goal) {
-      result += goal.getTasksCompleteRecursive();
+      result += goal._getTasksCompleteRecursive();
     });
 
     return result;

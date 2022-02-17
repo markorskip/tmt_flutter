@@ -27,6 +27,7 @@ class AppState {
     rootGoal.complete = false;
     return rootGoal;
   }
+
   static AppState defaultAppState() {
     AppState appState = new AppState();
     appState._goalStack.add(_getRootGoal());
@@ -38,7 +39,6 @@ class AppState {
   String toString() {
     return 'AppState{\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoals(), \ntitle: $getTitle(), \ngoalStack: $_goalStack}';
   }
-
 
   Goal? getGrandParentGoal() {
     if (!isAtRoot()) {

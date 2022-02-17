@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
@@ -20,8 +22,8 @@ class Formatter {
   }
 
   static String getMoneyCompletedProgressText(Goal goal) {
-    int dollarsSpent = goal.getCompletedCostDollars().round();
-    int totalDollars = goal.getTotalCost().round();
+    int dollarsSpent = goal.getCostCompletedDollars().round();
+    int totalDollars = goal.getCostTotal().round();
     String text = dollarsFormatter(dollarsSpent) + " / " + dollarsFormatter(totalDollars);
     if (text == "\$0 / \$0") { text = ""; }
     return text;
@@ -31,6 +33,11 @@ class Formatter {
     int numOfTasksComplete = goal.getTasksComplete();
     int tasksTotal = goal.getTasksTotalCount();
     return numOfTasksComplete.toString() + " / " + tasksTotal.toString() + " tasks";
+  }
+
+  static double roundDouble(double value, int places){
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
   }
 
 }

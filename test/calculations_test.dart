@@ -20,8 +20,8 @@ void main() {
 
   test('Test cost is complete and time is 0 on a goal when they add are 0', () {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
-    double completeCost = parent.getPercentageCompleteCost();
-    double completeTime = parent.getPercentageCompleteTime();
+    double completeCost = parent.getCostPercentageComplete();
+    double completeTime = parent.getTimePercentageComplete();
     expect(completeCost, 1.0);
     expect(completeTime, 0.0);
   });
@@ -30,8 +30,8 @@ void main() {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
     parent.getActiveGoals().forEach((element) {element.complete = true;});
 
-    double completeCost = parent.getPercentageCompleteCost();
-    double completeTime = parent.getPercentageCompleteTime();
+    double completeCost = parent.getCostPercentageComplete();
+    double completeTime = parent.getTimePercentageComplete();
     expect(completeCost, 1.0);
     expect(completeTime, 1.0);
   });
@@ -83,7 +83,7 @@ void main() {
       // We expect the parent to be 25 percent done
 
       // when totalTime = 0 then use total task / tasksCompleted
-      expect(parent.getPercentageCompleteTime(),.25);
+      expect(parent.getTimePercentageComplete(),.25);
   });
 
   test('Time is calculated properly with grandchildren', () {
@@ -99,6 +99,6 @@ void main() {
     // We expect the parent to be 25 percent done
     expect(parent.getTimeTotal(), 8.0);
     expect(parent.getTimeCompletedHrs(), 2);
-    expect(parent.getPercentageCompleteTime(),.25);
+    expect(parent.getTimePercentageComplete(),.25);
   });
 }
