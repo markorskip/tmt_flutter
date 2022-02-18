@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:intl/intl.dart';
 import 'package:tmt_flutter/model/goal.dart';
+import 'package:tmt_flutter/model/goal_calculator.dart';
 
 class Formatter {
 
@@ -14,30 +15,24 @@ class Formatter {
   }
 
   static String getTimeCompletedProgressText(Goal goal) {
-    int hoursCompleted = goal.getTimeCompletedHrs().round();
-    int hoursTotal = goal.getTimeTotal().round();
+    int hoursCompleted = GoalCalc().getTMTCompleted(goal).timeInHours.round();
+    int hoursTotal = GoalCalc().getTMTTotal(goal).timeInHours.round();
     String result =hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
     if (result == "0 / 0 hours") return "";
     return result;
   }
 
   static String getMoneyCompletedProgressText(Goal goal) {
-    int dollarsSpent = goal.getCostCompletedDollars().round();
-    int totalDollars = goal.getCostTotal().round();
+    int dollarsSpent = GoalCalc().getTMTCompleted(goal).costInDollars.round();
+    int totalDollars = GoalCalc().getTMTTotal(goal).costInDollars.round();
     String text = dollarsFormatter(dollarsSpent) + " / " + dollarsFormatter(totalDollars);
     if (text == "\$0 / \$0") { text = "No Cost"; }
     return text;
   }
 
-  static String getTasksCompletedProgressText(Goal goal) {
-    int numOfTasksComplete = goal.getTasksComplete();
-    int tasksTotal = goal.getTasksTotalCount();
-    return numOfTasksComplete.toString() + " / " + tasksTotal.toString() + " tasks";
-  }
-
   static String getLeafsCompletedProgressText(Goal goal) {
-    int numOfLeafsComplete = goal.getLeafsComplete();
-    int leafsTotal = goal.getLeafTotalCount();
+    int numOfLeafsComplete = GoalCalc().getTMTCompleted(goal).tasks.round();
+    int leafsTotal = GoalCalc().getTMTTotal(goal).tasks.round();
     return numOfLeafsComplete.toString() + " / " + leafsTotal.toString() + " tasks";
   }
 
@@ -47,10 +42,10 @@ class Formatter {
   }
 
   static String getPercentageCompleteTimeFormatted(Goal goal) {
-    return (goal.getTimePercentageComplete() * 100).toString().split('.').first + "%";
+    return (GoalCalc().getTMTPercentageComplete(goal).timeInHours * 100).toString().split('.').first + "%";
   }
 
   static String getPercentageCompleteCostFormatted(Goal goal) {
-    return (goal.getCostPercentageComplete() * 100).toString().split('.').first + "%";
+    return (GoalCalc().getTMTPercentageComplete(goal).costInDollars * 100).toString().split('.').first + "%";
   }
 }

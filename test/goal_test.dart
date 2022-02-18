@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/edit_goal_directive.dart';
 import 'package:tmt_flutter/model/goal.dart';
+import 'package:tmt_flutter/model/goal_calculator.dart';
 
 void main () {
 
@@ -50,7 +51,7 @@ void main () {
     goal.goals.first.setComplete(true);
     goal.goals[1].setComplete(true);
     expect(goal.isComplete(), true);
-    expect(goal.getTasksTotalCount(),2);
+    expect(GoalCalc().getTMTTotal(goal).tasks,2);
   });
 
 

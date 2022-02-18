@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:tmt_flutter/util/formatter.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -24,55 +23,9 @@ class Goal {
     return new Goal(title, "",0,0);
   }
 
-  num getTimeTotal() {
-    if (getActiveGoals().length == 0) return timeInHours;
-    num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getTimeTotal(); });
-    return sum;
-  }
-
-  num getCostTotal() {
-    if (isLeaf()) return costInDollars;
-    num sum = 0;
-    getActiveGoals().forEach((element) {sum += element.getCostTotal(); });
-    return sum;
-  }
-
-  double getCostPercentageComplete() {
-    if (getCostTotal() == 0) return 1.0;
-    double result = getCostCompletedDollars() / getCostTotal();
-    return Formatter.roundDouble(result,2);
-  }
-
-  num getCostCompletedDollars() {
-    if (isLeaf() && isComplete()) return costInDollars;
-
-    double completedDollars = 0;
-    getActiveGoals().forEach((goal) {
-      completedDollars += goal.getCostCompletedDollars();
-    });
-    return completedDollars;
-  }
-
-  double getTimePercentageComplete() {
-    if (getTimeTotal() == 0) {
-      return getTasksComplete() / getTasksTotalCount();
-    }
-    return Formatter.roundDouble((getTimeCompletedHrs() / getTimeTotal()),2);
-  }
-
   bool isLeaf() {
     if (getActiveGoals().length == 0) return true;
     return false;
-  }
-
-  double getTimeCompletedHrs() {
-    if (isLeaf() && _complete) return timeInHours;
-    double completedHrs = 0;
-    getActiveGoals().forEach((goal) {
-      completedHrs += goal.getTimeCompletedHrs();
-    });
-    return completedHrs;
   }
 
   delete() {
@@ -178,45 +131,6 @@ class Goal {
     return Random().nextInt(999999);
   }
 
-  int _getTasksCompleteRecursive() {
-    if (isLeaf()) {
-      if (isComplete()) return 1;
-      return 0;
-    }
-    int result = 0;
-    getActiveGoals().forEach((goal) {
-      result += goal._getTasksCompleteRecursive();
-    });
-    if (isComplete()) result += 1;
-    return result;
-  }
-
-  int getTasksComplete() {
-    if (isLeaf()) {
-      if (isComplete()) return 1;
-      return 0;
-    }
-    int result = 0;
-    getActiveGoals().forEach((goal) {
-      result += goal._getTasksCompleteRecursive();
-    });
-    return result;
-  }
-
-  int getTasksTotalCount() {
-    if (isLeaf()) return 0;
-    int result = 0;
-    getActiveGoals().forEach((g) {
-      result += g.getTasksTotalCount();
-    });
-    result += getActiveGoals().length;
-    return result;
-  }
-
-  double getPercentageCompleteTasks() {
-    return getTasksComplete() / getTasksTotalCount();
-  }
-
   void setComplete(bool bool) {
     this._complete = bool;
   }
@@ -232,32 +146,5 @@ class Goal {
     if (numberCompleted == numberOfActiveGoals) return true;
     return false;
   }
-
-  double getPercentageCompleteLeafs() {
-    if (isLeaf()) {
-      if (isComplete()) return 1.0;
-      return 0.0;
-    }
-    return getLeafsComplete()/getLeafTotalCount();
-  }
-
-  int getLeafTotalCount() {
-    if (isLeaf()) return 1;
-    int result = 0;
-    getActiveGoals().forEach((goal) {
-      result += goal.getLeafTotalCount();
-    });
-    return result;
-  }
-
-  int getLeafsComplete() {
-    if (isLeaf() && isComplete()) return 1;
-    int result = 0;
-    getActiveGoals().forEach((goal) {
-      result += goal.getLeafsComplete();
-    });
-    return result;
-  }
-
 
 }

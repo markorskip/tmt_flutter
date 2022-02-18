@@ -21,9 +21,9 @@ void main() {
 
   test('Test cost is complete and time is 0 on a goal when they add are 0', () {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
-    double completeCost = parent.getCostPercentageComplete();
-    double completeTime = parent.getTimePercentageComplete();
-    expect(completeCost, 1.0);
+    double completeCostPercentage = GoalCalc().getTMTPercentageComplete(parent).costInDollars;
+    double completeTime = GoalCalc().getTMTPercentageComplete(parent).timeInHours;
+    expect(completeCostPercentage, 1.0);
     expect(completeTime, 0.0);
   });
 
@@ -31,8 +31,8 @@ void main() {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
     parent.getActiveGoals().forEach((element) {element.setComplete(true);});
 
-    double completeCost = parent.getCostPercentageComplete();
-    double completeTime = parent.getTimePercentageComplete();
+    double completeCost = GoalCalc().getTMTPercentageComplete(parent).costInDollars;
+    double completeTime = GoalCalc().getTMTPercentageComplete(parent).costInDollars;
     expect(completeCost, 1.0);
     expect(completeTime, 1.0);
   });
@@ -47,7 +47,7 @@ void main() {
    // expect(parent.getTasksTotalCount(),2);
     expect(GoalCalc().getTMTTotal(parent).tasks,2);
     parent.goals.forEach((g) { g.setComplete(true);});
-    expect(parent.getTasksComplete(),2);
+    expect(GoalCalc().getTMTCompleted(parent).tasks,2);
   });
 
   test('Correct number of complete tasks grandchildren', () {
@@ -57,19 +57,19 @@ void main() {
     Goal sub2 = _createTestGoal(complete: true);
     parent.addSubGoal(sub1);
     parent.addSubGoal(sub2);
+    sub2.addSubGoal(_createTestGoal(complete: false));
     sub2.addSubGoal(_createTestGoal(complete: true));
-    sub2.addSubGoal(_createTestGoal(complete: true));
-    expect(parent.getTasksTotalCount(),4);
-    expect(parent.getTasksComplete(),4);
+    expect(GoalCalc().getTMTTotal(parent).tasks,3);
+    expect(GoalCalc().getTMTCompleted(parent).tasks,2);
   });
 
   test('Correct number of total tasks', () {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
-    expect(parent.getTasksTotalCount(),2);
+    expect(GoalCalc().getTMTTotal(parent).tasks,2);
     parent.getActiveGoals().forEach((g) {
       g.addSubGoal(new Goal("3rd level","test",0.0,0.0));
     });
-    expect(parent.getTasksTotalCount(),4);
+    expect(GoalCalc().getTMTTotal(parent).tasks,2);
   });
 
   test('Time is calculated properly with grandchildren when all time is 0', () {
@@ -85,7 +85,7 @@ void main() {
       // We expect the parent to be 25 percent done
 
       // when totalTime = 0 then use total task / tasksCompleted
-      expect(parent.getTimePercentageComplete(),.25);
+      expect(GoalCalc().getTMTPercentageComplete(parent).timeInHours,.33);
   });
 
   test('Time is calculated properly with grandchildren', () {
@@ -99,10 +99,10 @@ void main() {
     parent.addSubGoal(_createTestGoal(time: 4.0));
     // Parent has two children, one is 50 percent complete, the other is 0
     // We expect the parent to be 25 percent done
-    expect(parent.getTimeTotal(), 8.0);
+    expect(GoalCalc().getTMTTotal(parent).timeInHours, 8.0);
 
     //expect(GoalCalc().getTMTCompleted(parent)[TMT.TIME], 2);
-    expect(parent.getTimePercentageComplete(),.25);
+    expect(GoalCalc().getTMTPercentageComplete(parent).timeInHours,.25);
   });
 
   test('Test leafs complete', () {
@@ -114,8 +114,8 @@ void main() {
     sub1.addSubGoal(grand2);
     parent.addSubGoal(sub1);
     parent.addSubGoal(_createTestGoal());
-    expect(parent.getLeafTotalCount(), 3);
-    expect(parent.getLeafsComplete(),2);
+    expect(GoalCalc().getTMTTotal(parent).tasks, 3);
+    expect(GoalCalc().getTMTCompleted(parent).tasks,2);
 
   });
 }

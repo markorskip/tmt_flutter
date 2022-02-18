@@ -27,7 +27,7 @@ void main() {
     Goal goal = new Goal("test","",0,0);
     goal.addSubGoal(new Goal("test2","",0,0));
     goal.addSubGoal(new Goal("test3","",0,0));
-    expect(goal.getCostPercentageComplete(),1.0);
+    expect(GoalCalc().getTMTPercentageComplete(goal).costInDollars,1.0);
   });
 
   test('Test encoding and decodings JSON', () {
@@ -66,8 +66,8 @@ void main() {
     parent.addSubGoal(child1);
     parent.addSubGoal(child2);
 
-    expect(parent.getTimeTotal(),450);
-    expect(parent.getTimePercentageComplete(),.49);
+    expect(GoalCalc().getTMTTotal(parent).timeInHours,450);
+    expect(GoalCalc().getTMTPercentageComplete(parent).timeInHours,.49);
     expect(GoalCalc().getTMTTotal(parent).costInDollars,225.0);
     expect(GoalCalc().getTMTPercentageComplete(parent).costInDollars,.44);
 
@@ -82,9 +82,8 @@ void main() {
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
     parent.addSubGoal(child1);
-
-    expect(parent.getTasksTotalCount(),3);
-    expect(parent.getTasksComplete(),1);
+    expect(GoalCalc().getTMTTotal(parent).tasks,2);
+    expect(GoalCalc().getTMTCompleted(parent).tasks,1);
   });
 
 }

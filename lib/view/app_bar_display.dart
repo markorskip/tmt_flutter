@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:tmt_flutter/model/goal_calculator.dart';
 import 'package:tmt_flutter/util/formatter.dart';
 
 enum MetricType {
@@ -31,8 +32,8 @@ class AppBarDisplay extends StatelessWidget {
       ), child: Column(
     children:[
       Text(goal.description),
-      Text("Time: " + Formatter.removeDecimals(goal.getTimeTotal())),
-      Text("Cost: " + Formatter.removeDecimals(goal.getCostTotal())),
+      //Text("Time: " + Formatter.removeDecimals(goal.getTimeTotal())),
+      //Text("Cost: " + Formatter.removeDecimals(goal.getCostTotal())),
     ]),
   );
   }
@@ -88,14 +89,14 @@ class AppBarDisplay extends StatelessWidget {
     Color progressColor;
     switch(metricType) {
       case MetricType.TIME: {
-        percentageComplete = goal.getTimePercentageComplete();
+        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).timeInHours;
         progressColor = GFColors.INFO;
         displayText = Formatter.getTimeCompletedProgressText(goal);
       }
       break;
       case MetricType.MONEY: {
         progressColor = Theme.of(context).colorScheme.primaryVariant;
-        percentageComplete = goal.getCostPercentageComplete();
+        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).costInDollars;
         displayText = Formatter.getMoneyCompletedProgressText(goal);
         if (displayText == "No Cost") {
           displayText = "N/A";
@@ -106,7 +107,7 @@ class AppBarDisplay extends StatelessWidget {
       break;
       case MetricType.TASKS: {
         //percentageComplete = goal.getPercentageCompleteTasks();
-        percentageComplete = goal.getPercentageCompleteLeafs();
+        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).tasks;
         progressColor = Theme.of(context).colorScheme.onSurface;
         displayText = Formatter.getLeafsCompletedProgressText(goal);
         //displayText = Formatter.getTasksCompletedProgressText(goal);
