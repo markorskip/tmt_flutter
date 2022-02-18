@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:tmt_flutter/util/formatter.dart';
 
 class GoalSlideable extends StatefulWidget {
 
@@ -119,7 +120,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             radius: 40.0,
             lineWidth: 5.0,
             percent: goal.getTimePercentageComplete(),
-            center: new Text(goal.getPercentageCompleteTimeFormatted(),
+            center: new Text(Formatter.getPercentageCompleteTimeFormatted(goal),
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
             ),
@@ -136,7 +137,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             radius: 40.0,
             lineWidth: 5.0,
             percent: goal.getCostPercentageComplete(),
-            center: new Text(goal.getPercentageCompleteCostFormatted(),
+            center: new Text(Formatter.getPercentageCompleteCostFormatted(goal),
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
           ),
@@ -145,7 +146,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           ),
           ]);
     }
-    if (goal.complete == false) {
+    if (goal.isComplete() == false) {
       return IconButton(
           icon: Icon(
             Icons.radio_button_unchecked,
@@ -158,18 +159,16 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           }
       );
     }
-    //if (goal.complete == true) {
-      return IconButton(
-            icon: Icon(
-              Icons.radio_button_checked,
-             // color: Colors.blue,
-              size: 24.0,
-              semanticLabel: 'Text to announce in accessibility modes',
-            ),
-            onPressed: () {
-              widget.toggleCompleteHandler(goal);
-            }
-        );
-    //}
+    return IconButton(
+          icon: Icon(
+            Icons.radio_button_checked,
+           // color: Colors.blue,
+            size: 24.0,
+            semanticLabel: 'Text to announce in accessibility modes',
+          ),
+          onPressed: () {
+            widget.toggleCompleteHandler(goal);
+          }
+      );
   }
 }

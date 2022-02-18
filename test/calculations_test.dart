@@ -28,7 +28,7 @@ void main() {
 
   test('Test time is 1.0 when time is 0 but all tasks are done', () {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
-    parent.getActiveGoals().forEach((element) {element.complete = true;});
+    parent.getActiveGoals().forEach((element) {element.setComplete(true);});
 
     double completeCost = parent.getCostPercentageComplete();
     double completeTime = parent.getTimePercentageComplete();
@@ -100,5 +100,19 @@ void main() {
     expect(parent.getTimeTotal(), 8.0);
     expect(parent.getTimeCompletedHrs(), 2);
     expect(parent.getTimePercentageComplete(),.25);
+  });
+
+  test('Test leafs complete', () {
+    Goal parent = _createTestGoal();
+    Goal sub1 = _createTestGoal(); // 50 percent complete
+    Goal grand1 = _createTestGoal(complete: true);
+    Goal grand2 = _createTestGoal(complete: true);
+    sub1.addSubGoal(grand1);
+    sub1.addSubGoal(grand2);
+    parent.addSubGoal(sub1);
+    parent.addSubGoal(_createTestGoal());
+    expect(parent.getLeafTotalCount(), 3);
+    expect(parent.getLeafsComplete(),2);
+
   });
 }

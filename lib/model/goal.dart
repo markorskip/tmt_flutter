@@ -9,7 +9,7 @@ class Goal {
   String description;
   double costInDollars;
   double timeInHours;
-  bool complete = false;
+  bool _complete = false;
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0
   List<Goal> goals = []; // children
@@ -46,6 +46,7 @@ class Goal {
 
   num getCostCompletedDollars() {
     if (isLeaf() && isComplete()) return costInDollars;
+
     double completedDollars = 0;
     getActiveGoals().forEach((goal) {
       completedDollars += goal.getCostCompletedDollars();
@@ -66,18 +67,12 @@ class Goal {
   }
 
   double getTimeCompletedHrs() {
-    if (isLeaf() && complete) return timeInHours;
+    if (isLeaf() && _complete) return timeInHours;
     double completedHrs = 0;
     getActiveGoals().forEach((goal) {
       completedHrs += goal.getTimeCompletedHrs();
     });
     return completedHrs;
-  }
-
-
-
-  String getSubTitle() {
-    return "Time: " +  getTimeTotal().toString() + " hrs \nCost: \$" + getCostTotal().toString();
   }
 
   delete() {
@@ -88,17 +83,17 @@ class Goal {
     this.isDeleted = false;
   }
 
-  addSubGoal(Goal goal) {
+  addSubGoal(Goal goal) { //TODO can this be calculated?
     goal.levelDeep = this.levelDeep + 1;
     this.goals.add(goal);
   }
 
-  void editGoal(EditGoal editedGoal) {
+  void editGoal(EditGoal editedGoal) { // TODO can this be done with a Partial?
     this.title = editedGoal.title;
     this.description = editedGoal.description;
     this.timeInHours = editedGoal.timeInHours;
     this.costInDollars = editedGoal.costInDollars;
-    this.complete = editedGoal.complete;
+    this._complete = editedGoal.complete;
   }
 
   List<Goal> getActiveGoals() {
@@ -107,15 +102,7 @@ class Goal {
 
   @override
   String toString() {
-    return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
-  }
-
-  String getPercentageCompleteTimeFormatted() {
-    return (getTimePercentageComplete() * 100).toString().split('.').first + "%";
-  }
-
-  String getPercentageCompleteCostFormatted() {
-    return (getCostPercentageComplete() * 100).toString().split('.').first + "%";
+    return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $_complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
   }
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
@@ -127,7 +114,7 @@ class Goal {
     }
     Goal result = new Goal(jsonMap["title"], jsonMap["description"],costInDollars,timeInHours);
     result.id = jsonMap['id'];
-    result.complete = jsonMap['complete'];
+    result._complete = jsonMap['complete'];
     result.isDeleted = jsonMap['isDeleted'];
     result.levelDeep = jsonMap['levelDeep'];
     var list = jsonMap['goals'] as List;
@@ -141,7 +128,7 @@ class Goal {
     'description': description,
     'costInDollars':costInDollars,
     'timeInHours':timeInHours,
-    'complete':complete,
+    'complete':_complete,
     'isDeleted':isDeleted,
     'levelDeep':levelDeep,
     'goals': goals
@@ -159,7 +146,7 @@ class Goal {
           description == other.description &&
           costInDollars == other.costInDollars &&
           timeInHours == other.timeInHours &&
-          complete == other.complete &&
+          _complete == other._complete &&
           isDeleted == other.isDeleted &&
           levelDeep == other.levelDeep &&
           deepEq(goals, other.goals);
@@ -170,7 +157,7 @@ class Goal {
       description.hashCode ^
       costInDollars.hashCode ^
       timeInHours.hashCode ^
-      complete.hashCode ^
+      _complete.hashCode ^
       isDeleted.hashCode ^
       levelDeep.hashCode ^
       goals.hashCode;
@@ -180,7 +167,7 @@ class Goal {
   }
 
   void toggleComplete() {
-    complete = !complete;
+    _complete = !_complete;
   }
 
   bool isCompletable() {
@@ -189,15 +176,6 @@ class Goal {
 
   int getUniqueID() {
     return Random().nextInt(999999);
-  }
-
-  int getLeafTotalCount() {
-    if (isLeaf()) return 1;
-    int result = 0;
-    getActiveGoals().forEach((goal) {
-      result += goal.getLeafTotalCount();
-    });
-    return result;
   }
 
   int _getTasksCompleteRecursive() {
@@ -222,7 +200,6 @@ class Goal {
     getActiveGoals().forEach((goal) {
       result += goal._getTasksCompleteRecursive();
     });
-
     return result;
   }
 
@@ -241,11 +218,11 @@ class Goal {
   }
 
   void setComplete(bool bool) {
-    this.complete = bool;
+    this._complete = bool;
   }
 
   bool isComplete() {
-    if (isLeaf()) return complete;
+    if (isLeaf()) return _complete;
     int numberOfActiveGoals = getActiveGoals().length;
 
     int numberCompleted = 0;
@@ -255,4 +232,32 @@ class Goal {
     if (numberCompleted == numberOfActiveGoals) return true;
     return false;
   }
+
+  double getPercentageCompleteLeafs() {
+    if (isLeaf()) {
+      if (isComplete()) return 1.0;
+      return 0.0;
+    }
+    return getLeafsComplete()/getLeafTotalCount();
+  }
+
+  int getLeafTotalCount() {
+    if (isLeaf()) return 1;
+    int result = 0;
+    getActiveGoals().forEach((goal) {
+      result += goal.getLeafTotalCount();
+    });
+    return result;
+  }
+
+  int getLeafsComplete() {
+    if (isLeaf() && isComplete()) return 1;
+    int result = 0;
+    getActiveGoals().forEach((goal) {
+      result += goal.getLeafsComplete();
+    });
+    return result;
+  }
+
+
 }

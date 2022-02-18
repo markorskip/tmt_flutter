@@ -94,15 +94,22 @@ class AppBarDisplay extends StatelessWidget {
       }
       break;
       case MetricType.MONEY: {
-        percentageComplete = goal.getCostPercentageComplete();
         progressColor = Theme.of(context).colorScheme.primaryVariant;
+        percentageComplete = goal.getCostPercentageComplete();
         displayText = Formatter.getMoneyCompletedProgressText(goal);
+        if (displayText == "No Cost") {
+          displayText = "N/A";
+          progressColor = Colors.black;
+        }
+
       }
       break;
       case MetricType.TASKS: {
-        percentageComplete = goal.getPercentageCompleteTasks();
+        //percentageComplete = goal.getPercentageCompleteTasks();
+        percentageComplete = goal.getPercentageCompleteLeafs();
         progressColor = Theme.of(context).colorScheme.onSurface;
-        displayText = Formatter.getTasksCompletedProgressText(goal);
+        displayText = Formatter.getLeafsCompletedProgressText(goal);
+        //displayText = Formatter.getTasksCompletedProgressText(goal);
       }
     }
      // MONEY color: Theme.of(context).colorScheme.primaryVariant

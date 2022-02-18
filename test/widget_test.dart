@@ -52,13 +52,13 @@ void main() {
     Goal child1 = new Goal("child goal","",0,0);
     Goal grandChildGoal = new Goal("grandchild","",50,110);
     Goal grandChildGoal2 = new Goal("grandchild","",50,110);
-    grandChildGoal2.complete = true;
+    grandChildGoal2.setComplete(true);
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
 
     Goal child2 = new Goal("child goal","",0,0);
     Goal grandChildGoal3 = new Goal("grandchild","",50,110);
-    grandChildGoal3.complete = true;
+    grandChildGoal3.setComplete(true);
     Goal grandChildGoal4 = new Goal("grandchild","",75,120);
     child1.addSubGoal(grandChildGoal3);
     child1.addSubGoal(grandChildGoal4);
@@ -78,7 +78,7 @@ void main() {
     Goal child1 = new Goal("child goal","",0,0);
     Goal grandChildGoal = new Goal("grandchild","",50,110);
     Goal grandChildGoal2 = new Goal("grandchild","",50,110);
-    grandChildGoal2.complete = true;
+    grandChildGoal2.setComplete(true);
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
     parent.addSubGoal(child1);

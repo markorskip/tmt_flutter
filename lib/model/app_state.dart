@@ -24,7 +24,6 @@ class AppState {
 
   static Goal _getRootGoal() {
     Goal rootGoal = new Goal(getRootTitle(),"root never should be displayed",0,0);
-    rootGoal.complete = false;
     return rootGoal;
   }
 

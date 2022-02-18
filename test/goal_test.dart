@@ -21,7 +21,7 @@ void main () {
     expect(goal.description, 'description 2');
     expect(goal.costInDollars, 5.0);
     expect(goal.timeInHours, 5);
-    expect(goal.complete, true);
+    expect(goal.isComplete(), true);
   });
 
   test('test a goal is completable', () {
