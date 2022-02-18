@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
+import 'package:tmt_flutter/model/goal_calculator.dart';
 
 void main() {
 
@@ -26,7 +27,6 @@ void main() {
     Goal goal = new Goal("test","",0,0);
     goal.addSubGoal(new Goal("test2","",0,0));
     goal.addSubGoal(new Goal("test3","",0,0));
-    expect(goal.getCostPercentageComplete(),1.0);
     expect(goal.getCostPercentageComplete(),1.0);
   });
 
@@ -68,8 +68,8 @@ void main() {
 
     expect(parent.getTimeTotal(),450);
     expect(parent.getTimePercentageComplete(),.49);
-    expect(parent.getCostTotal(),225.0);
-    expect(parent.getCostPercentageComplete(),.44);
+    expect(GoalCalc().getTMTTotal(parent)[TMT.MONEY],225.0);
+    expect(GoalCalc().getTMTPercentageComplete(parent)[TMT.MONEY],.44);
 
   });
 

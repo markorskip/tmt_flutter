@@ -11,7 +11,7 @@ class Goal {
   double timeInHours;
   bool _complete = false;
   bool isDeleted = false;
-  int levelDeep = 0;  // start at 0
+  int levelDeep = 0;  // start at 0 // TODO Can this be calculated instead of stored?
   List<Goal> goals = []; // children
   late int id = getUniqueID();
 

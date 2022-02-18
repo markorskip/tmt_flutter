@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/goal.dart';
+import 'package:tmt_flutter/model/goal_calculator.dart';
 
 void main() {
 
@@ -98,7 +99,8 @@ void main() {
     // Parent has two children, one is 50 percent complete, the other is 0
     // We expect the parent to be 25 percent done
     expect(parent.getTimeTotal(), 8.0);
-    expect(parent.getTimeCompletedHrs(), 2);
+
+    expect(GoalCalc().getTMTCompleted(parent)[TMT.TIME], 2);
     expect(parent.getTimePercentageComplete(),.25);
   });
 
