@@ -68,8 +68,8 @@ void main() {
 
     expect(parent.getTimeTotal(),450);
     expect(parent.getTimePercentageComplete(),.49);
-    expect(GoalCalc().getTMTTotal(parent)[TMT.MONEY],225.0);
-    expect(GoalCalc().getTMTPercentageComplete(parent)[TMT.MONEY],.44);
+    expect(GoalCalc().getTMTTotal(parent).costInDollars,225.0);
+    expect(GoalCalc().getTMTPercentageComplete(parent).costInDollars,.44);
 
   });
 
