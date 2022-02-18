@@ -2,22 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:tmt_flutter/util/formatter.dart';
 
 import 'goal.dart';
-enum TMT {
-  TIME, MONEY, TASK
-}
-
-class TMTMetrics {
-
-}
 
 class GoalCalculation {
-
   double costInDollars;
   double timeInHours;
   double tasks;
 
   GoalCalculation({this.costInDollars = 0, this.timeInHours = 0, this.tasks = 0});
-
 }
 
 // Goal Calculator
