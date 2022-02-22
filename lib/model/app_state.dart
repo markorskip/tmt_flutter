@@ -19,11 +19,11 @@ class AppState {
   }
 
   static String getRootTitle() {
-    return "Time Money Tasklist";
+    return "All Projects";
   }
 
   static Goal _getRootGoal() {
-    Goal rootGoal = new Goal(getRootTitle(),"root never should be displayed",0,0);
+    Goal rootGoal = new Goal(getRootTitle(),"",0,0);
     return rootGoal;
   }
 
@@ -36,7 +36,10 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoals(), \ntitle: $getTitle(), \ngoalStack: $_goalStack}';
+    return 'AppState{'
+        '\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoals(), '
+        '\ntitle: $getTitle(), '
+        '\ngoalStack: $_goalStack}';
   }
 
   Goal? getGrandParentGoal() {

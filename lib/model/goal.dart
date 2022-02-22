@@ -12,7 +12,7 @@ class Goal {
   bool isDeleted = false;
   int levelDeep = 0;  // start at 0 // TODO Can this be calculated instead of stored?
   List<Goal> goals = []; // children
-  late int id = getUniqueID();
+  String id = getUniqueID();
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
     this.levelDeep = 0;
@@ -24,8 +24,7 @@ class Goal {
   }
 
   bool isLeaf() {
-    if (getActiveGoals().length == 0) return true;
-    return false;
+    return getActiveGoals().length == 0;
   }
 
   delete() {
@@ -36,8 +35,8 @@ class Goal {
     this.isDeleted = false;
   }
 
-  addSubGoal(Goal goal) { //TODO can this be calculated?
-    goal.levelDeep = this.levelDeep + 1;
+  addSubGoal(Goal goal) {
+    goal.levelDeep = this.levelDeep + 1; // TODO can this be calculated
     this.goals.add(goal);
   }
 
@@ -127,8 +126,8 @@ class Goal {
     return this.goals.where((goal) => goal.isDeleted == false).length < 1;
   }
 
-  int getUniqueID() {
-    return Random().nextInt(999999);
+  static String getUniqueID() {
+    return Random().nextInt(999999).toString() + "." + DateTime.now().toString();
   }
 
   void setComplete(bool bool) {
@@ -137,13 +136,11 @@ class Goal {
 
   bool isComplete() {
     if (isLeaf()) return _complete;
-    int numberOfActiveGoals = getActiveGoals().length;
+    double numCompleted = getActiveGoals().fold(0, (prev, element) => element.isComplete() ?
+    prev + 1 : prev);
 
-    int numberCompleted = 0;
-    getActiveGoals().forEach((g) {
-      if (g.isComplete()) numberCompleted++;
-    });
-    if (numberCompleted == numberOfActiveGoals) return true;
+    if (numCompleted == getActiveGoals().length) return true;
+
     return false;
   }
 

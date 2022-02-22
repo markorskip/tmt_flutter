@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:tmt_flutter/calc/goal_calculator.dart';
-import 'package:tmt_flutter/util/formatter.dart';
 
 enum MetricType {
 TIME, MONEY, TASKS
@@ -70,13 +69,13 @@ class AppBarDisplay extends StatelessWidget {
       case MetricType.TIME: {
         percentageComplete = gc.getTimePercentageComplete();
         progressColor = GFColors.INFO;
-        displayText = Formatter.getTimeCompletedProgressText(goal);
+        displayText = gc.getTimeCompletedProgressText();
       }
       break;
       case MetricType.MONEY: {
         progressColor = Theme.of(context).colorScheme.primaryVariant;
         percentageComplete = gc.getCostPercentageComplete();
-        displayText = Formatter.getMoneyCompletedProgressText(goal);
+        displayText = gc.getMoneyCompletedProgressText();
         if (displayText == "No Cost") {
           displayText = "N/A";
           progressColor = Colors.black;
@@ -88,7 +87,7 @@ class AppBarDisplay extends StatelessWidget {
         //percentageComplete = goal.getPercentageCompleteTasks();
         percentageComplete = gc.getTasksPercentageComplete();
         progressColor = Theme.of(context).colorScheme.onSurface;
-        displayText = Formatter.getLeafsCompletedProgressText(goal);
+        displayText = gc.getLeafsCompletedProgressText();
         //displayText = Formatter.getTasksCompletedProgressText(goal);
       }
     }

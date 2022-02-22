@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tmt_flutter/calc/goal_calculator.dart';
-import 'package:tmt_flutter/util/formatter.dart';
 
 class GoalSlideable extends StatefulWidget {
 
@@ -108,6 +107,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!goal.isCompletable()) {
+      GC gc = GoalCalc(goal);
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -121,7 +121,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             radius: 40.0,
             lineWidth: 5.0,
             percent: GoalCalc(goal).getTimePercentageComplete(),
-            center: new Text(Formatter.getPercentageCompleteTimeFormatted(goal),
+            center: new Text(gc.getPercentageCompleteTimeFormatted(),
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
             ),
@@ -138,7 +138,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             radius: 40.0,
             lineWidth: 5.0,
             percent: GoalCalc(goal).getCostPercentageComplete(),
-            center: new Text(Formatter.getPercentageCompleteCostFormatted(goal),
+            center: new Text(gc.getPercentageCompleteCostFormatted(),
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
           ),

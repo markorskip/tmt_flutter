@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:tmt_flutter/util/formatter.dart';
-
+import 'dart:math';
+import 'package:intl/intl.dart';
 import '../model/goal.dart';
 
 abstract class GC {
@@ -16,6 +15,13 @@ abstract class GC {
   double getTasksComplete();
   double getTasksTotal();
   double getTasksPercentageComplete();
+
+  String getTimeCompletedProgressText();
+  String getMoneyCompletedProgressText();
+  String getLeafsCompletedProgressText();
+
+  String getPercentageCompleteTimeFormatted();
+  String getPercentageCompleteCostFormatted();
 }
 
 class _Accumulator {
@@ -54,10 +60,7 @@ class GoalCalc extends GC{
   static _Accumulator _getAll(Goal goal) {
     _Accumulator acc = _Accumulator();
     if (goal.isLeaf()) {
-      if (goal.isComplete()) {
-        return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, true);
-      }
-      return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, false);
+      return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, goal.isComplete());
     }
 
     goal.getActiveGoals().forEach((goal) {
@@ -76,7 +79,7 @@ class GoalCalc extends GC{
     double moneyResult;
     if (_calculations.totalCost == 0.0) moneyResult = 1.0;
     else moneyResult = _calculations.completedCost/_calculations.totalCost;
-    return Formatter.roundDouble(moneyResult,2);
+    return roundDouble(moneyResult,2);
   }
 
   @override
@@ -91,7 +94,7 @@ class GoalCalc extends GC{
 
   @override
   double getTasksPercentageComplete() {
-    return Formatter.roundDouble(_calculations.completedTasks/_calculations.totalTasks,2);
+    return roundDouble(_calculations.completedTasks/_calculations.totalTasks,2);
   }
 
   @override
@@ -109,11 +112,54 @@ class GoalCalc extends GC{
     double timeResult;
     if (_calculations.totalTime == 0) timeResult = _calculations.completedTasks / _calculations.totalTasks;
     else timeResult = _calculations.completedTime/_calculations.totalTime;
-    return Formatter.roundDouble(timeResult,2);
+    return roundDouble(timeResult,2);
   }
 
   @override
   double getTimeTotal() {
     return _calculations.totalTime;
+  }
+
+  static String dollarsFormatter(num amount) {
+    return NumberFormat.simpleCurrency(decimalDigits: 0).format(amount);
+  }
+
+  static double roundDouble(double value, int places){
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  String getTimeCompletedProgressText() {
+    int hoursCompleted = _calculations.completedTime.round();
+    int hoursTotal = _calculations.totalTime.round();
+    String result = hoursCompleted.toString() + " / " + hoursTotal.toString() + " hours";
+    if (result == "0 / 0 hours") return "";
+    return result;
+  }
+
+  String getMoneyCompletedProgressText() {
+    int dollarsSpent = _calculations.completedCost.round();
+    int totalDollars = _calculations.totalCost.round();
+    String text = dollarsFormatter(dollarsSpent) + " / " + dollarsFormatter(totalDollars);
+    if (text == "\$0 / \$0") { text = "No Cost"; }
+    return text;
+  }
+
+  String getLeafsCompletedProgressText() {
+    int numOfLeafsComplete = _calculations.completedTasks.round();
+    int leafsTotal = _calculations.totalTasks.round();
+    return numOfLeafsComplete.toString() + " / " + leafsTotal.toString() + " tasks";
+  }
+
+  static String removeDecimals(num) {
+    return num.toString().split(".")[0];
+  }
+
+  String getPercentageCompleteTimeFormatted() {
+    return (getTimePercentageComplete()* 100).toString().split('.').first + "%";
+  }
+
+  String getPercentageCompleteCostFormatted() {
+    return (getCostPercentageComplete() * 100).toString().split('.').first + "%";
   }
 }
