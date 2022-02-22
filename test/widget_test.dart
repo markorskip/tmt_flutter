@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/goal_calculator.dart';
+import 'package:tmt_flutter/calc/goal_calculator.dart';
 
 void main() {
 

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:intl/intl.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/goal_calculator.dart';
+import 'package:tmt_flutter/calc/goal_calculator.dart';
 
 
 // TODO move all this to Goal Calc

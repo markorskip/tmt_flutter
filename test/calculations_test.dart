@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/goal_calculator.dart';
+import 'package:tmt_flutter/calc/goal_calculator.dart';
 
 void main() {
 
@@ -59,8 +59,9 @@ void main() {
     parent.addSubGoal(sub2);
     sub2.addSubGoal(_createTestGoal(complete: false));
     sub2.addSubGoal(_createTestGoal(complete: true));
-    expect(GoalCalc(parent).getTasksTotal(),3);
-    expect(GoalCalc(parent).getTasksComplete(),2);
+    GC gc = GoalCalc(parent);
+    expect(gc.getTasksTotal(),3);
+    expect(gc.getTasksComplete(),2);
   });
 
   test('Correct number of total tasks', () {
@@ -83,7 +84,6 @@ void main() {
       parent.addSubGoal(_createTestGoal());
       // Parent has two children, one is 50 percent complete, the other is 0
       // We expect the parent to be 25 percent done
-
       // when totalTime = 0 then use total task / tasksCompleted
       expect(GoalCalc(parent).getTimePercentageComplete(),.33);
   });
@@ -99,22 +99,24 @@ void main() {
     parent.addSubGoal(_createTestGoal(time: 4.0));
     // Parent has two children, one is 50 percent complete, the other is 0
     // We expect the parent to be 25 percent done
-    expect(GoalCalc(parent).getTimeTotal(), 8.0);
+    GC gc = GoalCalc(parent);
+    expect(gc.getTimeTotal(), 8.0);
 
     //expect(GoalCalc().getTMTCompleted(parent)[TMT.TIME], 2);
-    expect(GoalCalc(parent).getTimePercentageComplete(),.25);
+    expect(gc.getTimePercentageComplete(),.25);
   });
 
   test('Test leafs complete', () {
     Goal parent = _createTestGoal();
-    Goal sub1 = _createTestGoal(); // 50 percent complete
+    Goal sub1 = _createTestGoal();
     Goal grand1 = _createTestGoal(complete: true);
     Goal grand2 = _createTestGoal(complete: true);
     sub1.addSubGoal(grand1);
     sub1.addSubGoal(grand2);
     parent.addSubGoal(sub1);
     parent.addSubGoal(_createTestGoal());
-    expect(GoalCalc(parent).getTasksTotal(), 3);
-    expect(GoalCalc(parent).getTasksComplete(),2);
+    GC gc = GoalCalc(parent);
+    expect(gc.getTasksTotal(), 3);
+    expect(gc.getTasksComplete(),2);
   });
 }

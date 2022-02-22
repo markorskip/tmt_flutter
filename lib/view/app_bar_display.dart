@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:tmt_flutter/model/goal_calculator.dart';
+import 'package:tmt_flutter/calc/goal_calculator.dart';
 import 'package:tmt_flutter/util/formatter.dart';
 
 enum MetricType {
