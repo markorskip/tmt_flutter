@@ -51,7 +51,6 @@ void main () {
     goal.goals.first.setComplete(true);
     goal.goals[1].setComplete(true);
     expect(goal.isComplete(), true);
-    expect(GoalCalc().getTMTTotal(goal).tasks,2);
   });
 
 

@@ -54,30 +54,8 @@ class AppBarDisplay extends StatelessWidget {
                     buildGfProgressBar(goal, MetricType.TIME),
                     Text("Cost"),
                     buildGfProgressBar(goal, MetricType.MONEY),
-                    // Padding(
-                    //     padding: EdgeInsets.all(5),
-                    //     child: ClipRRect(
-                    //       borderRadius: BorderRadius.circular(4),
-                    //       child: LinearProgressIndicator(
-                    //           minHeight: 15,
-                    //           color: Theme.of(context).colorScheme.primaryVariant,
-                    //           backgroundColor: Colors.white,
-                    //           value: goal.getPercentageCompleteCost()
-                    //       ),
-                    //     )),
                     Text("Tasks"),
                     buildGfProgressBar(goal, MetricType.TASKS)
-                    // Padding(
-                    //     padding: EdgeInsets.all(5),
-                    //     child: ClipRRect(
-                    //       borderRadius: BorderRadius.circular(4),
-                    //       child: LinearProgressIndicator(
-                    //           minHeight: 15,
-                    //           color: Theme.of(context).colorScheme.secondaryVariant,
-                    //           backgroundColor: Colors.white,
-                    //           value: goal.getTotalTasksComplete() / goal.getTotalTasks()
-                    //       ),
-                    //     ))],
                 ]),
         )
       );
@@ -87,16 +65,17 @@ class AppBarDisplay extends StatelessWidget {
     double percentageComplete;
     String displayText;
     Color progressColor;
+    GC gc = GoalCalc(goal);
     switch(metricType) {
       case MetricType.TIME: {
-        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).timeInHours;
+        percentageComplete = gc.getTimePercentageComplete();
         progressColor = GFColors.INFO;
         displayText = Formatter.getTimeCompletedProgressText(goal);
       }
       break;
       case MetricType.MONEY: {
         progressColor = Theme.of(context).colorScheme.primaryVariant;
-        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).costInDollars;
+        percentageComplete = gc.getCostPercentageComplete();
         displayText = Formatter.getMoneyCompletedProgressText(goal);
         if (displayText == "No Cost") {
           displayText = "N/A";
@@ -107,7 +86,7 @@ class AppBarDisplay extends StatelessWidget {
       break;
       case MetricType.TASKS: {
         //percentageComplete = goal.getPercentageCompleteTasks();
-        percentageComplete = GoalCalc().getTMTPercentageComplete(goal).tasks;
+        percentageComplete = gc.getTasksPercentageComplete();
         progressColor = Theme.of(context).colorScheme.onSurface;
         displayText = Formatter.getLeafsCompletedProgressText(goal);
         //displayText = Formatter.getTasksCompletedProgressText(goal);

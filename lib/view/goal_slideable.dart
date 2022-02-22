@@ -31,10 +31,10 @@ class _GoalSlideableState extends State<GoalSlideable> {
         ),
         children: <TextSpan>[
           new TextSpan(
-              text: "Time: " +  GoalCalc().getTMTTotal(goal).timeInHours.toString() + " hours \n",
+              text: "Time: " +  GoalCalc(goal).getTimeTotal().toString() + " hours \n",
               style: TextStyle(color: Theme.of(context).colorScheme.primary)
           ),
-          new TextSpan(text: "Cost: \$" +  GoalCalc().getTMTTotal(goal).costInDollars.toString().toString().split('.').first,
+          new TextSpan(text: "Cost: \$" +  GoalCalc(goal).getCostTotal().toString().toString().split('.').first,
               style: TextStyle(color: Theme.of(context).colorScheme.primaryVariant)),
         ],
       ),
@@ -120,7 +120,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           new CircularPercentIndicator(
             radius: 40.0,
             lineWidth: 5.0,
-            percent: GoalCalc().getTMTPercentageComplete(goal).timeInHours,
+            percent: GoalCalc(goal).getTimePercentageComplete(),
             center: new Text(Formatter.getPercentageCompleteTimeFormatted(goal),
               style:
               new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
@@ -137,7 +137,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
           new CircularPercentIndicator(
             radius: 40.0,
             lineWidth: 5.0,
-            percent: GoalCalc().getTMTPercentageComplete(goal).costInDollars,
+            percent: GoalCalc(goal).getCostPercentageComplete(),
             center: new Text(Formatter.getPercentageCompleteCostFormatted(goal),
             style:
             new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
