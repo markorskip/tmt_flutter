@@ -16,21 +16,23 @@ abstract class GC {
   double getTasksComplete();
   double getTasksTotal();
   double getTasksPercentageComplete();
-
 }
 
 class _Accumulator {
 
-  double totalCost;
-  double totalTime;
-  double totalTasks;
-  double completedCost;
-  double completedTime;
-  double completedTasks;
+  double totalCost = 0;
+  double totalTime = 0;
+  double totalTasks = 0;
+  double completedCost = 0;
+  double completedTime = 0;
+  double completedTasks = 0;
 
-  _Accumulator({this.totalCost = 0, this.totalTime =0, this.totalTasks =0,
-      this.completedCost=0, this.completedTime=0, this.completedTasks=0}) {
-  }
+  _Accumulator();
+
+  _Accumulator.fromSingleGoal(this.totalCost, this.totalTime, this.totalTasks, bool complete):
+        completedCost = complete ? totalCost : 0,
+        completedTime = complete ? totalTime : 0,
+        completedTasks = complete ? totalTasks : 0;
 
   combine(_Accumulator acc) {
     totalCost += acc.totalCost;
@@ -50,18 +52,12 @@ class GoalCalc extends GC{
     _calculations = _getAll(goal);
 
   static _Accumulator _getAll(Goal goal) {
-    _Accumulator acc= _Accumulator();
+    _Accumulator acc = _Accumulator();
     if (goal.isLeaf()) {
       if (goal.isComplete()) {
-        return _Accumulator(
-            totalCost: goal.costInDollars,
-            totalTime: goal.timeInHours,
-            totalTasks: 1,
-            completedCost: goal.costInDollars,
-            completedTime: goal.timeInHours,
-            completedTasks: 1);
+        return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, true);
       }
-      return _Accumulator(totalCost: goal.costInDollars, totalTime: goal.timeInHours, totalTasks: 1);
+      return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, false);
     }
 
     goal.getActiveGoals().forEach((goal) {
