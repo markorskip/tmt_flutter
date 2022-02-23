@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/model/goal.dart';
 
-import '../model/edit_goal_directive.dart';
+import '../../model/edit_goal_directive.dart';
 
 class EditGoalDialog extends StatefulWidget {
 
@@ -12,7 +12,6 @@ class EditGoalDialog extends StatefulWidget {
 
   @override
   _EditGoalDialogState createState() => _EditGoalDialogState();
-
 }
 
 class _EditGoalDialogState extends State<EditGoalDialog>{

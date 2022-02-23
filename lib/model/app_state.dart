@@ -19,7 +19,7 @@ class AppState {
   }
 
   static String getRootTitle() {
-    return "All Projects";
+    return "Projects";
   }
 
   static Goal _getRootGoal() {
@@ -110,10 +110,8 @@ class AppState {
     return true;
   }
 
-  int idCount = 1;
-
-  int generateUniqueID() {
-    return this.idCount++;
+  List<String> getBreadCrumbs() {
+    return _goalStack.map((e) => e.title).toList();
   }
 
 }

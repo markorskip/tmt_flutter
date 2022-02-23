@@ -1,16 +1,17 @@
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:tmt_flutter/dialog/edit_goal_dialog.dart';
-import 'package:tmt_flutter/dialog/move_goal_dialog.dart';
+import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
+import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
 import '../model/edit_goal_directive.dart';
-import '../dialog/new_goal_dialog.dart';
+import 'dialog/new_goal_dialog.dart';
 import 'app_bar_display.dart';
-import 'goal_slideable.dart';
+import 'slideable.dart';
 
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
@@ -156,6 +157,7 @@ class _GoalScreenState extends State<GoalScreen> {
       body: GoalSlideable(
           goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
           moveGoal),
+        bottomSheet: getBreadCrumb(),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).colorScheme.primary,
         child: Row(
@@ -190,12 +192,33 @@ class _GoalScreenState extends State<GoalScreen> {
         onPressed: _save);
   }
 
-  IconButton showBackButton() {
+  Widget showBackButton() {
     if (!appState.isAtRoot()) {
-      return IconButton(icon: Icon(Icons.arrow_back),
-        onPressed: _backUp,
-        color: Colors.white,);
+      return Row(
+        children: [
+          IconButton(icon: Icon(Icons.arrow_upward),
+            onPressed: _backUp,
+            color: Colors.white,)
+        ],
+      );
     }
     return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
+  }
+
+  Widget getBreadCrumb() {
+    List<String> breadCrumbs = appState.getBreadCrumbs();
+    if (breadCrumbs.length > 1) {
+      breadCrumbs.remove(breadCrumbs.last);
+      List<BreadCrumbItem> items = breadCrumbs.map((e) => BreadCrumbItem(content: Text(e))).toList();
+      return BreadCrumb(
+        items: items,
+        divider: Icon(Icons.chevron_right),
+        overflow: WrapOverflow(
+          keepLastDivider: false,
+          direction: Axis.horizontal,
+        ),
+      );
+    }
+    return Container(width: 0.0, height: 0.0);
   }
 }

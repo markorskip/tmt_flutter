@@ -87,4 +87,12 @@ void main() {
     appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
     expect(appState.isAtRoot(), false);
   });
+
+  test('Breadcrumbs', () {
+    AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
+    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
+    List<String> crumbs = appState.getBreadCrumbs();
+    expect(crumbs, ['Projects', 'Welcome to TMT', 'remodel home']);
+  });
 }

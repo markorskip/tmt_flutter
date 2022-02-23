@@ -3,4 +3,7 @@ Description:
 Project contains
 Goals contains
 Milestone contains
-Tasks
+Tasks contains
+SubTasks
+
+Any item without children is AN ACTIONABLE ITEM - YOU CAN DO THIS THING

@@ -1,12 +1,13 @@
 Ideas:
-When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
-After completing item, pop up and notify user before the set up back on accident
-Timestamp when tasks are modified
-animate left and right when doing down and up
-Create a landing page that looks DIFFERENT then the rest of the app - each project is a square instead of a list item
-Let user see depth - breadcrumbs to the bottom
-Add Home button in bottom to take user back to project page
+-When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
+-After completing item, pop up and notify user before the set up back on accident
+-Timestamp when tasks are modified
+-animate left and right when doing down and up
+-Create a landing page that looks DIFFERENT then the rest of the app - each project is a square instead of a list item: https://docs.getwidget.dev/gf-carousel/
+-Let user see depth - breadcrumbs to the bottom: https://pub.dev/packages/flutter_breadcrumb
+-Add Home button in bottom to take user back to project page
 Search bar?
+-Intro screen: https://docs.getwidget.dev/gf-intro-screen/
 
 Bugs:
 time calculations are off when all time is 0 and their are children

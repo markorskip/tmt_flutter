@@ -138,9 +138,7 @@ class Goal {
     if (isLeaf()) return _complete;
     double numCompleted = getActiveGoals().fold(0, (prev, element) => element.isComplete() ?
     prev + 1 : prev);
-
     if (numCompleted == getActiveGoals().length) return true;
-
     return false;
   }
 
