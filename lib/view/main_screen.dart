@@ -209,6 +209,7 @@ class _GoalScreenState extends State<GoalScreen> {
     List<String> breadCrumbs = appState.getBreadCrumbs();
     if (breadCrumbs.length > 1) {
       breadCrumbs.remove(breadCrumbs.last);
+      if (breadCrumbs.length > 3) breadCrumbs = breadCrumbs.take(3).toList(); // TODO change to last three
       List<BreadCrumbItem> items = breadCrumbs.map((e) => BreadCrumbItem(content: Text(e))).toList();
       return BreadCrumb(
         items: items,
