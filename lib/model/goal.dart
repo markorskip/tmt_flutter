@@ -65,7 +65,7 @@ class Goal {
       timeInHours = timeInHours.toDouble();
     }
     Goal result = new Goal(jsonMap["title"], jsonMap["description"],costInDollars,timeInHours);
-    result.id = jsonMap['id'];
+    result.id = jsonMap['id'].toString();
     result._complete = jsonMap['complete'];
     result.isDeleted = jsonMap['isDeleted'];
     result.levelDeep = jsonMap['levelDeep'];
