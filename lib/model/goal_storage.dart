@@ -15,12 +15,12 @@ class FirestoreStorage implements ReadWriteAppState {
   final String appStateId = 'demo';
   
   @override
-  Future<AppState> readAppState() async {
+  Future<AppState> readAppState(String userId) async {
 
     DocumentSnapshot<Map<String, dynamic>> ref = await FirebaseFirestore
         .instance
         .collection('appState')
-        .doc(appStateId)
+        .doc(userId)
         .get();
 
     var json = ref.data()!["appStateString"];
@@ -35,17 +35,20 @@ class FirestoreStorage implements ReadWriteAppState {
 
   @override
   Future<bool> writeAppState(AppState appState) async {
-
     String jsonString = json.encode(appState.toJson());
+    Map<String, dynamic> dataToSave = {"appStateString": jsonString };
 
-    Map<String, dynamic> testdata = {"appStateString": jsonString };
-    await FirebaseFirestore
+    Future<void> save = FirebaseFirestore
         .instance
         .collection('appState')
         .doc(appStateId)
-        .set(testdata);
+        .set(dataToSave);
 
-    return Future.value(true); // TODO set this based on the save being proper
+    bool success = false;
+    save.then((value) => success = true)
+    .onError((error, stackTrace) => success = false);
+
+    return Future.value(success);
   }
 }
 
@@ -73,7 +76,7 @@ class LocalGoalStorage implements ReadWriteAppState {
   }
 
   @override
-  Future<AppState> readAppState() async {
+  Future<AppState> readAppState(String userId) async {
     try {
       final file = await _localFile;
       final contents = await file.readAsString();
@@ -103,7 +106,7 @@ abstract class ReadWriteAppState {
 
   Future<bool> writeAppState(AppState appState);
 
-  Future<AppState> readAppState();
+  Future<AppState> readAppState(String userID);
 }
 
 

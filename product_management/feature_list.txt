@@ -8,6 +8,8 @@ Ideas:
 -Add Home button in bottom to take user back to project page
 Search bar?
 -Intro screen: https://docs.getwidget.dev/gf-intro-screen/
+-allow users to set defaults
+-reduce string size for json
 
 Bugs:
 time calculations are off when all time is 0 and their are children

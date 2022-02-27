@@ -27,13 +27,13 @@ class _GoalScreenState extends State<GoalScreen> {
   late AppState appState;
 
   Future<AppState> getAppState() async {
-    return await widget.readWriteAppState.readAppState();
+    return await widget.readWriteAppState.readAppState(getUserId());
   }
 
   @override
   void initState() {
     super.initState();
-    widget.readWriteAppState.readAppState().then((value) => this.appState = value);
+    widget.readWriteAppState.readAppState(getUserId()).then((value) => this.appState = value);
   }
 
   _addGoal() async {
@@ -221,5 +221,10 @@ class _GoalScreenState extends State<GoalScreen> {
       );
     }
     return Container(width: 0.0, height: 0.0);
+  }
+
+  String getUserId() {
+    // TODO implement from authentication
+    return "demo";
   }
 }
