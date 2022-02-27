@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:getwidget/colors/gf_color.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app_state.dart';
@@ -18,44 +17,35 @@ class FirestoreStorage implements ReadWriteAppState {
   @override
   Future<AppState> readAppState() async {
 
-    final appStateRef = FirebaseFirestore
+    DocumentSnapshot<Map<String, dynamic>> ref = await FirebaseFirestore
         .instance
         .collection('appState')
-        .withConverter<AppState>(
-        fromFirestore: (snapshot, _) => AppState.fromJson(snapshot.data()!),
-        toFirestore: (appstate, _) => appstate.toJson());
+        .doc(appStateId)
+        .get();
 
-    DocumentSnapshot<AppState> as = await appStateRef.doc(appStateId).get();
+    var json = ref.data()!["appStateString"];
 
-    if (as.exists) {
-      return Future.value(as.data()!);
+    if (json != null) {
+      AppState as = convertStringToAppState(json);
+      return Future.value(as);
     }
+
     return Future.value(convertStringToAppState(defaultAppStateString));
   }
 
   @override
-  Future<bool> writeAppState(AppState appState) {
-    bool merged= true;
-    final appStateRef = FirebaseFirestore
+  Future<bool> writeAppState(AppState appState) async {
+
+    String jsonString = json.encode(appState.toJson());
+
+    Map<String, dynamic> testdata = {"appStateString": jsonString };
+    await FirebaseFirestore
         .instance
         .collection('appState')
-        .withConverter<AppState>(
-        fromFirestore: (snapshot, _) => AppState.fromJson(snapshot.data()!),
-        toFirestore: (appstate, _) => appstate.toJson());
-
-    appStateRef
         .doc(appStateId)
-        .set(appState).then((value) {
-      print("data updated");
-      merged = true;
-      }
-    )
-    .catchError((error) {
-      merged = false;
-      print("Failed to merge data: $error");
-    });
+        .set(testdata);
 
-    return Future.value(merged);
+    return Future.value(true); // TODO set this based on the save being proper
   }
 }
 

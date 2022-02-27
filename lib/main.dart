@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
           subtitle1: TextStyle(fontSize: 20.0),
         ),
       ),
-      //home: GoalScreen(FirestoreStorage()),
-      home: GoalScreen(LocalGoalStorage()),
+      home: GoalScreen(FirestoreStorage()),
+      //home: GoalScreen(LocalGoalStorage()),
     );
   }
 }
