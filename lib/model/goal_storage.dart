@@ -45,9 +45,10 @@ class FirestoreStorage implements ReadWriteAppState {
         .set(dataToSave);
 
     bool success = false;
-    save.then((value) => success = true)
+    await save.then((value) => success = true)
     .onError((error, stackTrace) => success = false);
 
+    print("Savings... Success:" + success.toString());
     return Future.value(success);
   }
 }

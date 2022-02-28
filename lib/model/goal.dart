@@ -58,32 +58,34 @@ class Goal {
   }
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
-    double costInDollars = jsonMap["costInDollars"];
+    double costInDollars = jsonMap["cid"];
 
-    var timeInHours = jsonMap["timeInHours"];
+    var timeInHours = jsonMap["tih"];
     if (timeInHours.runtimeType == int) {
       timeInHours = timeInHours.toDouble();
     }
-    Goal result = new Goal(jsonMap["title"], jsonMap["description"],costInDollars,timeInHours);
+    Goal result = new Goal(jsonMap["t"], jsonMap["desc"],costInDollars,timeInHours);
     result.id = jsonMap['id'].toString();
-    result._complete = jsonMap['complete'];
-    result.isDeleted = jsonMap['isDeleted'];
-    result.levelDeep = jsonMap['levelDeep'];
-    var list = jsonMap['goals'] as List;
+    result._complete = jsonMap['c'];
+    result.isDeleted = jsonMap['del'];
+    result.levelDeep = jsonMap['lD'];
+    var list = jsonMap['g'] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
     return result;
   }
 
+  // TODO Firebase limits string sizes to 10 mb.  Eventually this may need to be compressed further
+  // consider three fields, id, goals, and allOtherAttribtues and use a parser to recreate all other attributes
   Map<String, dynamic> toJson() => {
     'id': id,
-    'title': title,
-    'description': description,
-    'costInDollars':costInDollars,
-    'timeInHours':timeInHours,
-    'complete':_complete,
-    'isDeleted':isDeleted,
-    'levelDeep':levelDeep,
-    'goals': goals
+    't': title,
+    'desc': description,
+    'cid':costInDollars,
+    'tih':timeInHours,
+    'c':_complete,
+    'del':isDeleted,
+    'lD':levelDeep,
+    'g': goals
   };
 
   Function deepEq = const DeepCollectionEquality().equals;
