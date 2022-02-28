@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:lzstring/lzstring.dart';
 import 'app_state.dart';
 
 final String defaultAppStateString = '''
@@ -26,8 +26,8 @@ class FirestoreStorage implements ReadWriteAppState {
     var json = ref.data()!["appStateString"];
 
     if (json != null) {
-      AppState as = convertStringToAppState(json);
-      return Future.value(as);
+      AppState appState = await convertCompressedStringToAppState(json);
+      return Future.value(appState);
     }
 
     return Future.value(convertStringToAppState(defaultAppStateString));
@@ -35,8 +35,8 @@ class FirestoreStorage implements ReadWriteAppState {
 
   @override
   Future<bool> writeAppState(AppState appState) async {
-    String jsonString = json.encode(appState.toJson());
-    Map<String, dynamic> dataToSave = {"appStateString": jsonString };
+    String compressedJsonString = await convertAppStateToCompressedString(appState);
+    Map<String, dynamic> dataToSave = {"appStateString": compressedJsonString };
 
     Future<void> save = FirebaseFirestore
         .instance
@@ -96,6 +96,20 @@ class LocalGoalStorage implements ReadWriteAppState {
       return Future.value(AppState.defaultAppState());
     }
   }
+}
+
+Future<String> convertAppStateToCompressedString(AppState appState) async {
+  String result = json.encode(appState.toJson());
+  return await LZString.compressToBase64(result) ?? "";
+}
+
+Future<AppState> convertCompressedStringToAppState(String compressed) async {
+  String? decompressedJson = await LZString.decompressFromBase64(compressed);
+  if (decompressedJson != null){
+    AppState as = convertStringToAppState(decompressedJson);
+    return as;
+  }
+  return AppState.defaultAppState();
 }
 
 AppState convertStringToAppState(String jsonString) {
