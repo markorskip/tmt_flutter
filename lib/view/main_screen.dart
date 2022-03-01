@@ -104,10 +104,10 @@ class _GoalScreenState extends State<GoalScreen> {
     });
   }
 
-  _navigateUp() {
+  _navigateUp({int levels: 1}) {
     if (!appState.isAtRoot()) {
       setState(() {
-        appState.navigateUp();
+        appState.navigateUp(levels: levels);
       });
     }
   }
@@ -166,12 +166,12 @@ class _GoalScreenState extends State<GoalScreen> {
 
   Widget getBreadCrumbs() {
     List<String> breadCrumbs = appState.getBreadCrumbs();
-    if (breadCrumbs.length > 1) {
+    if (breadCrumbs.length > 0) {
       if (breadCrumbs.length > 3) breadCrumbs = breadCrumbs.sublist(breadCrumbs.length - 3, breadCrumbs.length);
       List<BreadCrumbItem> items = breadCrumbs.map(
               (e) => BreadCrumbItem(
                     content: Text(e),
-                    //onTap: _navigateUp() // TODO implement link back
+                    onTap: _navigateUp // TODO implement link back or make only the parent linkable
       )).toList();
       return BreadCrumb(
         items: items,
@@ -191,53 +191,52 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   BottomAppBar getBottomNavigationBar() {
+    var buttonColor = Colors.white;
+
     return BottomAppBar(
       color: Theme.of(context).colorScheme.primary,
-
       child: Row(
-        children: [
-          Spacer(),
-          GFButton(
-            onPressed: _navigateUp,
-            text: "Navigate Up",
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white
-            ),
-            type: GFButtonType.outline,
-            color: Colors.white
-          ),
-          Spacer(),
-          GFButton(
-            onPressed: _addGoal,
-            text: "Create New Task",
-            icon: Icon(Icons.add, color: Colors.white),
-            type: GFButtonType.outline,
-              color: Colors.white
-          ),
-          Spacer(),
-          GFButton(
-            onPressed: _save,
-            text: "Save",
-            icon: Icon(Icons.save, color: Colors.white),
-            type: GFButtonType.outline,
-              color: Colors.white
-          ),
-          Spacer(),
-          //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-        ],
-      ),
+            children: [
+              Spacer(),
+              !appState.isAtRoot() ? GFButton( // TODO grey out if at top
+                  onPressed: _navigateUp,
+                  text: "Back",
+                  icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: appState.isAtRoot() ? Colors.grey : buttonColor
+                  ),
+                  type: GFButtonType.outline,
+                  color:  appState.isAtRoot() ? Colors.grey : buttonColor
+              ): Container(height: 0, width: 0),
+              !appState.isAtRoot() ? Spacer() : Container(height: 0, width: 0),
+              GFButton(
+                  onPressed: _addGoal,
+                  text: "New Task",
+                  icon: Icon(Icons.add, color: buttonColor),
+                  type: GFButtonType.outline,
+                  color: buttonColor
+              ),
+              Spacer(),
+              GFButton(
+                  onPressed: _save,
+                  text: "Save",
+                  icon: Icon(Icons.save, color: buttonColor),
+                  type: GFButtonType.outline,
+                  color: buttonColor
+              ),
+              Spacer(),
+              GFButton(
+                  onPressed: _basicEasyDialog,
+                  text: "Info",
+                  icon: Icon(Icons.info, color: buttonColor),
+                  type: GFButtonType.outline,
+                  color: buttonColor
+              ),
+              Spacer(),
+              //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            ],
+          )
     );
-  }
-
-  Widget showBackButton() {
-    if (!appState.isAtRoot()) {
-      return IconButton(
-          icon: Icon(Icons.arrow_upward),
-          onPressed: _navigateUp,
-          );
-    }
-    return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
   }
 
   // Easy Dialog using title and description

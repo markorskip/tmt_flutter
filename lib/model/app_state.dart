@@ -62,11 +62,11 @@ class AppState {
     this._goalStack.add(goal);
   }
 
-  void navigateUp() {
+  void navigateUp({int levels = 1}) {
     if (!isAtRoot()) {
-      //for (int x = 0; x < levels; x++) {
+      for (int x = 0; x < levels; x++) {
         this._goalStack.removeLast();
-      //}
+      }
     }
   }
 
@@ -119,7 +119,7 @@ class AppState {
 
 
   String formatBreadCrumbTitle(String title) {
-    int maxLength = 15;
+    int maxLength = 17;
     if (title.length > maxLength) {
       return title.substring(0,maxLength -3) + "...";
     }
