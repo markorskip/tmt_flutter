@@ -1,6 +1,10 @@
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
+import 'package:getwidget/components/button/gf_button.dart';
+import 'package:getwidget/components/button/gf_icon_button.dart';
+import 'package:getwidget/components/tabs/gf_tabbar.dart';
+import 'package:getwidget/types/gf_button_type.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
@@ -76,25 +80,10 @@ class _GoalScreenState extends State<GoalScreen> {
     setState(() {
       appState.move(moveGoal);
       if (appState.getGoalsToDisplay().length == 0) {
-        _backUp();
+        _navigateUp();
       }
     });
   }
-  }
-
-  // Easy Dialog using title and description
-  void _basicEasyDialog() {
-    EasyDialog(
-        title: Text(
-          "Time Money Tasklist",
-          style: TextStyle(fontWeight: FontWeight.bold),
-          textScaleFactor: 1.2,
-        ),
-        description: Text(
-          "1. Create goals and subgoals \n2. Save to not lose work",
-          textScaleFactor: 1.1,
-          textAlign: TextAlign.center,
-        )).show(context);
   }
 
   _deleteGoal(Goal goal) {
@@ -115,10 +104,12 @@ class _GoalScreenState extends State<GoalScreen> {
     });
   }
 
-  _backUp() {
-    setState(() {
-      appState.backUp();
-    });
+  _navigateUp() {
+    if (!appState.isAtRoot()) {
+      setState(() {
+        appState.navigateUp();
+      });
+    }
   }
 
   _save() {
@@ -157,21 +148,8 @@ class _GoalScreenState extends State<GoalScreen> {
       body: GoalSlideable(
           goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
           moveGoal),
-        bottomSheet: getBreadCrumb(),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: Row(
-          children: [
-            showBackButton(),
-            Spacer(),
-            showSaveButton()
-            //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-          ],
-        ),
-      ),
-      floatingActionButton:
-      FloatingActionButton(child: Icon(Icons.add), onPressed: _addGoal),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        bottomSheet: getBreadCrumbs(),
+      bottomNavigationBar: getBottomNavigationBar(),
     );
   }
 
@@ -186,31 +164,15 @@ class _GoalScreenState extends State<GoalScreen> {
     );
   }
 
-  IconButton showSaveButton() {
-    return IconButton(icon: Icon(Icons.save),
-        color: Colors.white,
-        onPressed: _save);
-  }
-
-  Widget showBackButton() {
-    if (!appState.isAtRoot()) {
-      return Row(
-        children: [
-          IconButton(icon: Icon(Icons.arrow_upward),
-            onPressed: _backUp,
-            color: Colors.white,)
-        ],
-      );
-    }
-    return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
-  }
-
-  Widget getBreadCrumb() {
+  Widget getBreadCrumbs() {
     List<String> breadCrumbs = appState.getBreadCrumbs();
     if (breadCrumbs.length > 1) {
-      breadCrumbs.remove(breadCrumbs.last);
-      if (breadCrumbs.length > 3) breadCrumbs = breadCrumbs.take(3).toList(); // TODO change to last three
-      List<BreadCrumbItem> items = breadCrumbs.map((e) => BreadCrumbItem(content: Text(e))).toList();
+      if (breadCrumbs.length > 3) breadCrumbs = breadCrumbs.sublist(breadCrumbs.length - 3, breadCrumbs.length);
+      List<BreadCrumbItem> items = breadCrumbs.map(
+              (e) => BreadCrumbItem(
+                    content: Text(e),
+                    //onTap: _navigateUp() // TODO implement link back
+      )).toList();
       return BreadCrumb(
         items: items,
         divider: Icon(Icons.chevron_right),
@@ -227,4 +189,70 @@ class _GoalScreenState extends State<GoalScreen> {
     // TODO implement from authentication
     return "demo";
   }
+
+  BottomAppBar getBottomNavigationBar() {
+    return BottomAppBar(
+      color: Theme.of(context).colorScheme.primary,
+
+      child: Row(
+        children: [
+          Spacer(),
+          GFButton(
+            onPressed: _navigateUp,
+            text: "Navigate Up",
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white
+            ),
+            type: GFButtonType.outline,
+            color: Colors.white
+          ),
+          Spacer(),
+          GFButton(
+            onPressed: _addGoal,
+            text: "Create New Task",
+            icon: Icon(Icons.add, color: Colors.white),
+            type: GFButtonType.outline,
+              color: Colors.white
+          ),
+          Spacer(),
+          GFButton(
+            onPressed: _save,
+            text: "Save",
+            icon: Icon(Icons.save, color: Colors.white),
+            type: GFButtonType.outline,
+              color: Colors.white
+          ),
+          Spacer(),
+          //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+        ],
+      ),
+    );
+  }
+
+  Widget showBackButton() {
+    if (!appState.isAtRoot()) {
+      return IconButton(
+          icon: Icon(Icons.arrow_upward),
+          onPressed: _navigateUp,
+          );
+    }
+    return IconButton(icon: Icon(Icons.info), color: Colors.white, onPressed: _basicEasyDialog);
+  }
+
+  // Easy Dialog using title and description
+  void _basicEasyDialog() {
+    EasyDialog(
+        title: Text(
+          "Time Money Tasklist",
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textScaleFactor: 1.2,
+        ),
+        description: Text(
+          "1. Create goals and subgoals \n2. Save to not lose work",
+          textScaleFactor: 1.1,
+          textAlign: TextAlign.center,
+        )).show(context);
+  }
+
 }

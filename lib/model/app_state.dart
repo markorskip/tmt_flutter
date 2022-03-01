@@ -62,9 +62,11 @@ class AppState {
     this._goalStack.add(goal);
   }
 
-  void backUp() {
+  void navigateUp() {
     if (!isAtRoot()) {
-      this._goalStack.removeLast();
+      //for (int x = 0; x < levels; x++) {
+        this._goalStack.removeLast();
+      //}
     }
   }
 
@@ -115,8 +117,17 @@ class AppState {
     return true;
   }
 
+
+  String formatBreadCrumbTitle(String title) {
+    int maxLength = 15;
+    if (title.length > maxLength) {
+      return title.substring(0,maxLength -3) + "...";
+    }
+    return title;
+  }
+
   List<String> getBreadCrumbs() {
-    return _goalStack.map((e) => e.title).toList();
+    return _goalStack.map((goal) => formatBreadCrumbTitle(goal.title)).toList();
   }
 
 }

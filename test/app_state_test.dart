@@ -46,7 +46,7 @@ void main() {
     appState.move(moveGoal);
     expect(appState.isAtRoot(),false);
     expect(appState.getCurrentlyDisplayedGoals().length, length-1);
-    appState.backUp();
+    appState.navigateUp();
     expect(appState.getCurrentlyDisplayedGoals().length, parentLength + 1);
     expect(goalToMove.levelDeep, depth - 1);
   });
