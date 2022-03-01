@@ -19,22 +19,7 @@ class AppBarDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!goal.isCompletable()) {return buildAppBarDashBoard(context);}
-    return buildAppBarTaskSummary();
-  }
-
-  DefaultTextStyle buildAppBarTaskSummary() {
-    return DefaultTextStyle(
-    style: TextStyle(
-          color: Colors.white,
-          fontSize: 20
-      ), child: Column(
-    children:[
-      Text(goal.description),
-      //Text("Time: " + Formatter.removeDecimals(goal.getTimeTotal())),
-      //Text("Cost: " + Formatter.removeDecimals(goal.getCostTotal())),
-    ]),
-  );
+    return buildAppBarDashBoard(context);
   }
 
   DefaultTextStyle buildAppBarDashBoard(BuildContext context) {
@@ -84,14 +69,11 @@ class AppBarDisplay extends StatelessWidget {
       }
       break;
       case MetricType.TASKS: {
-        //percentageComplete = goal.getPercentageCompleteTasks();
         percentageComplete = gc.getTasksPercentageComplete();
         progressColor = Theme.of(context).colorScheme.onSurface;
         displayText = gc.getLeafsCompletedProgressText();
-        //displayText = Formatter.getTasksCompletedProgressText(goal);
       }
     }
-     // MONEY color: Theme.of(context).colorScheme.primaryVariant
     return GFProgressBar(
       percentage: percentageComplete,
       lineHeight: 20,

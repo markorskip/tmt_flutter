@@ -4,6 +4,7 @@ import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/button/gf_icon_button.dart';
 import 'package:getwidget/components/tabs/gf_tabbar.dart';
+import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
@@ -158,7 +159,7 @@ class _GoalScreenState extends State<GoalScreen> {
     return AppBar(
         title: Text(appState.getTitle()),
         bottom: PreferredSize(
-            preferredSize: currentGoal.isCompletable() ? Size.fromHeight(70) : Size.fromHeight(130),
+            preferredSize: Size.fromHeight(130),
             child: AppBarDisplay(context: context, goal: appState.getCurrentGoal())
         )
     );
@@ -206,7 +207,7 @@ class _GoalScreenState extends State<GoalScreen> {
                       color: appState.isAtRoot() ? Colors.grey : buttonColor
                   ),
                   type: GFButtonType.outline,
-                  color:  appState.isAtRoot() ? Colors.grey : buttonColor
+                  color:  appState.isAtRoot() ? Colors.grey : buttonColor,
               ): Container(height: 0, width: 0),
               !appState.isAtRoot() ? Spacer() : Container(height: 0, width: 0),
               GFButton(
@@ -214,7 +215,7 @@ class _GoalScreenState extends State<GoalScreen> {
                   text: "New Task",
                   icon: Icon(Icons.add, color: buttonColor),
                   type: GFButtonType.outline,
-                  color: buttonColor
+                  color: buttonColor,
               ),
               Spacer(),
               GFButton(
@@ -222,7 +223,7 @@ class _GoalScreenState extends State<GoalScreen> {
                   text: "Save",
                   icon: Icon(Icons.save, color: buttonColor),
                   type: GFButtonType.outline,
-                  color: buttonColor
+                  color: buttonColor,
               ),
               Spacer(),
               GFButton(
@@ -230,7 +231,8 @@ class _GoalScreenState extends State<GoalScreen> {
                   text: "Info",
                   icon: Icon(Icons.info, color: buttonColor),
                   type: GFButtonType.outline,
-                  color: buttonColor
+                  color: buttonColor,
+                  //shape: GFButtonShape.pills
               ),
               Spacer(),
               //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
