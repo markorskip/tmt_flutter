@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:getwidget/components/alert/gf_alert.dart';
+import 'package:getwidget/components/floating_widget/gf_floating_widget.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 class NewGoalDialog extends StatelessWidget {
@@ -23,46 +25,68 @@ class NewGoalDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('New Goal'),
-
-      content: Container(
-        width: double.minPositive,
+      return AlertDialog(
+        title: Text("New Task"),
+          content: Container(
+         width: double.minPositive,
         child: ListView(
           shrinkWrap: true,
           children: [
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.title),
+                hintText: 'Name of Task',
+                labelText: 'Title *',
+              ),
               controller: titleController,
-              autofocus: true,
+              validator: (String? value) {
+                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+              },
             ),
-            Text("Name of Goal/Task/Project"),
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.description),
+                hintText: 'Optional Description',
+                labelText: 'Description',
+              ),
               controller: descriptionController,
-              autofocus: true,
+              validator: (String? value) {
+                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+              },
             ),
-            Text("Description (optional)"),
-
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.attach_money),
+                hintText: 'Estimated Cost',
+                labelText: 'Cost in Dollars',
+              ),
               controller: moneyController,
-              autofocus: true,
+              validator: (String? value) {
+                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+              },
             ),
-            Text("Estimated cost (in dollars)"),
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.hourglass_top_sharp),
+                hintText: 'Estimated Time',
+                labelText: 'Time in Hours',
+              ),
               controller: timeController,
-              autofocus: true,
+              validator: (String? value) {
+                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+              },
             ),
-            Text("Estimated time to complete (in hours)"),
           ],
         ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('Add'),
           onPressed: () {
             final goal = new Goal(titleController.value.text,
@@ -79,4 +103,5 @@ class NewGoalDialog extends StatelessWidget {
       ],
     );
   }
+
 }

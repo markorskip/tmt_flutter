@@ -27,14 +27,9 @@ class AppState {
     return "Projects";
   }
 
-  static Goal _getRootGoal() {
-    Goal rootGoal = new Goal(getRootTitle(),"",0,0);
-    return rootGoal;
-  }
-
   static AppState defaultAppState() {
     AppState appState = new AppState("demo");
-    appState._goalStack.add(_getRootGoal());
+    appState._goalStack.add(new Goal(getRootTitle(),"",0,0));
     appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT","",0,0));
     return appState;
   }

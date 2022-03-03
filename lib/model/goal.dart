@@ -58,7 +58,7 @@ class Goal {
   }
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
-    double costInDollars = jsonMap["cid"];
+    double costInDollars = double.parse(jsonMap["cid"].toString());
 
     var timeInHours = jsonMap["tih"];
     if (timeInHours.runtimeType == int) {
@@ -74,8 +74,7 @@ class Goal {
     return result;
   }
 
-  // TODO Firebase limits string sizes to 10 mb.  Eventually this may need to be compressed further
-  // consider three fields, id, goals, and allOtherAttribtues and use a parser to recreate all other attributes
+  // Note Firebase limits string sizes to 10 mb.  We compress this file when we save
   Map<String, dynamic> toJson() => {
     'id': id,
     't': title,
