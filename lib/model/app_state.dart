@@ -125,4 +125,16 @@ class AppState {
     return _goalStack.map((goal) => formatBreadCrumbTitle(goal.title)).toList();
   }
 
+  List<Goal> getExpandedView() {
+    List<Goal> result = [];
+    getCurrentlyDisplayedGoals().forEach((goal) {
+      result.add(goal); // level 1
+      goal.getActiveGoals().forEach((goal) {
+       result.add(goal);  // level 2
+      });
+    });
+
+    return result;
+  }
+
 }

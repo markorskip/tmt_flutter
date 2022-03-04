@@ -45,6 +45,7 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
       title: Text('Edit Goal'),
       content: Container(
       width: double.minPositive,
+      // TODO refactor - edit and new goal should use the same form
       child: ListView(
           children: [
             TextField(

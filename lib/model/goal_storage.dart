@@ -44,6 +44,7 @@ class FirestoreStorage implements ReadWriteAppState {
         .doc(appStateId)
         .set(dataToSave);
 
+    print("Attempting to save:");
     bool success = false;
     await save.then((value) => success = true)
     .onError((error, stackTrace) => success = false);

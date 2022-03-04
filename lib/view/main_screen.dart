@@ -1,4 +1,5 @@
 import 'package:easy_dialog/easy_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -16,7 +17,7 @@ import 'package:tmt_flutter/model/move_goal_directive.dart';
 import '../model/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
 import 'app_bar_display.dart';
-import 'slideable.dart';
+import 'slideable/slideable.dart';
 
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
@@ -145,22 +146,24 @@ class _GoalScreenState extends State<GoalScreen> {
 
   Scaffold getScaffold() {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context, appState.getTitle(), appState.getCurrentGoal()),
+      // TODO create an expanded view mode
       body: GoalSlideable(
-          goalsToDisplay(), _deleteGoal, _openGoal, _toggleComplete, _editGoal,
+          //goalsToDisplay(),
+          expandedView(),
+          _deleteGoal, _openGoal, _toggleComplete, _editGoal,
           moveGoal),
         bottomSheet: getBreadCrumbs(),
       bottomNavigationBar: getBottomNavigationBar(),
     );
   }
 
-  AppBar buildAppBar() {
-    Goal currentGoal = appState.getCurrentGoal();
+  AppBar buildAppBar(BuildContext context, String title, Goal currentGoal) {
     return AppBar(
-        title: Text(appState.getTitle()),
+        title: Text(title),
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(130),
-            child: AppBarDisplay(context: context, goal: appState.getCurrentGoal())
+            child: AppBarDisplay(context: context, goal: currentGoal)
         )
     );
   }
@@ -199,7 +202,7 @@ class _GoalScreenState extends State<GoalScreen> {
       child: Row(
             children: [
               Spacer(),
-              !appState.isAtRoot() ? GFButton( // TODO grey out if at top
+              !appState.isAtRoot() ? GFButton(
                   onPressed: _navigateUp,
                   text: "Back",
                   icon: Icon(
@@ -254,6 +257,11 @@ class _GoalScreenState extends State<GoalScreen> {
           textScaleFactor: 1.1,
           textAlign: TextAlign.center,
         )).show(context);
+  }
+
+  List<Goal> expandedView() {
+    return appState.getExpandedView();
+
   }
 
 }

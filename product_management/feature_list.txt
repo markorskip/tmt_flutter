@@ -1,4 +1,5 @@
 Ideas:
+-Gnatt Chart
 -When a task is idle and below a certain percentage complete threshold, make smart suggestions on home to complete faster - link to thumbtack, home advisor
 -After completing item, pop up and notify user before the set up back on accident
 -Timestamp when tasks are modified

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/alert/gf_alert.dart';
-import 'package:getwidget/components/floating_widget/gf_floating_widget.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 class NewGoalDialog extends StatelessWidget {
@@ -22,7 +20,6 @@ class NewGoalDialog extends StatelessWidget {
     return result;
   }
 
-
   @override
   Widget build(BuildContext context) {
       return AlertDialog(
@@ -40,7 +37,8 @@ class NewGoalDialog extends StatelessWidget {
               ),
               controller: titleController,
               validator: (String? value) {
-                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                if (value == null) return 'Required';
+                return null;
               },
             ),
             TextFormField(
@@ -62,7 +60,8 @@ class NewGoalDialog extends StatelessWidget {
               ),
               controller: moneyController,
               validator: (String? value) {
-                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                if (value != null && double.tryParse(value) == null) 'Numbers only for money';
+                return null;
               },
             ),
             TextFormField(
@@ -73,7 +72,9 @@ class NewGoalDialog extends StatelessWidget {
               ),
               controller: timeController,
               validator: (String? value) {
-                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+                //TODO
+                if (value != null && value.contains('@'))  return 'Do not use the @ char.';
+                return null;
               },
             ),
           ],
@@ -89,6 +90,7 @@ class NewGoalDialog extends StatelessWidget {
         TextButton(
           child: Text('Add'),
           onPressed: () {
+            // TODO activate validators
             final goal = new Goal(titleController.value.text,
                 descriptionController.value.text,
                 getMoneyValue(),
