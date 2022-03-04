@@ -17,7 +17,7 @@ import 'package:tmt_flutter/model/move_goal_directive.dart';
 import '../model/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
 import 'app_bar_display.dart';
-import 'slideable/slideable.dart';
+import 'slideable/slideable_task.dart';
 
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
@@ -148,11 +148,15 @@ class _GoalScreenState extends State<GoalScreen> {
     return Scaffold(
       appBar: buildAppBar(context, appState.getTitle(), appState.getCurrentGoal()),
       // TODO create an expanded view mode
-      body: GoalSlideable(
+      body: SlideableTask(
           //goalsToDisplay(),
           expandedView(),
-          _deleteGoal, _openGoal, _toggleComplete, _editGoal,
-          moveGoal),
+          _deleteGoal,
+          _openGoal,
+          _toggleComplete,
+          _editGoal,
+          moveGoal,
+          context),
         bottomSheet: getBreadCrumbs(),
       bottomNavigationBar: getBottomNavigationBar(),
     );
