@@ -7,7 +7,9 @@ import 'package:getwidget/components/button/gf_icon_button.dart';
 import 'package:getwidget/components/tabs/gf_tabbar.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
+import 'package:tmt_flutter/view/breadcrumbs.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
+import 'package:tmt_flutter/view/dialog/info_dialog.dart';
 import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
 import 'package:tmt_flutter/model/app_state.dart';
@@ -157,7 +159,7 @@ class _GoalScreenState extends State<GoalScreen> {
           _editGoal,
           moveGoal,
           context),
-        bottomSheet: getBreadCrumbs(),
+        bottomSheet: TMTBreadCrumbs(appState.getBreadCrumbs()),
       bottomNavigationBar: getBottomNavigationBar(),
     );
   }
@@ -170,27 +172,6 @@ class _GoalScreenState extends State<GoalScreen> {
             child: AppBarDisplay(context: context, goal: currentGoal)
         )
     );
-  }
-
-  Widget getBreadCrumbs() {
-    List<String> breadCrumbs = appState.getBreadCrumbs();
-    if (breadCrumbs.length > 0) {
-      if (breadCrumbs.length > 3) breadCrumbs = breadCrumbs.sublist(breadCrumbs.length - 3, breadCrumbs.length);
-      List<BreadCrumbItem> items = breadCrumbs.map(
-              (e) => BreadCrumbItem(
-                    content: Text(e),
-                    onTap: _navigateUp // TODO implement link back or make only the parent linkable
-      )).toList();
-      return BreadCrumb(
-        items: items,
-        divider: Icon(Icons.chevron_right),
-        overflow: WrapOverflow(
-          keepLastDivider: false,
-          direction: Axis.horizontal,
-        ),
-      );
-    }
-    return Container(width: 0.0, height: 0.0);
   }
 
   String getUserId() {
@@ -234,7 +215,7 @@ class _GoalScreenState extends State<GoalScreen> {
               ),
               Spacer(),
               GFButton(
-                  onPressed: _basicEasyDialog,
+                  onPressed: () => InfoDialog(),
                   text: "Info",
                   icon: Icon(Icons.info, color: buttonColor),
                   type: GFButtonType.outline,
@@ -248,24 +229,7 @@ class _GoalScreenState extends State<GoalScreen> {
     );
   }
 
-  // Easy Dialog using title and description
-  void _basicEasyDialog() {
-    EasyDialog(
-        title: Text(
-          "Time Money Tasklist",
-          style: TextStyle(fontWeight: FontWeight.bold),
-          textScaleFactor: 1.2,
-        ),
-        description: Text(
-          "1. Create goals and subgoals \n2. Save to not lose work",
-          textScaleFactor: 1.1,
-          textAlign: TextAlign.center,
-        )).show(context);
-  }
-
   List<Goal> expandedView() {
     return appState.getExpandedView();
-
   }
-
 }
