@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 class NewGoalDialog extends StatelessWidget {
+
+  // TODO can these be removed if we are using a TextFormField?
   final titleController = new TextEditingController();
   final descriptionController = new TextEditingController();
   final moneyController = new TextEditingController();
@@ -36,10 +38,6 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Title *',
               ),
               controller: titleController,
-              validator: (String? value) {
-                if (value == null) return 'Required';
-                return null;
-              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -48,9 +46,6 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Description',
               ),
               controller: descriptionController,
-              validator: (String? value) {
-                return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
-              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -59,10 +54,6 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Cost in Dollars',
               ),
               controller: moneyController,
-              validator: (String? value) {
-                if (value != null && double.tryParse(value) == null) 'Numbers only for money';
-                return null;
-              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -71,11 +62,6 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Time in Hours',
               ),
               controller: timeController,
-              validator: (String? value) {
-                //TODO
-                if (value != null && value.contains('@'))  return 'Do not use the @ char.';
-                return null;
-              },
             ),
           ],
         ),
