@@ -45,6 +45,7 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   _addGoal() async {
+    //TODO consider instead of a dialog it slide over to another page - gives user the full screen
     final goal = await showDialog<Goal>(
       context: context,
       builder: (BuildContext context) {
@@ -67,9 +68,10 @@ class _GoalScreenState extends State<GoalScreen> {
       },
     );
     if (editedGoal != null) {
-      goal.editGoal(editedGoal);
+      setState(() {
+        goal.editGoal(editedGoal);
+      }); // Update changes on screen=
     }
-    setState(() {}); // Update changes on screen=
   }
 
   moveGoal(Goal goalToMove) async {

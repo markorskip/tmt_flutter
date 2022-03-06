@@ -4,6 +4,7 @@ import 'package:tmt_flutter/model/goal.dart';
 
 import '../../model/edit_goal_directive.dart';
 
+//TODO make stateless
 class EditGoalDialog extends StatefulWidget {
 
   final Goal goalToEdit;
@@ -48,27 +49,38 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
       // TODO refactor - edit and new goal should use the same form
       child: ListView(
           children: [
-            TextField(
-            controller: titleController,
-            autofocus: true,
-           ),
-            Text("Title"),
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.title),
+                hintText: 'Name of Task',
+                labelText: 'Title *',
+              ),
+              controller: titleController,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.description),
+                hintText: 'Optional Description',
+                labelText: 'Description',
+              ),
               controller: descriptionController,
-              autofocus: true,
             ),
-            Text("Description (optional)"),
-
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.attach_money),
+                hintText: 'Estimated Cost',
+                labelText: 'Cost in Dollars',
+              ),
               controller: moneyController,
-              autofocus: true,
             ),
-            Text("Estimated cost (in dollars)"),
-            TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.hourglass_top_sharp),
+                hintText: 'Estimated Time',
+                labelText: 'Time in Hours',
+              ),
               controller: timeController,
-              autofocus: true,
             ),
-            Text("Estimated time to complete (in hours)"),
             if (widget.goalToEdit.isCompletable()) getCompleteBox()
           ],
         ),

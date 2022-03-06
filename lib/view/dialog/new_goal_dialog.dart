@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
+
+// TODO use the same dialog for new or editing a goal.  If new goal, pass a newly created goal in - discard if they cancel
+
 class NewGoalDialog extends StatelessWidget {
 
   // TODO can these be removed if we are using a TextFormField?

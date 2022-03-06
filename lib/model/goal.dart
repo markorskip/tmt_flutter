@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'edit_goal_directive.dart';
 
 class Goal {
@@ -41,6 +42,7 @@ class Goal {
   }
 
   void editGoal(EditGoal editedGoal) { // TODO can this be done with a Partial?
+    print(editedGoal);
     this.title = editedGoal.title;
     this.description = editedGoal.description;
     this.timeInHours = editedGoal.timeInHours;
