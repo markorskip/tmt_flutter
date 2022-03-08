@@ -153,8 +153,8 @@ class _GoalScreenState extends State<GoalScreen> {
       appBar: buildAppBar(context, appState.getTitle(), appState.getCurrentGoal()),
       // TODO create an expanded view mode
       body: SlideableTask(
-          //goalsToDisplay(),
-          expandedView(),
+          goalsToDisplay(),
+          //expandedView(),
           _deleteGoal,
           _openGoal,
           _toggleComplete,

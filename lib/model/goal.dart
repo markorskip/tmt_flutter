@@ -59,34 +59,44 @@ class Goal {
     return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $_complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
   }
 
-  factory Goal.fromJson(Map<String, dynamic> jsonMap) {
-    double costInDollars = double.parse(jsonMap["cid"].toString());
+  static String id_key = 'id';
+  static String title_key = 't';
+  static String description_key='desc';
+  static String cost_dollars_key='cid';
+  static String time_in_hours_key='tih';
+  static String complete_key='c';
+  static String is_deleted_key='del';
+  static String levels_deep_key='lD';
+  static String goals_key="g";
 
-    var timeInHours = jsonMap["tih"];
+  factory Goal.fromJson(Map<String, dynamic> jsonMap) {
+    double costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
+
+    var timeInHours = jsonMap[time_in_hours_key];
     if (timeInHours.runtimeType == int) {
       timeInHours = timeInHours.toDouble();
     }
-    Goal result = new Goal(jsonMap["t"], jsonMap["desc"],costInDollars,timeInHours);
-    result.id = jsonMap['id'].toString();
-    result._complete = jsonMap['c'];
-    result.isDeleted = jsonMap['del'];
-    result.levelDeep = jsonMap['lD'];
-    var list = jsonMap['g'] as List;
+    Goal result = new Goal(jsonMap[title_key], jsonMap[description_key],costInDollars,timeInHours);
+    result.id = jsonMap[id_key].toString();
+    result._complete = jsonMap[complete_key];
+    result.isDeleted = jsonMap[is_deleted_key];
+    result.levelDeep = jsonMap[levels_deep_key];
+    var list = jsonMap[goals_key] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
     return result;
   }
 
   // Note Firebase limits string sizes to 10 mb.  We compress this file when we save
   Map<String, dynamic> toJson() => {
-    'id': id,
-    't': title,
-    'desc': description,
-    'cid':costInDollars,
-    'tih':timeInHours,
-    'c':_complete,
-    'del':isDeleted,
-    'lD':levelDeep,
-    'g': goals
+    id_key: id,
+    title_key: title,
+    description_key: description,
+    cost_dollars_key: costInDollars,
+    time_in_hours_key: timeInHours,
+    complete_key:_complete,
+    is_deleted_key:isDeleted,
+    levels_deep_key:levelDeep,
+    goals_key: goals
   };
 
   Function deepEq = const DeepCollectionEquality().equals;
