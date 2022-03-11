@@ -1,7 +1,0 @@
-flutter build web
-add this script to index.html before the script with main.dart.js
-  <script>
-    document.addEventListener('touchstart', {});
- </script>
-
- firebase deploy
