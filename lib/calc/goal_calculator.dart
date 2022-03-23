@@ -77,7 +77,7 @@ class GoalCalc extends GC{
   @override
   double getCostPercentageComplete() {
     double moneyResult;
-    if (_calculations.totalCost == 0.0) moneyResult = 1.0;
+    if (_calculations.totalCost <= 0.0) moneyResult = 1.0;
     else moneyResult = _calculations.completedCost/_calculations.totalCost;
     return roundDouble(moneyResult,2);
   }
