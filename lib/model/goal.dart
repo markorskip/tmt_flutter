@@ -11,17 +11,24 @@ class Goal {
   double timeInHours;
   bool _complete = false;
   bool isDeleted = false;
-  int levelDeep = 0;  // start at 0 // TODO Can this be calculated instead of stored?
+  int _levelDeep = 0;  // start at 0
   List<Goal> goals = []; // children
   String id = getUniqueID();
 
   Goal(this.title, this.description, this.costInDollars, this.timeInHours) {
-    this.levelDeep = 0;
+    this._levelDeep = 0;
     this.isDeleted = false;
   }
 
   factory Goal.fromString(String title) {
     return new Goal(title, "",0,0);
+  }
+
+  int getLevelDeep() {
+    // TODO Can this be calculated instead of stored?
+    // We need to keep track of parent.  By calling the parent, parent until null
+    // We will find the depth
+    return this._levelDeep;
   }
 
   bool isLeaf() {
@@ -37,7 +44,7 @@ class Goal {
   }
 
   addSubGoal(Goal goal) {
-    goal.levelDeep = this.levelDeep + 1; // TODO can this be calculated
+    goal._levelDeep = this._levelDeep + 1; // TODO can this be calculated
     this.goals.add(goal);
   }
 
@@ -56,7 +63,7 @@ class Goal {
 
   @override
   String toString() {
-    return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $_complete, isDeleted: $isDeleted, levelDeep: $levelDeep, goals: $goals}';
+    return 'Goal{title: $title, description: $description, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $_complete, isDeleted: $isDeleted, levelDeep: $_levelDeep, goals: $goals}';
   }
 
   static String id_key = 'id';
@@ -80,7 +87,7 @@ class Goal {
     result.id = jsonMap[id_key].toString();
     result._complete = jsonMap[complete_key];
     result.isDeleted = jsonMap[is_deleted_key];
-    result.levelDeep = jsonMap[levels_deep_key];
+    result._levelDeep = jsonMap[levels_deep_key];
     var list = jsonMap[goals_key] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
     return result;
@@ -95,7 +102,7 @@ class Goal {
     time_in_hours_key: timeInHours,
     complete_key:_complete,
     is_deleted_key:isDeleted,
-    levels_deep_key:levelDeep,
+    levels_deep_key:_levelDeep,
     goals_key: goals
   };
 
@@ -113,7 +120,7 @@ class Goal {
           timeInHours == other.timeInHours &&
           _complete == other._complete &&
           isDeleted == other.isDeleted &&
-          levelDeep == other.levelDeep &&
+          _levelDeep == other._levelDeep &&
           deepEq(goals, other.goals);
 
   @override
@@ -124,7 +131,7 @@ class Goal {
       timeInHours.hashCode ^
       _complete.hashCode ^
       isDeleted.hashCode ^
-      levelDeep.hashCode ^
+      _levelDeep.hashCode ^
       goals.hashCode;
 
   List<Goal> getGoals() {

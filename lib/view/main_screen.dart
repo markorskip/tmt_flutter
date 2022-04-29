@@ -178,7 +178,7 @@ class _GoalScreenState extends State<GoalScreen> {
 
   String getUserId() {
     // TODO implement from authentication
-    return "liveDemo";
+    return "demo";
   }
 
   BottomAppBar getBottomNavigationBar() {

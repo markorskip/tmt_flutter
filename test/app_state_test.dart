@@ -41,14 +41,14 @@ void main() {
     appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
     Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick a second level goal
     int length = appState.getCurrentlyDisplayedGoals().length;
-    int depth = goalToMove.levelDeep;
+    int depth = goalToMove.getLevelDeep();
     MoveGoal moveGoal = new MoveGoal(goalToMove);
     appState.move(moveGoal);
     expect(appState.isAtRoot(),false);
     expect(appState.getCurrentlyDisplayedGoals().length, length-1);
     appState.navigateUp();
     expect(appState.getCurrentlyDisplayedGoals().length, parentLength + 1);
-    expect(goalToMove.levelDeep, depth - 1);
+    expect(goalToMove.getLevelDeep(), depth - 1);
   });
 
   test('moving a goal down', () {
@@ -57,7 +57,7 @@ void main() {
     int lengthBeforeMove = appState.getCurrentlyDisplayedGoals().length;
 
     Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
-    int depth = goalToMove.levelDeep;
+    int depth = goalToMove.getLevelDeep();
     Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().last;
     int numberOfChildrenBeforeMove = goalToMoveTo.goals.length;
 
@@ -66,7 +66,7 @@ void main() {
     appState.move(moveGoal);
     expect(appState.getCurrentlyDisplayedGoals().length, lengthBeforeMove - 1);
     expect(goalToMoveTo.goals.length, numberOfChildrenBeforeMove + 1);
-    expect(goalToMove.levelDeep, depth + 1);
+    expect(goalToMove.getLevelDeep(), depth + 1);
   });
 
   test('moving a goal down when there are no siblings', () {
