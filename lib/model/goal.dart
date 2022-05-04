@@ -76,13 +76,14 @@ class Goal {
   static String levels_deep_key='lD';
   static String goals_key="g";
 
+
+
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
+    jsonMap = cleanMap(jsonMap);
+
     double costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
 
     var timeInHours = jsonMap[time_in_hours_key];
-    if (timeInHours.runtimeType == int) {
-      timeInHours = timeInHours.toDouble();
-    }
     Goal result = new Goal(jsonMap[title_key], jsonMap[description_key],costInDollars,timeInHours);
     result.id = jsonMap[id_key].toString();
     result._complete = jsonMap[complete_key];
@@ -91,6 +92,13 @@ class Goal {
     var list = jsonMap[goals_key] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
     return result;
+  }
+
+  static Map<String, dynamic> cleanMap(Map<String, dynamic> jsonMap) {
+    if (jsonMap[time_in_hours_key].runtimeType == int) {
+      jsonMap[time_in_hours_key] = jsonMap[time_in_hours_key].toDouble();
+    }
+    return jsonMap;
   }
 
   // Note Firebase limits string sizes to 10 mb.  We compress this file when we save
