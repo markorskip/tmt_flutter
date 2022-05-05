@@ -22,7 +22,7 @@ class _MoveGoalDialogState extends State<MoveGoalDialog> {
 
   Goal? dropdownValue;
 
-  // TODO isntead of this dialog, allow a user to drag and drop a slideable
+  // TODO instead of this dialog, allow a user to drag and drop a slideable
   // when the hold to drag and drop, an option appears to move up
   // then can drop on top of another to drop into
   // and then can reoder

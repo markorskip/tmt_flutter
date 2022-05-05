@@ -15,56 +15,56 @@ void main() {
 
   _createTestAppStateWith2RootGoalsWith3ChildrenEach() {
     AppState appState = AppState.defaultAppState();
-    appState.getCurrentlyDisplayedGoals().first.addSubGoal(_generateGoal("remodel home"));
-    appState.getCurrentlyDisplayedGoals().first.addSubGoal(_generateGoal("landscaping"));
+    appState.getCurrentlyDisplayedGoalsIncludingDeleted().first.addSubGoal(_generateGoal("remodel home"));
+    appState.getCurrentlyDisplayedGoalsIncludingDeleted().first.addSubGoal(_generateGoal("landscaping"));
     return appState;
   }
 
   test('test opening a goal changes state', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    int appStateLength = appState.getCurrentlyDisplayedGoals().length;
-    Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
+    int appStateLength = appState.getCurrentlyDisplayedGoalsIncludingDeleted().length;
+    Goal goal = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first; // Pick first goal to move up
     appState.openGoal(goal);
-    expect(appState.getCurrentlyDisplayedGoals().length,isNot(appStateLength));
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length,isNot(appStateLength));
   });
 
   test('moving a goal up when at the root', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    Goal goal = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
+    Goal goal = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first; // Pick first goal to move up
     MoveGoal moveGoal = new MoveGoal(goal);
     expect(()=> appState.move(moveGoal), throwsA(isA<Exception>())); // if we are in the root of the application, don't move up
   });
 
   test('moving a goal up when not at the root', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    int parentLength = appState.getCurrentlyDisplayedGoals().length;
-    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
-    Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick a second level goal
-    int length = appState.getCurrentlyDisplayedGoals().length;
+    int parentLength = appState.getCurrentlyDisplayedGoalsIncludingDeleted().length;
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
+    Goal goalToMove = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first; // Pick a second level goal
+    int length = appState.getCurrentlyDisplayedGoalsIncludingDeleted().length;
     int depth = goalToMove.getLevelDeep();
     MoveGoal moveGoal = new MoveGoal(goalToMove);
     appState.move(moveGoal);
     expect(appState.isAtRoot(),false);
-    expect(appState.getCurrentlyDisplayedGoals().length, length-1);
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, length-1);
     appState.navigateUp();
-    expect(appState.getCurrentlyDisplayedGoals().length, parentLength + 1);
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, parentLength + 1);
     expect(goalToMove.getLevelDeep(), depth - 1);
   });
 
   test('moving a goal down', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
-    int lengthBeforeMove = appState.getCurrentlyDisplayedGoals().length;
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
+    int lengthBeforeMove = appState.getCurrentlyDisplayedGoalsIncludingDeleted().length;
 
-    Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
+    Goal goalToMove = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first; // Pick first goal to move up
     int depth = goalToMove.getLevelDeep();
-    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().last;
+    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoalsIncludingDeleted().last;
     int numberOfChildrenBeforeMove = goalToMoveTo.goals.length;
 
     MoveGoal moveGoal = new MoveGoal(goalToMove);
     moveGoal.setGoalToMoveTo(goalToMoveTo);
     appState.move(moveGoal);
-    expect(appState.getCurrentlyDisplayedGoals().length, lengthBeforeMove - 1);
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, lengthBeforeMove - 1);
     expect(goalToMoveTo.goals.length, numberOfChildrenBeforeMove + 1);
     expect(goalToMove.getLevelDeep(), depth + 1);
   });
@@ -72,8 +72,8 @@ void main() {
   test('moving a goal down when there are no siblings', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
 
-    Goal goalToMove = appState.getCurrentlyDisplayedGoals().first; // Pick first goal to move up
-    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoals().first;  // Pick the same goal - not allowed
+    Goal goalToMove = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first; // Pick first goal to move up
+    Goal goalToMoveTo = appState.getCurrentlyDisplayedGoalsIncludingDeleted().first;  // Pick the same goal - not allowed
 
     MoveGoal moveGoal = new MoveGoal(goalToMove);
     moveGoal.setGoalToMoveTo(goalToMoveTo);
@@ -83,16 +83,23 @@ void main() {
   test('isAtRoot works', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
     expect(appState.isAtRoot(), true);
-    expect(appState.getCurrentlyDisplayedGoals().first.title,"Welcome to TMT");
-    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first.title,"Welcome to TMT");
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
     expect(appState.isAtRoot(), false);
   });
 
   test('Breadcrumbs', () {
     AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
-    appState.openGoal(appState.getCurrentlyDisplayedGoals().first);
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
     List<String> crumbs = appState.getBreadCrumbs();
     expect(crumbs, ['Projects', 'Welcome to TMT', 'remodel home']);
+  });
+
+  test('Get expanded goals', () {
+    AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
+    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, 2);
+    expect(appState.getExpandedDisplayedGoals().length, 8);
   });
 }

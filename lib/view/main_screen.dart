@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
 import 'package:tmt_flutter/view/breadcrumbs.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
+import 'package:tmt_flutter/view/dialog/edit_preferences.dart';
 import 'package:tmt_flutter/view/dialog/info_dialog.dart';
 import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
@@ -17,6 +20,7 @@ import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/model/goal_storage.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
 import '../model/edit_goal_directive.dart';
+import '../model/user_preferences.dart';
 import 'dialog/new_goal_dialog.dart';
 import 'app_bar_display.dart';
 import 'slideable/slideable_task.dart';
@@ -55,8 +59,10 @@ class _GoalScreenState extends State<GoalScreen> {
 
     if (goal != null) {
       setState(() {
-        appState.getCurrentlyDisplayedGoals().add(goal);
+        appState.getCurrentlyDisplayedGoalsIncludingDeleted().add(goal);
+        _save();
       });
+
     }
   }
 
@@ -70,6 +76,7 @@ class _GoalScreenState extends State<GoalScreen> {
     if (editedGoal != null) {
       setState(() {
         goal.editGoal(editedGoal);
+        _save();
       }); // Update changes on screen=
     }
   }
@@ -88,6 +95,7 @@ class _GoalScreenState extends State<GoalScreen> {
       if (appState.getGoalsToDisplay().length == 0) {
         _navigateUp();
       }
+      _save();
     });
   }
   }
@@ -95,12 +103,14 @@ class _GoalScreenState extends State<GoalScreen> {
   _deleteGoal(Goal goal) {
     setState(() {
       goal.delete();
+      _save();
     });
   }
 
   _toggleComplete(Goal goal) {
     setState(() {
       goal.toggleComplete();
+      _save();
     });
   }
 
@@ -116,6 +126,18 @@ class _GoalScreenState extends State<GoalScreen> {
         appState.navigateUp(levels: levels);
       });
     }
+  }
+
+  bool expandToggle = false;
+
+  _expand() {
+    setState(() {
+      appState.expanded = !appState.expanded;
+    });
+  }
+
+  _openSettings() {
+   // appState.setUserPreferences(EditPreferences(appState.userPreferences).edit());
   }
 
   _save() {
@@ -207,22 +229,35 @@ class _GoalScreenState extends State<GoalScreen> {
                   type: GFButtonType.outline,
                   color: buttonColor,
               ),
+              // Spacer(),
+              // GFButton(
+              //     onPressed: _save,
+              //     text: "Save",
+              //     icon: Icon(Icons.save, color: buttonColor),
+              //     type: GFButtonType.outline,
+              //     color: buttonColor,
+              // ),
               Spacer(),
               GFButton(
-                  onPressed: _save,
-                  text: "Save",
-                  icon: Icon(Icons.save, color: buttonColor),
-                  type: GFButtonType.outline,
-                  color: buttonColor,
+                onPressed: _openSettings,
+                icon: Icon(
+                    Icons.settings,
+                    color: Colors.white
+                ),
+                text: "Settings",
+                type: GFButtonType.outline,
+                color:  buttonColor,
               ),
               Spacer(),
               GFButton(
-                  onPressed: () => InfoDialog(),
-                  text: "Info",
-                  icon: Icon(Icons.info, color: buttonColor),
-                  type: GFButtonType.outline,
-                  color: buttonColor,
-                  //shape: GFButtonShape.pills
+                onPressed: _expand,
+                icon: Icon(
+                    Icons.expand,
+                    color: Colors.white
+                ),
+                text: "Expand",
+                type: GFButtonType.outline,
+                color:  buttonColor,
               ),
               Spacer(),
               //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
@@ -235,3 +270,4 @@ class _GoalScreenState extends State<GoalScreen> {
     return appState.getExpandedView();
   }
 }
+

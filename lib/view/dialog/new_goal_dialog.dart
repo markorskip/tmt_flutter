@@ -41,6 +41,8 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Title *',
               ),
               controller: titleController,
+              maxLines: 3,
+              minLines: 2,
             ),
             TextFormField(
               decoration: const InputDecoration(

@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
+import 'package:tmt_flutter/model/user_preferences.dart';
+import 'package:tmt_flutter/view/main_screen.dart';
 
 import 'goal.dart';
 
@@ -8,6 +11,8 @@ class AppState {
   String userId;
 
   AppState(this.userId);
+
+  UserPreferences userPreferences = UserPreferences.defaultPreferences();
 
   Map<String, dynamic> toJson() => {
     'userId' : userId,
@@ -37,7 +42,7 @@ class AppState {
   @override
   String toString() {
     return 'AppState{'
-        '\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoals(), '
+        '\ncurrentlyDisplayedGoals: $getCurrentlyDisplayedGoalsIncludingDeleted(), '
         '\ntitle: $getTitle(), '
         '\ngoalStack: $_goalStack}';
   }
@@ -79,18 +84,46 @@ class AppState {
     if (goalToMove == goalToMoveTo) {
       throw Exception('Cant move a goal inside itself');
     }
-    if (getCurrentlyDisplayedGoals().contains(goalToMove) && goalToMove != goalToMoveTo) {
-      getCurrentlyDisplayedGoals().remove(goalToMove);
+    if (getCurrentlyDisplayedGoalsIncludingDeleted().contains(goalToMove) && goalToMove != goalToMoveTo) {
+      getCurrentlyDisplayedGoalsIncludingDeleted().remove(goalToMove);
       goalToMoveTo!.addSubGoal(goalToMove);
     }
   }
 
-  List<Goal> getCurrentlyDisplayedGoals() {  // includes deleted goals
+  // TODO right now this just goes down one level
+  List<Goal> getExpandedDisplayedGoals() {
+    List<Goal> current = getUndeletedGoals();
+    List<Goal> result = [];
+    current.forEach((goal) {
+      result.add(goal);
+      if (goal.getActiveGoals().length > 0) {
+        goal.getActiveGoals().forEach((innerGoal) {
+          result.add(innerGoal);
+        });
+      }
+    });
+
+    return result;
+  }
+
+  List<Goal> getCurrentlyDisplayedGoalsIncludingDeleted() {  // includes deleted goals
     return _goalStack.last.getGoals();
   }
 
+  bool expanded = false;
+
+  List<Goal> getUndeletedGoals() { // excludes deleted goals
+      return getCurrentlyDisplayedGoalsIncludingDeleted().where((element) =>
+      element.isDeleted == false).toList();
+  }
+
   List<Goal> getGoalsToDisplay() { // excludes deleted goals
-    return getCurrentlyDisplayedGoals().where((element) => element.isDeleted == false).toList();
+    if (!expanded) {
+      return getUndeletedGoals();
+    }
+    else {
+      return getExpandedDisplayedGoals();
+    }
   }
 
   String getTitle() {
@@ -127,7 +160,7 @@ class AppState {
 
   List<Goal> getExpandedView() {
     List<Goal> result = [];
-    getCurrentlyDisplayedGoals().forEach((goal) {
+    getCurrentlyDisplayedGoalsIncludingDeleted().forEach((goal) {
       result.add(goal); // level 1
       goal.getActiveGoals().forEach((goal) {
        result.add(goal);  // level 2
@@ -135,6 +168,10 @@ class AppState {
     });
 
     return result;
+  }
+
+  void setUserPreferences(UserPreferences userPreferences) {
+
   }
 
 }
