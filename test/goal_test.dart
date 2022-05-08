@@ -1,25 +1,24 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tmt_flutter/model/edit_goal_directive.dart';
+import 'package:tmt_flutter/model/model_helpers/edit_goal_directive.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/calc/goal_calculator.dart';
 
 void main () {
 
   Goal _createTestGoal({bool complete = false}) {
-    Goal goal = new Goal("Test Goal","description",0,0);
+    Goal goal = new Goal("Test Goal",0,0);
     goal.setComplete(complete);
     return goal;
   }
 
   test('Test editing a goal works', () {
-    Goal goal = new Goal("Goal 1","description",0,0);
+    Goal goal = new Goal("Goal 1",0,0);
     EditGoal editedGoal = new EditGoal("Edited","description 2",5,5);
     editedGoal.complete = true;
     goal.editGoal(editedGoal);
     expect(goal.title, 'Edited');
-    expect(goal.description, 'description 2');
     expect(goal.costInDollars, 5.0);
     expect(goal.timeInHours, 5);
     expect(goal.isComplete(), true);
@@ -28,7 +27,7 @@ void main () {
   test('test a goal is completable', () {
     Goal goal = _createTestGoal();
     expect(goal.isCompletable(), true);
-    goal.addSubGoal(new Goal("Child goal","should no longer be completable",0,0));
+    goal.addSubGoal(new Goal("Child goal",0,0));
     expect(goal.isCompletable(), false);
     goal.getGoals().first.isDeleted = true; // Once we delete all children, a goal should be completable again
     expect(goal.isCompletable(), true);
@@ -54,4 +53,17 @@ void main () {
   });
 
 
+  var getEmptyGoal = () => Goal("",0,0);
+
+  test('getLevelDeep', () {
+    Goal two = getEmptyGoal();
+    two.parent = getEmptyGoal();
+    Goal three = getEmptyGoal();
+    three.parent = two;
+    expect(three.getLevelDeep(), 3);
+  });
+
+
 }
+
+

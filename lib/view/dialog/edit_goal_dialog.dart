@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/model/goal.dart';
 
-import '../../model/edit_goal_directive.dart';
+import '../../model/model_helpers/edit_goal_directive.dart';
 
 //TODO make stateless
 class EditGoalDialog extends StatefulWidget {
@@ -38,7 +38,6 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
   @override
   Widget build(BuildContext context) {
     titleController.text = widget.goalToEdit.title;
-    descriptionController.text = widget.goalToEdit.description;
     moneyController.text = widget.goalToEdit.costInDollars.toString();
     timeController.text = widget.goalToEdit.timeInHours.toString();
 
@@ -56,14 +55,6 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
                 labelText: 'Title *',
               ),
               controller: titleController,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.description),
-                hintText: 'Optional Description',
-                labelText: 'Description',
-              ),
-              controller: descriptionController,
             ),
             TextFormField(
               decoration: const InputDecoration(

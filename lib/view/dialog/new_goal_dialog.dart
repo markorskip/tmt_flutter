@@ -46,14 +46,6 @@ class NewGoalDialog extends StatelessWidget {
             ),
             TextFormField(
               decoration: const InputDecoration(
-                icon: Icon(Icons.description),
-                hintText: 'Optional Description',
-                labelText: 'Description',
-              ),
-              controller: descriptionController,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
                 icon: Icon(Icons.attach_money),
                 hintText: 'Estimated Cost',
                 labelText: 'Cost in Dollars',
@@ -83,7 +75,6 @@ class NewGoalDialog extends StatelessWidget {
           onPressed: () {
             // TODO activate validators
             final goal = new Goal(titleController.value.text,
-                descriptionController.value.text,
                 getMoneyValue(),
                 getTimeValue());
             titleController.clear();

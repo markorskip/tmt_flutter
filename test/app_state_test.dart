@@ -1,15 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/move_goal_directive.dart';
+import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 
 void main() {
 
+
+  var getEmptyGoal = () => Goal("",0,0);
+
   _generateGoal(String title) {
-    Goal goal = new Goal(title, "",0,0);
-    goal.addSubGoal(new Goal("child 1 of $title","",0,0));
-    goal.addSubGoal(new Goal("child 2 of $title","",0,0));
-    goal.addSubGoal(new Goal("child 3 of $title","",0,0));
+    Goal goal = getEmptyGoal();
+    goal.addSubGoal(getEmptyGoal());
+    goal.addSubGoal(getEmptyGoal());
+    goal.addSubGoal(getEmptyGoal());
     return goal;
   }
 

@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmt_flutter/model/move_goal_directive.dart';
-import 'package:tmt_flutter/model/user_preferences.dart';
-import 'package:tmt_flutter/view/main_screen.dart';
-
+import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import 'goal.dart';
 
 class AppState {
@@ -12,8 +9,6 @@ class AppState {
   String userId;
 
   AppState(this.userId);
-
-  UserPreferences userPreferences = UserPreferences.defaultPreferences();
 
   Map<String, dynamic> toJson() => {
     'userId' : userId,
@@ -35,8 +30,8 @@ class AppState {
 
   static AppState defaultAppState() {
     AppState appState = new AppState("demo");
-    appState._goalStack.add(new Goal(getRootTitle(),"",0,0));
-    appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT","",0,0));
+    appState._goalStack.add(new Goal(getRootTitle(),0,0));
+    appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT",0,0));
     return appState;
   }
 
@@ -146,7 +141,7 @@ class AppState {
 
   Goal getCurrentGoal() {
     if (_goalStack.isEmpty) {
-      return new Goal("ROOT","",0.0,0.0);
+      return new Goal("ROOT",0.0,0.0);
     }
     return this._goalStack.last;
   }
@@ -178,15 +173,11 @@ class AppState {
        result.add(goal);  // level 2
       });
     });
-
     return result;
   }
 
-  void setUserPreferences(UserPreferences userPreferences) {
-
-  }
-
   bool toggleColor = false;
+
   Color getNextColor() {
     toggleColor = !toggleColor;
     if (toggleColor) {
@@ -203,7 +194,5 @@ class AppState {
         goal.isExpanded = false;
       });
     }
-
   }
-
 }

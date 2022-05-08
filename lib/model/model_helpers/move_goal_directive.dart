@@ -1,4 +1,4 @@
-import 'goal.dart';
+import '../goal.dart';
 
 class MoveGoal {
 

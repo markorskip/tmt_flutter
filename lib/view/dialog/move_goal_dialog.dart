@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/move_goal_directive.dart';
+import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 
 class MoveGoalDialog extends StatefulWidget {
 
