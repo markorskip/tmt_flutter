@@ -130,9 +130,9 @@ class _GoalScreenState extends State<GoalScreen> {
 
   bool expandToggle = false;
 
-  _expand() {
+  _toggleExpand() {
     setState(() {
-      appState.expanded = !appState.expanded;
+      appState.toggleExpand();
     });
   }
 
@@ -250,7 +250,7 @@ class _GoalScreenState extends State<GoalScreen> {
               ),
               Spacer(),
               GFButton(
-                onPressed: _expand,
+                onPressed: _toggleExpand,
                 icon: Icon(
                     Icons.expand,
                     color: Colors.white

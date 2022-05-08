@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,15 @@ class Goal {
 
   factory Goal.fromString(String title) {
     return new Goal(title, "",0,0);
+  }
+
+  Color _expandedColor = Color(0xfff9d162);
+
+  bool isExpanded = false;
+  int levelExpansion = 0;
+
+  set expandedColor(Color expandedColor) {
+    _expandedColor = expandedColor;
   }
 
   int getLevelDeep() {
@@ -168,6 +178,14 @@ class Goal {
     prev + 1 : prev);
     if (numCompleted == getActiveGoals().length) return true;
     return false;
+  }
+
+
+  getBackgroundColor() {
+    if (isExpanded) {
+      return this._expandedColor;
+    }
+    return Colors.white;
   }
 
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/move_goal_directive.dart';
 import 'package:tmt_flutter/model/user_preferences.dart';
 import 'package:tmt_flutter/view/main_screen.dart';
@@ -94,10 +95,20 @@ class AppState {
   List<Goal> getExpandedDisplayedGoals() {
     List<Goal> current = getUndeletedGoals();
     List<Goal> result = [];
-    current.forEach((goal) {
-      result.add(goal);
-      if (goal.getActiveGoals().length > 0) {
-        goal.getActiveGoals().forEach((innerGoal) {
+    Color thisColor;
+    current.forEach((outergoal) {
+      thisColor = getNextColor();
+
+      result.add(outergoal);
+      if (outergoal.getActiveGoals().length > 0) {
+        outergoal.expandedColor = thisColor;
+        outergoal.isExpanded = true;
+        outergoal.levelExpansion = 0;
+
+        outergoal.getActiveGoals().forEach((innerGoal) {
+          innerGoal.expandedColor = thisColor;
+          innerGoal.isExpanded = true;
+          innerGoal.levelExpansion = 1;
           result.add(innerGoal);
         });
       }
@@ -163,6 +174,7 @@ class AppState {
     getCurrentlyDisplayedGoalsIncludingDeleted().forEach((goal) {
       result.add(goal); // level 1
       goal.getActiveGoals().forEach((goal) {
+        goal.isExpanded = true;
        result.add(goal);  // level 2
       });
     });
@@ -171,6 +183,26 @@ class AppState {
   }
 
   void setUserPreferences(UserPreferences userPreferences) {
+
+  }
+
+  bool toggleColor = false;
+  Color getNextColor() {
+    toggleColor = !toggleColor;
+    if (toggleColor) {
+      return Colors.black12;
+    }
+      return Colors.grey;
+  }
+
+  void toggleExpand() {
+    expanded = !expanded;
+
+    if (!expanded) {
+      getExpandedDisplayedGoals().forEach((goal) {
+        goal.isExpanded = false;
+      });
+    }
 
   }
 

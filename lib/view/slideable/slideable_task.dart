@@ -51,11 +51,15 @@ class SlideableTask extends StatelessWidget {
       actionExtentRatio: 0.25,
       child: Container(
         child: ListTile(
-          leading: buildGoalLeadingDisplay(widget: this, goal: goal),
+          leading: Row(children: [
+              buildGoalLeadingDisplay(widget: this, goal: goal),
+            ],
+          ),
           //textColor: Theme.of(context).primaryColor,
           title: Text(goal.title),
           subtitle: getSubTitleRichText(goal),
           isThreeLine: true,
+          tileColor: goal.getBackgroundColor(),
           dense: true,
           onTap: () {
             openSubGoalHandler(goal);
