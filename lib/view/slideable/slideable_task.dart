@@ -10,6 +10,7 @@ class SlideableTask extends StatelessWidget {
 
   final Function deleteHandler;
   final Function openSubGoalHandler;
+  final Function toggleExpandOnGoalHandler;
   final Function toggleCompleteHandler;
   final Function editHandler;
   final Function moveHandler;
@@ -20,6 +21,7 @@ class SlideableTask extends StatelessWidget {
       this.tasks,
       this.deleteHandler,
       this.openSubGoalHandler,
+      this.toggleExpandOnGoalHandler,
       this.toggleCompleteHandler,
       this.editHandler,
       this.moveHandler,
@@ -52,6 +54,7 @@ class SlideableTask extends StatelessWidget {
       child: Container(
         child: ListTile(
           leading: buildGoalLeadingDisplay(widget: this, goal: goal),
+          trailing: goal.getActiveGoals().length > 0 ? TrailingWidget(goal) : Spacer(),
           //textColor: Theme.of(context).primaryColor,
           title: Text(goal.title),
           subtitle: getSubTitleRichText(goal),
@@ -87,6 +90,20 @@ class SlideableTask extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  IconButton TrailingWidget(Goal goal) {
+    return IconButton(
+            icon: Icon(
+              goal.expanded ? Icons.expand : Icons.compress,
+              // color: Colors.blue,
+              size: 24.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            ),
+            onPressed: () {
+              this.toggleExpandOnGoalHandler(goal);
+            }
+        );
   }
 
   @override

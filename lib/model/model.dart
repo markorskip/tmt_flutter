@@ -14,7 +14,7 @@ class UserProject {
   UserProject(this.user, this.project, this.accessLevel);
 }
 
-class User extends BaseEntity {git st
+class User extends BaseEntity {
   // TODO
 }
 

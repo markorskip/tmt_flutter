@@ -99,10 +99,10 @@ void main() {
     expect(crumbs, ['Projects', 'Welcome to TMT', 'remodel home']);
   });
 
-  test('Get expanded goals', () {
-    AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
-    appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
-    expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, 2);
-    expect(appState.getExpandedDisplayedGoals().length, 8);
-  });
+  // test('Get expanded goals', () {
+  //   AppState appState = _createTestAppStateWith2RootGoalsWith3ChildrenEach();
+  //   appState.openGoal(appState.getCurrentlyDisplayedGoalsIncludingDeleted().first);
+  //   expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, 2);
+  //   expect(appState.getExpandedDisplayedGoals().length, 8);
+  // });
 }

@@ -87,30 +87,48 @@ class AppState {
   }
 
   // TODO right now this just goes down one level
-  List<Goal> getExpandedDisplayedGoals() {
-    List<Goal> current = getUndeletedGoals();
+
+
+  List<Goal> getListOfGoals(Goal goal, int depth) {
     List<Goal> result = [];
-    Color thisColor;
-    current.forEach((outergoal) {
-      thisColor = getNextColor();
-
-      result.add(outergoal);
-      if (outergoal.getActiveGoals().length > 0) {
-        outergoal.expandedColor = thisColor;
-        outergoal.isExpanded = true;
-        outergoal.levelExpansion = 0;
-
-        outergoal.getActiveGoals().forEach((innerGoal) {
-          innerGoal.expandedColor = thisColor;
-          innerGoal.isExpanded = true;
-          innerGoal.levelExpansion = 1;
-          result.add(innerGoal);
-        });
+    for (var g in goal.getActiveGoals()) {
+      //g.indent = depth;
+      result.add(g);
+      if (g.expanded) {
+        result.addAll(getListOfGoals(g, depth+1));
       }
-    });
-
+    }
     return result;
   }
+
+  // List<Goal> getExpandedDisplayedGoals() {
+  //   List<Goal> current = getUndeletedGoals();
+  //
+  //
+  //   List<Goal> result = [];
+  //
+  //
+  //   Color thisColor;
+  //   current.forEach((outergoal) {
+  //     thisColor = getNextColor();
+  //
+  //     result.add(outergoal);
+  //     if (outergoal.getActiveGoals().length > 0) {
+  //       outergoal.expandedColor = thisColor;
+  //       outergoal.isExpanded = true;
+  //       outergoal.levelExpansion = 0;
+  //
+  //       outergoal.getActiveGoals().forEach((innerGoal) {
+  //         innerGoal.expandedColor = thisColor;
+  //         innerGoal.isExpanded = true;
+  //         innerGoal.levelExpansion = 1;
+  //         result.add(innerGoal);
+  //       });
+  //     }
+  //   });
+  //
+  //   return result;
+  // }
 
   List<Goal> getCurrentlyDisplayedGoalsIncludingDeleted() {  // includes deleted goals
     return _goalStack.last.getGoals();
@@ -124,12 +142,7 @@ class AppState {
   }
 
   List<Goal> getGoalsToDisplay() { // excludes deleted goals
-    if (!expanded) {
-      return getUndeletedGoals();
-    }
-    else {
-      return getExpandedDisplayedGoals();
-    }
+    return getListOfGoals(_goalStack.last, 0);
   }
 
   String getTitle() {
@@ -164,18 +177,6 @@ class AppState {
     return _goalStack.map((goal) => formatBreadCrumbTitle(goal.title)).toList();
   }
 
-  List<Goal> getExpandedView() {
-    List<Goal> result = [];
-    getCurrentlyDisplayedGoalsIncludingDeleted().forEach((goal) {
-      result.add(goal); // level 1
-      goal.getActiveGoals().forEach((goal) {
-        goal.isExpanded = true;
-       result.add(goal);  // level 2
-      });
-    });
-    return result;
-  }
-
   bool toggleColor = false;
 
   Color getNextColor() {
@@ -186,13 +187,7 @@ class AppState {
       return Colors.grey;
   }
 
-  void toggleExpand() {
-    expanded = !expanded;
-
-    if (!expanded) {
-      getExpandedDisplayedGoals().forEach((goal) {
-        goal.isExpanded = false;
-      });
-    }
+  void toggleExpandOnGoal(Goal goal) {
+    goal.expanded = !goal.expanded;
   }
 }

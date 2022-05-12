@@ -111,6 +111,12 @@ class _GoalScreenState extends State<GoalScreen> {
     });
   }
 
+  _toggleExpandOnGoal(Goal goal) {
+    setState(() {
+      appState.toggleExpandOnGoal(goal);
+    });
+  }
+
   _navigateUp({int levels: 1}) {
     if (!appState.isAtRoot()) {
       setState(() {
@@ -120,12 +126,6 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   bool expandToggle = false;
-
-  _toggleExpand() {
-    setState(() {
-      appState.toggleExpand();
-    });
-  }
 
   _openSettings() {
    // appState.setUserPreferences(EditPreferences(appState.userPreferences).edit());
@@ -170,6 +170,7 @@ class _GoalScreenState extends State<GoalScreen> {
           //expandedView(),
           _deleteGoal,
           _openGoal,
+          _toggleExpandOnGoal,
           _toggleComplete,
           _editGoal,
           moveGoal,
@@ -240,16 +241,16 @@ class _GoalScreenState extends State<GoalScreen> {
                 color:  buttonColor,
               ),
               Spacer(),
-              GFButton(
-                onPressed: _toggleExpand,
-                icon: Icon(
-                    Icons.expand,
-                    color: Colors.white
-                ),
-                text: "Expand",
-                type: GFButtonType.outline,
-                color:  buttonColor,
-              ),
+              // GFButton(
+              //   onPressed: null,
+              //   icon: Icon(
+              //       Icons.expand,
+              //       color: Colors.white
+              //   ),
+              //   text: "Expand",
+              //   type: GFButtonType.outline,
+              //   color:  buttonColor,
+              // ),
               Spacer(),
               //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
             ],
@@ -257,8 +258,8 @@ class _GoalScreenState extends State<GoalScreen> {
     );
   }
 
-  List<Goal> expandedView() {
-    return appState.getExpandedView();
-  }
+  // List<Goal> expandedView() {
+  //   return appState.getExpandedView();
+  // }
 }
 

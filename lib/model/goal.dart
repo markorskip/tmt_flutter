@@ -8,11 +8,12 @@ class Goal {
   String title;
   double costInDollars;
   double timeInHours;
-  Goal? parent;
+  Goal? parent; // TODO implement this
   bool _complete = false;
   bool isDeleted = false;
   List<Goal> goals = []; // children
   String id = getUniqueID();
+
 
   Goal(this.title, this.costInDollars, this.timeInHours) {
     this.isDeleted = false;
@@ -25,7 +26,6 @@ class Goal {
   Color _expandedColor = Color(0xfff9d162);
 
   bool isExpanded = false;
-  int levelExpansion = 0;
 
   set expandedColor(Color expandedColor) {
     _expandedColor = expandedColor;
@@ -175,6 +175,11 @@ class Goal {
       return this._expandedColor;
     }
     return Colors.white;
+  }
+
+  bool expanded = false;
+  void toggleExpand() {
+    expanded = !expanded;
   }
 
 }
