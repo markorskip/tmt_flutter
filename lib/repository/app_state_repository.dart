@@ -107,20 +107,6 @@ class LocalGoalStorage implements AppStateRepository {
   }
 }
 
-Future<String> convertAppStateToCompressedString(AppState appState) async {
-  String result = json.encode(appState.toJson());
-  return await LZString.compressToBase64(result) ?? "";
-}
-
-Future<AppState> convertCompressedStringToAppState(String compressed) async {
-  String? decompressedJson = await LZString.decompressFromBase64(compressed);
-  if (decompressedJson != null){
-    AppState as = convertStringToAppState(decompressedJson);
-    return as;
-  }
-  return AppState.defaultAppState();
-}
-
 AppState convertStringToAppState(String jsonString) {
   Map<String, dynamic> appStateJson = json.decode(jsonString);
   return AppState.fromJson(appStateJson);

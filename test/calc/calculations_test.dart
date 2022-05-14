@@ -7,6 +7,8 @@ void main() {
   Goal _createTestGoal({bool complete = false, double cost = 0.0, double time = 0.0 }) {
     Goal goal = Goal.empty();
     goal.setComplete(complete);
+    goal.money = cost;
+    goal.time = time;
     return goal;
   }
 
@@ -90,7 +92,7 @@ void main() {
 
   test('Time is calculated properly with grandchildren', () {
     Goal parent = _createTestGoal();
-    Goal sub1 = _createTestGoal(); // 50 percent complete
+    Goal sub1 = _createTestGoal(complete: true, time: 2.0); // 50 percent complete
     Goal grand1 = _createTestGoal(complete: true, time: 2.0);
     Goal grand2 = _createTestGoal(time: 2.0);
     sub1.addSubGoal(grand1);
