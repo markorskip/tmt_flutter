@@ -23,19 +23,10 @@ class Goal {
     return new Goal(title,0,0);
   }
 
-  Color _expandedColor = Color(0xfff9d162);
-
-  bool isExpanded = false;
-
-  set expandedColor(Color expandedColor) {
-    _expandedColor = expandedColor;
-  }
-
   int getLevelDeep() {
     if (parent != null) {
       return parent!.getLevelDeep() + 1;
     }
-
     return 1;
   }
 
@@ -169,17 +160,15 @@ class Goal {
     return false;
   }
 
-
-  getBackgroundColor() {
-    if (isExpanded) {
-      return this._expandedColor;
-    }
-    return Colors.white;
-  }
-
   bool expanded = false;
   void toggleExpand() {
     expanded = !expanded;
+  }
+
+  int ident = 0;
+
+  void setIdent(int depth) {
+    this.ident = depth;
   }
 
 }

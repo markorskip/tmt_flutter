@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/view/main_screen.dart';
-import 'package:tmt_flutter/model/model_helpers/goal_storage.dart';
+import 'package:tmt_flutter/repository/app_state_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 

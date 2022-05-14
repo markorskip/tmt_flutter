@@ -54,12 +54,12 @@ class SlideableTask extends StatelessWidget {
       child: Container(
         child: ListTile(
           leading: buildGoalLeadingDisplay(widget: this, goal: goal),
-          trailing: goal.getActiveGoals().length > 0 ? TrailingWidget(goal) : Spacer(),
+          trailing: TrailingWidget(goal),
           //textColor: Theme.of(context).primaryColor,
           title: Text(goal.title),
           subtitle: getSubTitleRichText(goal),
           isThreeLine: true,
-          tileColor: goal.getBackgroundColor(),
+          tileColor: getTileColor(goal),
           dense: true,
           onTap: () {
             openSubGoalHandler(goal);
@@ -92,7 +92,8 @@ class SlideableTask extends StatelessWidget {
     );
   }
 
-  IconButton TrailingWidget(Goal goal) {
+  Widget TrailingWidget(Goal goal) {
+    if (goal.getActiveGoals().length < 1) return SizedBox.shrink();
     return IconButton(
             icon: Icon(
               goal.expanded ? Icons.expand : Icons.compress,
@@ -112,6 +113,24 @@ class SlideableTask extends StatelessWidget {
       itemBuilder: _buildItem,
       itemCount: tasks.length,
     );
+  }
+
+  Color getTileColor(Goal goal) {
+    // This lumps the colors of the parent with the children
+    int depth = goal.expanded ? goal.ident + 1 : goal.ident;
+
+    switch(depth) {
+      case 0:
+        return Colors.white;
+      case 1:
+        return Colors.black12;
+      case 2:
+        return Colors.white10;
+      case 3:
+        return Colors.black12;
+      default:
+        return Colors.white10;
+    }
   }
 }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import 'goal.dart';
@@ -93,6 +92,7 @@ class AppState {
     List<Goal> result = [];
     for (var g in goal.getActiveGoals()) {
       //g.indent = depth;
+      g.setIdent(depth);
       result.add(g);
       if (g.expanded) {
         result.addAll(getListOfGoals(g, depth+1));
@@ -101,40 +101,9 @@ class AppState {
     return result;
   }
 
-  // List<Goal> getExpandedDisplayedGoals() {
-  //   List<Goal> current = getUndeletedGoals();
-  //
-  //
-  //   List<Goal> result = [];
-  //
-  //
-  //   Color thisColor;
-  //   current.forEach((outergoal) {
-  //     thisColor = getNextColor();
-  //
-  //     result.add(outergoal);
-  //     if (outergoal.getActiveGoals().length > 0) {
-  //       outergoal.expandedColor = thisColor;
-  //       outergoal.isExpanded = true;
-  //       outergoal.levelExpansion = 0;
-  //
-  //       outergoal.getActiveGoals().forEach((innerGoal) {
-  //         innerGoal.expandedColor = thisColor;
-  //         innerGoal.isExpanded = true;
-  //         innerGoal.levelExpansion = 1;
-  //         result.add(innerGoal);
-  //       });
-  //     }
-  //   });
-  //
-  //   return result;
-  // }
-
   List<Goal> getCurrentlyDisplayedGoalsIncludingDeleted() {  // includes deleted goals
     return _goalStack.last.getGoals();
   }
-
-  bool expanded = false;
 
   List<Goal> getUndeletedGoals() { // excludes deleted goals
       return getCurrentlyDisplayedGoalsIncludingDeleted().where((element) =>

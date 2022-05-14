@@ -2,7 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lzstring/lzstring.dart';
 import 'package:tmt_flutter/model/app_state.dart';
-import 'package:tmt_flutter/model/model_helpers/goal_storage.dart';
+import 'package:tmt_flutter/repository/app_state_repository.dart';
 
 void main() {
 

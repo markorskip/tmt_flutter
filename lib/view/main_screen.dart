@@ -9,7 +9,7 @@ import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/model/model_helpers/goal_storage.dart';
+import 'package:tmt_flutter/repository/app_state_repository.dart';
 import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import '../model/model_helpers/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
@@ -19,7 +19,7 @@ import 'slideable/slideable_task.dart';
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
 
-  final ReadWriteAppState readWriteAppState;
+  final AppStateRepository readWriteAppState;
 
   @override
   _GoalScreenState createState() => _GoalScreenState();
@@ -167,7 +167,6 @@ class _GoalScreenState extends State<GoalScreen> {
       // TODO create an expanded view mode
       body: SlideableTask(
           goalsToDisplay(),
-          //expandedView(),
           _deleteGoal,
           _openGoal,
           _toggleExpandOnGoal,
@@ -221,14 +220,14 @@ class _GoalScreenState extends State<GoalScreen> {
                   type: GFButtonType.outline,
                   color: buttonColor,
               ),
-              // Spacer(),
-              // GFButton(
-              //     onPressed: _save,
-              //     text: "Save",
-              //     icon: Icon(Icons.save, color: buttonColor),
-              //     type: GFButtonType.outline,
-              //     color: buttonColor,
-              // ),
+              Spacer(),
+              GFButton(
+                  onPressed: _save,
+                  text: "Save",
+                  icon: Icon(Icons.save, color: buttonColor),
+                  type: GFButtonType.outline,
+                  color: buttonColor,
+              ),
               Spacer(),
               GFButton(
                 onPressed: _openSettings,

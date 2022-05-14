@@ -23,6 +23,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            getIdentSpacing(goal),
             Icon(
               Icons.timer,
               //color: Colors.blueAccent,
@@ -59,29 +60,26 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             ),
           ]);
     }
-    if (goal.isComplete() == false) {
-      return IconButton(
-          icon: Icon(
-            Icons.radio_button_unchecked,
-            // color: Colors.blue,
-            size: 24.0,
-            semanticLabel: 'Text to announce in accessibility modes',
-          ),
-          onPressed: () {
-            widget.toggleCompleteHandler(goal);
-          }
-      );
-    }
-    return IconButton(
-        icon: Icon(
-          Icons.radio_button_checked,
-          // color: Colors.blue,
-          size: 24.0,
-          semanticLabel: 'Text to announce in accessibility modes',
-        ),
-        onPressed: () {
-          widget.toggleCompleteHandler(goal);
-        }
-    );
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          getIdentSpacing(goal),
+          IconButton(
+            icon: Icon(
+              goal.isComplete() ? Icons.radio_button_checked: Icons.radio_button_unchecked,
+              // color: Colors.blue,
+              size: 24.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+              ),
+            onPressed: () {
+              widget.toggleCompleteHandler(goal);
+            }
+          )]);
+  }
+
+  Widget getIdentSpacing(Goal goal) {
+    if ( goal.ident < 1) return SizedBox.shrink();
+    return Container(margin: EdgeInsets.only(left: goal.ident * 25.0), child:
+    Icon(Icons.subdirectory_arrow_right, size: 20.0));
   }
 }
