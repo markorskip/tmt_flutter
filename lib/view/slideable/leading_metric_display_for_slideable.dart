@@ -4,7 +4,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../calc/goal_calculator.dart';
 import '../../model/goal.dart';
-import 'slideable_task.dart';
+import 'slideable_tasks.dart';
 
 class buildGoalLeadingDisplay extends StatelessWidget {
   const buildGoalLeadingDisplay({
@@ -13,7 +13,7 @@ class buildGoalLeadingDisplay extends StatelessWidget {
     required this.goal,
   }) : super(key: key);
 
-  final SlideableTask widget;
+  final SlideableTasks widget;
   final Goal goal;
 
   @override

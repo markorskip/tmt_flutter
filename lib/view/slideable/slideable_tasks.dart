@@ -6,7 +6,7 @@ import 'package:tmt_flutter/calc/goal_calculator.dart';
 
 import 'leading_metric_display_for_slideable.dart';
 
-class SlideableTask extends StatelessWidget {
+class SlideableTasks extends StatelessWidget {
 
   final Function deleteHandler;
   final Function openSubGoalHandler;
@@ -17,7 +17,7 @@ class SlideableTask extends StatelessWidget {
   final List<Goal> tasks;
   final BuildContext context;
 
-  SlideableTask(
+  SlideableTasks(
       this.tasks,
       this.deleteHandler,
       this.openSubGoalHandler,

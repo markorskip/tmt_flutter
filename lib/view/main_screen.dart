@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/types/gf_button_type.dart';
-import 'package:tmt_flutter/view/breadcrumbs.dart';
+import 'package:tmt_flutter/view/bottom/bottom_nav_bar.dart';
+import 'package:tmt_flutter/view/bottom/breadcrumbs.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
@@ -14,7 +15,7 @@ import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import '../model/model_helpers/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
 import 'header/app_bar_display.dart';
-import 'slideable/slideable_task.dart';
+import 'slideable/slideable_tasks.dart';
 
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.readWriteAppState);
@@ -127,10 +128,6 @@ class _GoalScreenState extends State<GoalScreen> {
 
   bool expandToggle = false;
 
-  _openSettings() {
-   // appState.setUserPreferences(EditPreferences(appState.userPreferences).edit());
-  }
-
   _save() {
     widget.readWriteAppState.writeAppState(appState);
   }
@@ -164,8 +161,7 @@ class _GoalScreenState extends State<GoalScreen> {
   Scaffold getScaffold() {
     return Scaffold(
       appBar: buildAppBar(context, appState.getTitle(), appState.getCurrentGoal()),
-      // TODO create an expanded view mode
-      body: SlideableTask(
+      body: SlideableTasks(
           goalsToDisplay(),
           _deleteGoal,
           _openGoal,
@@ -175,7 +171,12 @@ class _GoalScreenState extends State<GoalScreen> {
           moveGoal,
           context),
         bottomSheet: TMTBreadCrumbs(appState.getBreadCrumbs()),
-      bottomNavigationBar: getBottomNavigationBar(),
+        bottomNavigationBar: CustomBottomNavbar(
+          addGoalHandler: _addGoal,
+          navigateUpHandler: _navigateUp,
+          saveHandler: _save,
+          isAtRoot: appState.isAtRoot(),
+        )
     );
   }
 
@@ -193,72 +194,5 @@ class _GoalScreenState extends State<GoalScreen> {
     // TODO implement from authentication
     return "demo";
   }
-
-  BottomAppBar getBottomNavigationBar() {
-    var buttonColor = Colors.white;
-
-    return BottomAppBar(
-      color: Theme.of(context).colorScheme.primary,
-      child: Row(
-            children: [
-              Spacer(),
-              !appState.isAtRoot() ? GFButton(
-                  onPressed: _navigateUp,
-                  text: "Back",
-                  icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: appState.isAtRoot() ? Colors.grey : buttonColor
-                  ),
-                  type: GFButtonType.outline,
-                  color:  appState.isAtRoot() ? Colors.grey : buttonColor,
-              ): Container(height: 0, width: 0),
-              !appState.isAtRoot() ? Spacer() : Container(height: 0, width: 0),
-              GFButton(
-                  onPressed: _addGoal,
-                  text: "New Task",
-                  icon: Icon(Icons.add, color: buttonColor),
-                  type: GFButtonType.outline,
-                  color: buttonColor,
-              ),
-              Spacer(),
-              GFButton(
-                  onPressed: _save,
-                  text: "Save",
-                  icon: Icon(Icons.save, color: buttonColor),
-                  type: GFButtonType.outline,
-                  color: buttonColor,
-              ),
-              // Spacer(),
-              // GFButton(
-              //   onPressed: _openSettings,
-              //   icon: Icon(
-              //       Icons.settings,
-              //       color: Colors.white
-              //   ),
-              //   text: "Settings",
-              //   type: GFButtonType.outline,
-              //   color:  buttonColor,
-              // ),
-              Spacer(),
-              // GFButton(
-              //   onPressed: null,
-              //   icon: Icon(
-              //       Icons.expand,
-              //       color: Colors.white
-              //   ),
-              //   text: "Expand",
-              //   type: GFButtonType.outline,
-              //   color:  buttonColor,
-              // ),
-              Spacer(),
-              //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-            ],
-          )
-    );
-  }
-
-  // List<Goal> expandedView() {
-  //   return appState.getExpandedView();
-  // }
 }
 
