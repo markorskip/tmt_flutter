@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tmt_flutter/view/main_screen.dart';
+import 'package:tmt_flutter/view/goal_screen.dart';
 import 'package:tmt_flutter/repository/app_state_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
           subtitle1: TextStyle(fontSize: 20.0),
         ),
       ),
+      // ********************************
       home: GoalScreen(FirestoreStorage()),
       //home: GoalScreen(LocalGoalStorage()),
     );

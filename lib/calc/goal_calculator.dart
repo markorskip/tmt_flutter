@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import '../model/goal.dart';
 
@@ -79,7 +80,7 @@ class GoalCalc extends GC{
     double moneyResult;
     if (_calculations.totalCost <= 0.0) moneyResult = 1.0;
     else moneyResult = _calculations.completedCost/_calculations.totalCost;
-    return roundDouble(moneyResult,2);
+    return cleanPercentage(roundDouble(moneyResult,2));
   }
 
   @override
@@ -94,7 +95,7 @@ class GoalCalc extends GC{
 
   @override
   double getTasksPercentageComplete() {
-    return roundDouble(_calculations.completedTasks/_calculations.totalTasks,2);
+    return cleanPercentage(roundDouble(_calculations.completedTasks/_calculations.totalTasks,2));
   }
 
   @override
@@ -112,7 +113,7 @@ class GoalCalc extends GC{
     double timeResult;
     if (_calculations.totalTime == 0) timeResult = _calculations.completedTasks / _calculations.totalTasks;
     else timeResult = _calculations.completedTime/_calculations.totalTime;
-    return roundDouble(timeResult,2);
+    return cleanPercentage(roundDouble(timeResult,2));
   }
 
   @override
@@ -161,5 +162,11 @@ class GoalCalc extends GC{
 
   String getPercentageCompleteCostFormatted() {
     return (getCostPercentageComplete() * 100).toString().split('.').first + "%";
+  }
+
+  double cleanPercentage(double percentage) {
+      if (percentage > 1.0) return 1.0;
+      if (percentage < 0.0) return 0.0;
+      return percentage;
   }
 }

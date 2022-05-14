@@ -18,9 +18,9 @@ import 'header/app_bar_display.dart';
 import 'slideable/slideable_tasks.dart';
 
 class GoalScreen extends StatefulWidget {
-  GoalScreen(this.readWriteAppState);
+  GoalScreen(this.appStateRepository);
 
-  final AppStateRepository readWriteAppState;
+  final AppStateRepository appStateRepository;
 
   @override
   _GoalScreenState createState() => _GoalScreenState();
@@ -31,13 +31,13 @@ class _GoalScreenState extends State<GoalScreen> {
   late AppState appState;
 
   Future<AppState> getAppState() async {
-    return await widget.readWriteAppState.readAppState(getUserId());
+    return await widget.appStateRepository.readAppState(getUserId());
   }
 
   @override
   void initState() {
     super.initState();
-    widget.readWriteAppState.readAppState(getUserId()).then((value) => this.appState = value);
+    widget.appStateRepository.readAppState(getUserId()).then((value) => this.appState = value);
   }
 
   _addGoal() async {
@@ -129,7 +129,7 @@ class _GoalScreenState extends State<GoalScreen> {
   bool expandToggle = false;
 
   _save() {
-    widget.readWriteAppState.writeAppState(appState);
+    widget.appStateRepository.writeAppState(appState);
   }
 
   List<Goal> goalsToDisplay() {
