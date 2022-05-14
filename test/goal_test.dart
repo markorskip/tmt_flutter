@@ -8,26 +8,26 @@ import 'package:tmt_flutter/calc/goal_calculator.dart';
 void main () {
 
   Goal _createTestGoal({bool complete = false}) {
-    Goal goal = new Goal("Test Goal",0,0);
+    Goal goal = Goal.empty();
     goal.setComplete(complete);
     return goal;
   }
 
   test('Test editing a goal works', () {
-    Goal goal = new Goal("Goal 1",0,0);
+    Goal goal = Goal.empty();
     EditGoal editedGoal = new EditGoal("Edited","description 2",5,5);
     editedGoal.complete = true;
     goal.editGoal(editedGoal);
     expect(goal.title, 'Edited');
-    expect(goal.costInDollars, 5.0);
-    expect(goal.timeInHours, 5);
+    expect(goal.money, 5.0);
+    expect(goal.time, 5);
     expect(goal.isComplete(), true);
   });
 
   test('test a goal is completable', () {
     Goal goal = _createTestGoal();
     expect(goal.isCompletable(), true);
-    goal.addSubGoal(new Goal("Child goal",0,0));
+    goal.addSubGoal(Goal.empty());
     expect(goal.isCompletable(), false);
     goal.getGoals().first.isDeleted = true; // Once we delete all children, a goal should be completable again
     expect(goal.isCompletable(), true);
@@ -52,14 +52,10 @@ void main () {
     expect(goal.isComplete(), true);
   });
 
-
-  var getEmptyGoal = () => Goal("",0,0);
-
   test('getLevelDeep', () {
-    Goal two = getEmptyGoal();
-    two.parent = getEmptyGoal();
-    Goal three = getEmptyGoal();
-    three.parent = two;
+    Goal root = Goal.empty();
+    Goal two = Goal.child(root);
+    Goal three = Goal.child(two);
     expect(three.getLevelDeep(), 3);
   });
 

@@ -27,6 +27,8 @@ class FirestoreStorage implements AppStateRepository {
 
     if (json != null) {
       AppState appState = convertStringToAppState(json);
+
+      populateParents(appState);
       return Future.value(appState);
     }
 
@@ -51,6 +53,12 @@ class FirestoreStorage implements AppStateRepository {
 
     print("Savings... Success:" + success.toString());
     return Future.value(success);
+  }
+
+  // instead of storing a circular relationship in the json, we can populate
+  // the parents when we load
+  void populateParents(AppState appState) {
+    appState.populateParents();
   }
 }
 

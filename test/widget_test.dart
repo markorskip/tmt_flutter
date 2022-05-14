@@ -15,26 +15,24 @@ void main() {
 
   test('List should be modified by reference', () {
     List<Goal> list1 = [];
-    list1.add(Goal("goal1",0,0));
+    list1.add(Goal.empty());
     List<Goal> list2 = [];
     list2 = list1;
-    list2.add(Goal("goal2",1,1));
+    list2.add(Goal.empty());
 
     expect(list1.length,2);
   });
 
-  getEmptyGoal () => new Goal("test",0,0);
-
   test('Should not throw infinity error', () {
-    Goal goal = new Goal("test",0,0);
-    goal.addSubGoal(getEmptyGoal());
-    goal.addSubGoal(getEmptyGoal());
+    Goal goal = Goal.empty();
+    goal.addSubGoal(Goal.empty());
+    goal.addSubGoal(Goal.empty());
     expect(GoalCalc(goal).getCostPercentageComplete(),1.0);
   });
 
   test('Test encoding and decodings JSON', () {
-    Goal goal = getEmptyGoal();
-    goal.addSubGoal(getEmptyGoal());
+    Goal goal = Goal.empty();
+    goal.addSubGoal(Goal.empty());
     String jsonString = json.encode(goal);
     Map<String, dynamic> map = json.decode(jsonString);
     Goal result  = Goal.fromJson(map);
@@ -50,18 +48,18 @@ void main() {
   });
 
   test('Test calculations for multiple levels of goals', () {
-    Goal parent = Goal.fromString("parent");
-    Goal child1 = getEmptyGoal();
-    Goal grandChildGoal = Goal("grandchild",50,110);
-    Goal grandChildGoal2 = Goal("grandchild",50,110);
+    Goal parent = Goal.empty();;
+    Goal child1 = Goal.empty();
+    Goal grandChildGoal = Goal("grandchild", child1, money:50, time: 110);
+    Goal grandChildGoal2 = Goal("grandchild",child1, money: 50, time: 110);
     grandChildGoal2.setComplete(true);
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
 
-    Goal child2 = getEmptyGoal();
-    Goal grandChildGoal3 = Goal("grandchild",50,110);
+    Goal child2 = Goal.empty();
+    Goal grandChildGoal3 = Goal("grandchild", child2, money: 50, time: 110);
     grandChildGoal3.setComplete(true);
-    Goal grandChildGoal4 = Goal("grandchild",75,120);
+    Goal grandChildGoal4 = Goal("grandchild", child2, money: 75,time: 120);
     child1.addSubGoal(grandChildGoal3);
     child1.addSubGoal(grandChildGoal4);
 
@@ -76,10 +74,10 @@ void main() {
   });
 
   test('Test total tasks and total tasks complete is accurate', () {
-    Goal parent = Goal.fromString("parent");
-    Goal child1 = getEmptyGoal();
-    Goal grandChildGoal = Goal("grandchild",50,110);
-    Goal grandChildGoal2 = Goal("grandchild",50,110);
+    Goal parent = Goal.empty();;
+    Goal child1 = Goal.empty();;
+    Goal grandChildGoal = Goal("grandchild",child1, money: 50,time: 110);
+    Goal grandChildGoal2 = Goal("grandchild", child1, money: 50, time: 110);
     grandChildGoal2.setComplete(true);
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);

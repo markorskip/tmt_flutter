@@ -9,6 +9,8 @@ class AppState {
 
   AppState(this.userId);
 
+  AppState.withGoal(this.userId, this._goalStack);
+
   Map<String, dynamic> toJson() => {
     'userId' : userId,
     'goalStack' : _goalStack
@@ -29,8 +31,8 @@ class AppState {
 
   static AppState defaultAppState() {
     AppState appState = new AppState("demo");
-    appState._goalStack.add(new Goal(getRootTitle(),0,0));
-    appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT",0,0));
+    appState._goalStack.add(new Goal(getRootTitle(),null));
+    appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT",null));
     return appState;
   }
 
@@ -122,9 +124,6 @@ class AppState {
   }
 
   Goal getCurrentGoal() {
-    if (_goalStack.isEmpty) {
-      return new Goal("ROOT",0.0,0.0);
-    }
     return this._goalStack.last;
   }
 
@@ -158,5 +157,21 @@ class AppState {
 
   void toggleExpandOnGoal(Goal goal) {
     goal.expanded = !goal.expanded;
+  }
+
+  getRootGoal() {
+    return this._goalStack[0];
+  }
+
+  populateParents() {
+    this.populateChildren(getRootGoal());
+  }
+
+  populateChildren(Goal parent) {
+    if (parent.goals.length != 0) {
+      parent.goals.forEach((child) {
+        child.setParent(parent);
+      });
+    }
   }
 }

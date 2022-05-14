@@ -60,7 +60,7 @@ class GoalCalc extends GC{
   static _Accumulator _getAll(Goal goal) {
     _Accumulator acc = _Accumulator();
     if (goal.isLeaf()) {
-      return _Accumulator.fromSingleGoal(goal.costInDollars, goal.timeInHours, 1, goal.isComplete());
+      return _Accumulator.fromSingleGoal(goal.money, goal.time, 1, goal.isComplete());
     }
 
     goal.getActiveGoals().forEach((goal) {

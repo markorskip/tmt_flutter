@@ -38,8 +38,8 @@ class _EditGoalDialogState extends State<EditGoalDialog>{
   @override
   Widget build(BuildContext context) {
     titleController.text = widget.goalToEdit.title;
-    moneyController.text = widget.goalToEdit.costInDollars.toString();
-    timeController.text = widget.goalToEdit.timeInHours.toString();
+    moneyController.text = widget.goalToEdit.money.toString();
+    timeController.text = widget.goalToEdit.time.toString();
 
     return AlertDialog(
       title: Text('Edit Goal'),

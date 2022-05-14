@@ -13,7 +13,7 @@ import 'package:tmt_flutter/repository/app_state_repository.dart';
 import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import '../model/model_helpers/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
-import 'app_bar_display.dart';
+import 'header/app_bar_display.dart';
 import 'slideable/slideable_task.dart';
 
 class GoalScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _GoalScreenState extends State<GoalScreen> {
     final goal = await showDialog<Goal>(
       context: context,
       builder: (BuildContext context) {
-        return NewGoalDialog();
+        return NewGoalDialog(appState.getCurrentGoal());
       },
     );
 
@@ -228,17 +228,17 @@ class _GoalScreenState extends State<GoalScreen> {
                   type: GFButtonType.outline,
                   color: buttonColor,
               ),
-              Spacer(),
-              GFButton(
-                onPressed: _openSettings,
-                icon: Icon(
-                    Icons.settings,
-                    color: Colors.white
-                ),
-                text: "Settings",
-                type: GFButtonType.outline,
-                color:  buttonColor,
-              ),
+              // Spacer(),
+              // GFButton(
+              //   onPressed: _openSettings,
+              //   icon: Icon(
+              //       Icons.settings,
+              //       color: Colors.white
+              //   ),
+              //   text: "Settings",
+              //   type: GFButtonType.outline,
+              //   color:  buttonColor,
+              // ),
               Spacer(),
               // GFButton(
               //   onPressed: null,

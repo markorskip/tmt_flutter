@@ -5,15 +5,15 @@ import 'package:tmt_flutter/calc/goal_calculator.dart';
 void main() {
 
   Goal _createTestGoal({bool complete = false, double cost = 0.0, double time = 0.0 }) {
-    Goal goal = new Goal("Test Goal",cost,time);
+    Goal goal = Goal.empty();
     goal.setComplete(complete);
     return goal;
   }
 
   Goal _getGoalWithTwoChildrenNotCompleted() {
-    Goal parent = Goal("Test Goal",0.0,0);
-    Goal sub1 = Goal("child 1",0.0,0);
-    Goal sub2 = Goal("child 2",0.0,0);
+    Goal parent = Goal.empty();
+    Goal sub1 = Goal.empty();
+    Goal sub2 = Goal.empty();
     parent.addSubGoal(sub1);
     parent.addSubGoal(sub2);
     return parent;
@@ -37,13 +37,11 @@ void main() {
     expect(completeTime, 1.0);
   });
 
-  var getEmptyGoal = () => Goal("",0.0,0);
-
   test('Correct number of complete tasks simple', () {
     double cost = 0.0;
-    Goal parent = Goal("Test Goal",cost,0);
-    Goal sub1 = getEmptyGoal();
-    Goal sub2 = getEmptyGoal();
+    Goal parent = Goal.empty();
+    Goal sub1 = Goal.empty();
+    Goal sub2 = Goal.empty();
     parent.addSubGoal(sub1);
     parent.addSubGoal(sub2);
    // expect(parent.getTasksTotalCount(),2);
@@ -54,7 +52,7 @@ void main() {
 
   test('Correct number of complete tasks grandchildren', () {
     double cost = 0.0;
-    Goal parent = getEmptyGoal();
+    Goal parent = Goal.empty();
     Goal sub1 = _createTestGoal(complete: true);
     Goal sub2 = _createTestGoal(complete: true);
     parent.addSubGoal(sub1);
@@ -70,7 +68,7 @@ void main() {
     Goal parent = _getGoalWithTwoChildrenNotCompleted();
     expect(GoalCalc(parent).getTasksTotal(),2);
     parent.getActiveGoals().forEach((g) {
-      g.addSubGoal(getEmptyGoal());
+      g.addSubGoal(Goal.empty());
     });
     expect(GoalCalc(parent).getTasksTotal(),2);
   });

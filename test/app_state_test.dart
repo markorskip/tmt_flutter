@@ -5,14 +5,11 @@ import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 
 void main() {
 
-
-  var getEmptyGoal = () => Goal("",0,0);
-
   _generateGoal(String title) {
-    Goal goal = getEmptyGoal();
-    goal.addSubGoal(getEmptyGoal());
-    goal.addSubGoal(getEmptyGoal());
-    goal.addSubGoal(getEmptyGoal());
+    Goal goal = Goal.empty();
+    goal.addSubGoal(Goal.empty());
+    goal.addSubGoal(Goal.empty());
+    goal.addSubGoal(Goal.empty());
     return goal;
   }
 
@@ -105,4 +102,15 @@ void main() {
   //   expect(appState.getCurrentlyDisplayedGoalsIncludingDeleted().length, 2);
   //   expect(appState.getExpandedDisplayedGoals().length, 8);
   // });
+
+  test('populateParents', () {
+    Goal parent = Goal.empty();
+    Goal child = Goal.empty();
+    parent.goals.add(child);
+    AppState appState = AppState.withGoal("demo", [parent]);
+    Goal result = appState.getCurrentGoal().getActiveGoals()[0];
+    expect(result.getParent(), null);
+    appState.populateParents();
+    expect(result.getParent(), parent);
+  });
 }

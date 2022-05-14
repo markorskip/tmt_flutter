@@ -7,6 +7,9 @@ import 'package:tmt_flutter/model/goal.dart';
 
 class NewGoalDialog extends StatelessWidget {
 
+  NewGoalDialog(this.parent);
+  final Goal parent;
+
   // TODO can these be removed if we are using a TextFormField?
   final titleController = new TextEditingController();
   final descriptionController = new TextEditingController();
@@ -75,8 +78,9 @@ class NewGoalDialog extends StatelessWidget {
           onPressed: () {
             // TODO activate validators
             final goal = new Goal(titleController.value.text,
-                getMoneyValue(),
-                getTimeValue());
+                this.parent,
+                money: getMoneyValue(),
+                time: getTimeValue());
             titleController.clear();
             descriptionController.clear();
             moneyController.clear();
@@ -87,5 +91,4 @@ class NewGoalDialog extends StatelessWidget {
       ],
     );
   }
-
 }

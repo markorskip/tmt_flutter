@@ -6,26 +6,22 @@ import 'model_helpers/edit_goal_directive.dart';
 
 class Goal {
   String title;
-  double costInDollars;
-  double timeInHours;
-  Goal? parent; // TODO implement this
+  double money; // cost in dollars
+  double time; // time in hours
+  Goal? _parent; // TODO implement this
   bool _complete = false;
   bool isDeleted = false;
   List<Goal> goals = []; // children
   String id = getUniqueID();
 
 
-  Goal(this.title, this.costInDollars, this.timeInHours) {
-    this.isDeleted = false;
-  }
-
-  factory Goal.fromString(String title) {
-    return new Goal(title,0,0);
-  }
+  Goal(this.title, this._parent, {this.money = 0, this.time = 0});
+  Goal.empty() : this("",null);
+  Goal.child(Goal parent) : this("",parent);
 
   int getLevelDeep() {
-    if (parent != null) {
-      return parent!.getLevelDeep() + 1;
+    if (getParent() != null) {
+      return getParent()!.getLevelDeep() + 1;
     }
     return 1;
   }
@@ -49,8 +45,8 @@ class Goal {
   void editGoal(EditGoal editedGoal) { // TODO can this be done with a Partial?
     print(editedGoal);
     this.title = editedGoal.title;
-    this.timeInHours = editedGoal.timeInHours;
-    this.costInDollars = editedGoal.costInDollars;
+    this.time = editedGoal.timeInHours;
+    this.money = editedGoal.costInDollars;
     this._complete = editedGoal.complete;
   }
 
@@ -60,7 +56,7 @@ class Goal {
 
   @override
   String toString() {
-    return 'Goal{title: $title, costInDollars: $costInDollars, timeInHours: $timeInHours, complete: $_complete, isDeleted: $isDeleted, goals: $goals}';
+    return 'Goal{title: $title, costInDollars: $money, timeInHours: $time, complete: $_complete, isDeleted: $isDeleted, goals: $goals}';
   }
 
   static String id_key = 'id';
@@ -73,18 +69,18 @@ class Goal {
   static String levels_deep_key='lD';
   static String goals_key="g";
 
-
-
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     jsonMap = cleanMap(jsonMap);
 
     double costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
 
     var timeInHours = jsonMap[time_in_hours_key];
-    Goal result = new Goal(jsonMap[title_key],costInDollars,timeInHours);
+    Goal result = new Goal(jsonMap[title_key],jsonMap["parent"],money: costInDollars,time: timeInHours);
     result.id = jsonMap[id_key].toString();
     result._complete = jsonMap[complete_key];
     result.isDeleted = jsonMap[is_deleted_key];
+    result.expanded = jsonMap["expanded"];
+
     var list = jsonMap[goals_key] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
     return result;
@@ -94,6 +90,9 @@ class Goal {
     if (jsonMap[time_in_hours_key].runtimeType == int) {
       jsonMap[time_in_hours_key] = jsonMap[time_in_hours_key].toDouble();
     }
+    if (!jsonMap.containsKey("expanded")) {
+      jsonMap["expanded"] = false;
+    }
     return jsonMap;
   }
 
@@ -101,11 +100,12 @@ class Goal {
   Map<String, dynamic> toJson() => {
     id_key: id,
     title_key: title,
-    cost_dollars_key: costInDollars,
-    time_in_hours_key: timeInHours,
+    cost_dollars_key: money,
+    time_in_hours_key: time,
     complete_key:_complete,
     is_deleted_key:isDeleted,
-    goals_key: goals
+    goals_key: goals,
+    "expanded" : expanded,
   };
 
   Function deepEq = const DeepCollectionEquality().equals;
@@ -117,8 +117,8 @@ class Goal {
           id == other.id &&
           runtimeType == other.runtimeType &&
           title == other.title &&
-          costInDollars == other.costInDollars &&
-          timeInHours == other.timeInHours &&
+          money == other.money &&
+          time == other.time &&
           _complete == other._complete &&
           isDeleted == other.isDeleted &&
           deepEq(goals, other.goals);
@@ -126,8 +126,8 @@ class Goal {
   @override
   int get hashCode =>
       title.hashCode ^
-      costInDollars.hashCode ^
-      timeInHours.hashCode ^
+      money.hashCode ^
+      time.hashCode ^
       _complete.hashCode ^
       isDeleted.hashCode ^
       goals.hashCode;
@@ -161,6 +161,7 @@ class Goal {
   }
 
   bool expanded = false;
+
   void toggleExpand() {
     expanded = !expanded;
   }
@@ -169,6 +170,15 @@ class Goal {
 
   void setIdent(int depth) {
     this.ident = depth;
+  }
+
+  Goal? getParent() {
+    if (_parent != null) return _parent;
+    return null;
+  }
+
+  void setParent(Goal parent) {
+    this._parent = parent;
   }
 
 }
