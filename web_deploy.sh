@@ -7,6 +7,7 @@ flutter build web
 sed -r -i -e 's|<script>|<script>document.addEventListener("touchstart", {});</script><script>|g' build/web/index.html
 firebase deploy
 # replace userid from livedemo to demo
+# TODO liveDemo needs to be recreated before this will work 5.14.2022
 sed -i '' 's/liveDemo/demo/g' lib/view/main_screen.dart
 
  #optional: ensure flutter test pass first
