@@ -51,7 +51,15 @@ class Goal {
   }
 
   List<Goal> getActiveGoals() {
-    return goals.where((element) => element.isDeleted == false).toList();
+    List<Goal> result = goals.where((goal) => goal.isDeleted == false).toList();
+    result.sort((a, b) {
+      if (a._complete) return 1;
+      if (b._complete) return -1;
+      if (a.time < b.time) return 1;
+      if (b.time > a.time) return -1;
+      return 0;
+    });
+    return result;
   }
 
   @override
