@@ -68,26 +68,42 @@ class Goal {
   }
 
   static String id_key = 'id';
-  static String title_key = 't';
-  static String description_key='desc';
-  static String cost_dollars_key='cid';
-  static String time_in_hours_key='tih';
-  static String complete_key='c';
-  static String is_deleted_key='del';
-  static String levels_deep_key='lD';
-  static String goals_key="g";
+  static String title_key = 'title';
+  static String description_key='description';
+  static String cost_dollars_key='costInDollars';
+  static String time_in_hours_key='timeInHours';
+  static String complete_key='complete';
+  static String is_deleted_key='isDeleted';
+  static String levels_deep_key='levelDeep';
+  static String goals_key="goals";
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     jsonMap = cleanMap(jsonMap);
 
-    double costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
+    print("Debugging console");
+    double costInDollars;
+    try {
+      costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
+    } catch (FormatException) {
+      costInDollars = 1.0;
+    }
+    
+    print(costInDollars);
+    print(jsonMap);
 
-    var timeInHours = jsonMap[time_in_hours_key];
-    Goal result = new Goal(jsonMap[title_key],jsonMap["parent"],money: costInDollars,time: timeInHours);
+    String title = jsonMap[title_key] ?? "title was null";
+    double timeInHours;
+    try {
+      timeInHours = double.parse(jsonMap[time_in_hours_key].toString());
+    } catch (FormatException) {
+      timeInHours = 1.0;
+    }
+
+    Goal result = new Goal(title,jsonMap["parent"],money: costInDollars,time: timeInHours);
     result.id = jsonMap[id_key].toString();
-    result._complete = jsonMap[complete_key];
-    result.isDeleted = jsonMap[is_deleted_key];
-    result.expanded = jsonMap["expanded"];
+    result._complete = jsonMap[complete_key] ?? false;
+    result.isDeleted = jsonMap[is_deleted_key] ?? false;
+    result.expanded = jsonMap["expanded"] ?? false;
 
     var list = jsonMap[goals_key] as List;
     result.goals = list.map((i) => Goal.fromJson(i)).toList();
