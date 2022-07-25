@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // ********************************
-      home: GoalScreen(FirestoreStorage()),
-      //home: GoalScreen(LocalGoalStorage()),
+      //home: GoalScreen(FirestoreStorage()),
+      home: GoalScreen(LocalGoalStorage()),
     );
   }
 }
