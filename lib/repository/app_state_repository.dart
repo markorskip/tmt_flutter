@@ -10,58 +10,6 @@ final String defaultAppStateString = '''
       {"goalStack":[{"id":298699,"title":"Time Money Task List","description":"root never should be displayed","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[{"id":180478,"title":"App instructions ","description":"Welcome to TMT","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":1,"goals":[{"id":663477,"title":"Slide task right to edit","description":"","costInDollars":0.0,"timeInHours":0.016,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":721323,"title":"Slide task right to move to a different task","description":"","costInDollars":0.0,"timeInHours":0.016,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":361509,"title":"Slide task left for delete option","description":"","costInDollars":0.0,"timeInHours":0.016,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":166898,"title":"Parent tasks show percentage time complete","description":"","costInDollars":0.0,"timeInHours":0.016,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":569918,"title":"Parent task shows % money complete","description":"","costInDollars":0.0,"timeInHours":0.016,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]}]},{"id":91755,"title":"test","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":true,"levelDeep":0,"goals":[]},{"id":643259,"title":"test 3","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":true,"levelDeep":0,"goals":[]},{"id":216859,"title":"DEMO: Home Improvement Project","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[{"id":780486,"title":"Remodel Kitchen","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[{"id":23455,"title":"Replace Cabinets","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[{"id":123299,"title":"Research cabinets","description":"","costInDollars":0.0,"timeInHours":4,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":111098,"title":"Buy cabinets","description":"","costInDollars":10000.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]}]},{"id":105468,"title":"Replace Counter Tops","description":"","costInDollars":2000.0,"timeInHours":32,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":51672,"title":"Replace Appliances","description":"","costInDollars":0.0,"timeInHours":0,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[{"id":844576,"title":"Research appliance packages","description":"","costInDollars":0.0,"timeInHours":8,"complete":true,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":240203,"title":"Purchase appliance package","description":"","costInDollars":8000.0,"timeInHours":1,"complete":true,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":164231,"title":"Install Appliances","description":"","costInDollars":0.0,"timeInHours":8,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]}]}]},{"id":659541,"title":"Paint Living Room","description":"","costInDollars":100.0,"timeInHours":8,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]},{"id":397166,"title":"Paint Office","description":"","costInDollars":50.0,"timeInHours":2,"complete":false,"isDeleted":false,"levelDeep":0,"goals":[]}]}]}]}
       ''';
 
-class FirestoreStorage implements AppStateRepository {
-
-  final String appStateId = 'demo';
-  
-  @override
-  Future<AppState> readAppState(String userId) async {
-
-    DocumentSnapshot<Map<String, dynamic>> ref = await FirebaseFirestore
-        .instance
-        .collection('appState')
-        .doc(userId)
-        .get();
-
-    var json = ref.data()!["appStateString"];
-
-    if (json != null) {
-      AppState appState = convertStringToAppState(json);
-
-      populateParents(appState);
-      return Future.value(appState);
-    }
-
-    return Future.value(convertStringToAppState(defaultAppStateString));
-  }
-
-  @override
-  Future<bool> writeAppState(AppState appState) async {
-    String jsonString = json.encode(appState.toJson());
-    Map<String, dynamic> dataToSave = {"appStateString": jsonString };
-
-    Future<void> save = FirebaseFirestore
-        .instance
-        .collection('appState')
-        .doc(appStateId)
-        .set(dataToSave);
-
-    print("Attempting to save:");
-    bool success = false;
-    await save.then((value) => success = true)
-    .onError((error, stackTrace) => success = false);
-
-    print("Savings... Success:" + success.toString());
-    return Future.value(success);
-  }
-
-  // instead of storing a circular relationship in the json, we can populate
-  // the parents when we load
-  void populateParents(AppState appState) {
-    appState.populateParents();
-  }
-}
-
 class LocalGoalStorage implements AppStateRepository {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -118,5 +66,3 @@ abstract class AppStateRepository {
 
   Future<AppState> readAppState(String userID);
 }
-
-
