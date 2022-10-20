@@ -149,6 +149,7 @@ class GoalCalc extends GC{
   String getLeafsCompletedProgressText() {
     int numOfLeafsComplete = _calculations.completedTasks.round();
     int leafsTotal = _calculations.totalTasks.round();
+    print("leafs total:" + _calculations.totalTasks.toString());
     return numOfLeafsComplete.toString() + " / " + leafsTotal.toString() + " tasks";
   }
 

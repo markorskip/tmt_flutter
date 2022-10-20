@@ -72,13 +72,14 @@ class SlideableTasks extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           icon: Icons.edit,
           onTap: () => editHandler(goal),
-        ),
-        IconSlideAction(
-        caption: 'Move',
-        color: Theme.of(context).secondaryHeaderColor,
-        icon: Icons.folder,
-        onTap: () => moveHandler(goal),
         )
+        //,  Disabling MOVE for first release TODO find a better way to do this
+        // IconSlideAction(
+        // caption: 'Move',
+        // color: Theme.of(context).secondaryHeaderColor,
+        // icon: Icons.folder,
+        // onTap: () => moveHandler(goal),
+        // )
       ],
       secondaryActions: <Widget>[
         IconSlideAction(

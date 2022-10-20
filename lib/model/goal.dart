@@ -92,6 +92,7 @@ class Goal {
     }
   
     String title = jsonMap[title_key] ?? "title was null";
+    
     double timeInHours;
     try {
       timeInHours = double.parse(jsonMap[time_in_hours_key].toString());

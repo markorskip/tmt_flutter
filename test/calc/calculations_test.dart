@@ -52,8 +52,9 @@ void main() {
     expect(GoalCalc(parent).getTasksTotal(),2);
   });
 
+  
+
   test('Correct number of complete tasks grandchildren', () {
-    double cost = 0.0;
     Goal parent = Goal.empty();
     Goal sub1 = _createTestGoal(complete: true);
     Goal sub2 = _createTestGoal(complete: true);

@@ -109,12 +109,14 @@ class _GoalScreenState extends State<GoalScreen> {
   _openGoal(Goal goal) {
     setState(() {
       appState.openGoal(goal);
+      _save();
     });
   }
 
   _toggleExpandOnGoal(Goal goal) {
     setState(() {
       appState.toggleExpandOnGoal(goal);
+      _save();
     });
   }
 
@@ -122,6 +124,7 @@ class _GoalScreenState extends State<GoalScreen> {
     if (!appState.isAtRoot()) {
       setState(() {
         appState.navigateUp(levels: levels);
+        _save();
       });
     }
   }
