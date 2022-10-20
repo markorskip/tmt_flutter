@@ -44,14 +44,6 @@ class CustomBottomNavbar extends StatelessWidget {
                 color: buttonColor,
               ),
               Spacer(),
-              GFButton(
-                onPressed: () => saveHandler(),
-                text: "Save",
-                icon: Icon(Icons.save, color: buttonColor),
-                type: GFButtonType.outline,
-                color: buttonColor,
-              ),
-              Spacer(),
               //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
             ],
           )

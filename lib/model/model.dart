@@ -4,20 +4,6 @@ class AppState {
   List<Item> itemsExpanded = [];
 }
 
-
-class UserProject {
-
-  User user;
-  Project project;
-  int accessLevel;
-
-  UserProject(this.user, this.project, this.accessLevel);
-}
-
-class User extends BaseEntity {
-  // TODO
-}
-
 class Item extends BaseEntity {
   String title;
   List<Attachment> attachments = [];

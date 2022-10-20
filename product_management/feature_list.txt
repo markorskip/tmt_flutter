@@ -21,9 +21,9 @@ Remove goal calculations from GOAL class, move them to a calculator class
 
 
 TODO:
+Remove save button (always save)
 Fix leaf display formatting - when no description make smaller
 Fix title to fit
-Fix formatting New Dialog
 Fix Formatting Edit Dialog
 Fix Formatting Move Dialog
 BUG: Fix how many tasks are showing done
@@ -44,6 +44,7 @@ IN PROGRESS:
 
 
 DONE:
+Fix formatting New Dialog
 Hide Move button when only one root goal exists
 When looking at subgoals, also view details of parent goal
 Help/About dialog

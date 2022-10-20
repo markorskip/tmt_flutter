@@ -52,15 +52,20 @@ class Goal {
 
   List<Goal> getActiveGoals() {
     List<Goal> result = goals.where((goal) => goal.isDeleted == false).toList();
-    result.sort((a, b) {
+    return result;
+  }
+
+// TODO make a button that calls this
+  sort() {
+    getActiveGoals().sort((a, b) {
       if (a._complete) return 1;
       if (b._complete) return -1;
       if (a.time < b.time) return 1;
       if (b.time > a.time) return -1;
       return 0;
     });
-    return result;
   }
+
 
   @override
   String toString() {
@@ -79,18 +84,13 @@ class Goal {
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     jsonMap = cleanMap(jsonMap);
-
-    print("Debugging console");
     double costInDollars;
     try {
       costInDollars = double.parse(jsonMap[cost_dollars_key].toString());
     } catch (FormatException) {
       costInDollars = 1.0;
     }
-    
-    print(costInDollars);
-    print(jsonMap);
-
+  
     String title = jsonMap[title_key] ?? "title was null";
     double timeInHours;
     try {
