@@ -20,7 +20,7 @@ import 'slideable/slideable_tasks.dart';
 class GoalScreen extends StatefulWidget {
   GoalScreen(this.appStateRepository);
 
-  final AppStateRepository appStateRepository;
+  final AbstractAppStateRepository appStateRepository;
 
   @override
   _GoalScreenState createState() => _GoalScreenState();
@@ -31,13 +31,13 @@ class _GoalScreenState extends State<GoalScreen> {
   late AppState appState;
 
   Future<AppState> getAppState() async {
-    return await widget.appStateRepository.readAppState(getUserId());
+    return await widget.appStateRepository.readAppState();
   }
 
   @override
   void initState() {
     super.initState();
-    widget.appStateRepository.readAppState(getUserId()).then((value) => this.appState = value);
+    widget.appStateRepository.readAppState().then((value) => this.appState = value);
   }
 
   _addGoal() async {
@@ -191,11 +191,6 @@ class _GoalScreenState extends State<GoalScreen> {
             child: AppBarDisplay(context: context, goal: currentGoal)
         )
     );
-  }
-
-  String getUserId() {
-    // TODO implement from authentication
-    return "demo";
   }
 }
 

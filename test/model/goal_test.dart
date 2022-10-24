@@ -1,10 +1,6 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tmt_flutter/model/model_helpers/edit_goal_directive.dart';
 import 'package:tmt_flutter/model/goal.dart';
-import 'package:tmt_flutter/calc/goal_calculator.dart';
-
 void main () {
 
   Goal _createTestGoal({bool complete = false}) {

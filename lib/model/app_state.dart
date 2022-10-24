@@ -87,9 +87,6 @@ class AppState {
     }
   }
 
-  // TODO right now this just goes down one level
-
-
   List<Goal> getListOfGoals(Goal goal, int depth) {
     List<Goal> result = [];
     for (var g in goal.getActiveGoals()) {

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:tmt_flutter/view/goal_screen.dart';
 import 'package:tmt_flutter/repository/app_state_repository.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 
 Future<void> main() async {
   //SystemChrome.setEnabledSystemUIOverlays([]);
@@ -60,7 +58,7 @@ class MyApp extends StatelessWidget {
           subtitle1: TextStyle(fontSize: 20.0),
         ),
       ),
-      home: GoalScreen(LocalGoalStorage()),
+      home: GoalScreen(AppStateRepository(LocalStorage())),
     );
   }
 }

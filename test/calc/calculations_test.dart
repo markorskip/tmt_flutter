@@ -40,7 +40,6 @@ void main() {
   });
 
   test('Correct number of complete tasks simple', () {
-    double cost = 0.0;
     Goal parent = Goal.empty();
     Goal sub1 = Goal.empty();
     Goal sub2 = Goal.empty();
