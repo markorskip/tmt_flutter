@@ -47,15 +47,6 @@ void main () {
     goal.goals[1].setComplete(true);
     expect(goal.isComplete(), true);
   });
-
-  test('getLevelDeep', () {
-    Goal root = Goal.empty();
-    Goal two = Goal.child(root);
-    Goal three = Goal.child(two);
-    expect(three.getLevelDeep(), 3);
-  });
-
-
 }
 
 

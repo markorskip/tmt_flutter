@@ -19,13 +19,6 @@ class Goal {
   Goal.empty() : this("",null);
   Goal.child(Goal parent) : this("",parent);
 
-  int getLevelDeep() {
-    if (getParent() != null) {
-      return getParent()!.getLevelDeep() + 1;
-    }
-    return 1;
-  }
-
   bool isLeaf() {
     return getActiveGoals().length == 0;
   }
@@ -196,14 +189,4 @@ class Goal {
   void setIdent(int depth) {
     this.ident = depth;
   }
-
-  Goal? getParent() {
-    if (_parent != null) return _parent;
-    return null;
-  }
-
-  void setParent(Goal parent) {
-    this._parent = parent;
-  }
-
 }

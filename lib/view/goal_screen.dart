@@ -6,7 +6,6 @@ import 'package:getwidget/types/gf_button_type.dart';
 import 'package:tmt_flutter/view/bottom/bottom_nav_bar.dart';
 import 'package:tmt_flutter/view/bottom/breadcrumbs.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
-import 'package:tmt_flutter/view/dialog/move_goal_dialog.dart';
 
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
@@ -71,25 +70,6 @@ class _GoalScreenState extends State<GoalScreen> {
         _save();
       }); // Update changes on screen=
     }
-  }
-
-  moveGoal(Goal goalToMove) async {
-    MoveGoal? moveGoal = await showDialog<MoveGoal>(
-      context: context,
-      builder: (BuildContext context) {
-        return MoveGoalDialog(goalToMove, appState.getGoalsToDisplay(), appState.getGrandParentGoal());
-      },
-    );
-
-    if (moveGoal != null) {
-    setState(() {
-      appState.move(moveGoal);
-      if (appState.getGoalsToDisplay().length == 0) {
-        _navigateUp();
-      }
-      _save();
-    });
-  }
   }
 
   _deleteGoal(Goal goal) {
@@ -171,7 +151,6 @@ class _GoalScreenState extends State<GoalScreen> {
           _toggleExpandOnGoal,
           _toggleComplete,
           _editGoal,
-          moveGoal,
           context),
         bottomSheet: TMTBreadCrumbs(appState.getBreadCrumbs()),
         bottomNavigationBar: CustomBottomNavbar(

@@ -62,14 +62,14 @@ class AppState {
     }
   }
 
+
+  void delete(Goal goalToDelete) {
+    // TODO
+  }
+
   void move(MoveGoal moveGoal) {
-    if (moveGoal.getGoalToMoveTo() == null) {
-      if (isAtRoot()) {
-        throw Exception("Can't move up when at the root");
-      }
-      moveGoal.goalToMoveTo = getGrandParentGoal();
-    }
-    _moveGoal(moveGoal.getGoalToMove(), moveGoal.getGoalToMoveTo());
+    moveGoal.destination.addSubGoal(moveGoal.goalToMove);
+    delete(moveGoal.goalToMove);
   }
 
   void _moveGoal(Goal goalToMove, Goal? goalToMoveTo) {
@@ -153,17 +153,5 @@ class AppState {
 
   getRootGoal() {
     return this._goalStack[0];
-  }
-
-  populateParents() {
-    this.populateChildren(getRootGoal());
-  }
-
-  populateChildren(Goal parent) {
-    if (parent.goals.length != 0) {
-      parent.goals.forEach((child) {
-        child.setParent(parent);
-      });
-    }
   }
 }

@@ -13,7 +13,6 @@ class SlideableTasks extends StatelessWidget {
   final Function toggleExpandOnGoalHandler;
   final Function toggleCompleteHandler;
   final Function editHandler;
-  final Function moveHandler;
   final List<Goal> tasks;
   final BuildContext context;
 
@@ -24,7 +23,6 @@ class SlideableTasks extends StatelessWidget {
       this.toggleExpandOnGoalHandler,
       this.toggleCompleteHandler,
       this.editHandler,
-      this.moveHandler,
       this.context);
 
   RichText getSubTitleRichText(Goal goal) {
