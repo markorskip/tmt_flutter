@@ -100,7 +100,7 @@ void main() {
     Goal parent = Goal.empty();
     Goal child = Goal.empty();
     parent.goals.add(child);
-    AppState appState = AppState.withGoal("demo", [parent]);
+    AppState appState = AppState.withGoal([parent]);
     Goal result = appState.getCurrentGoal().getActiveGoals()[0];
     expect(result.getParent(), null);
     appState.populateParents();

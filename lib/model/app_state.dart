@@ -5,21 +5,16 @@ import 'goal.dart';
 class AppState {
   List<Goal> _goalStack = [];
 
-  String userId;
+  AppState();
 
-  AppState(this.userId);
-
-  AppState.withGoal(this.userId, this._goalStack);
+  AppState.withGoal(this._goalStack);
 
   Map<String, dynamic> toJson() => {
-    'userId' : userId,
     'goalStack' : _goalStack
   };
 
   factory AppState.fromJson(Map<String, dynamic> jsonMap) {
-    var userId = jsonMap['userId'];
-    if (userId == null) userId = "demo";
-    AppState appState = new AppState(userId);
+    AppState appState = new AppState();
     var list = jsonMap['goalStack'] as List;
     appState._goalStack = list.map((i) => Goal.fromJson(i)).toList();
     return appState;
@@ -30,7 +25,7 @@ class AppState {
   }
 
   static AppState defaultAppState() {
-    AppState appState = new AppState("demo");
+    AppState appState = new AppState();
     appState._goalStack.add(new Goal(getRootTitle(),null));
     appState._goalStack.first.addSubGoal(new Goal("Welcome to TMT",null));
     return appState;
