@@ -63,15 +63,7 @@ class AppState {
   }
 
 
-  void delete(Goal goalToDelete) {
-    // TODO
-  }
-
-  void move(MoveGoal moveGoal) {
-    moveGoal.destination.addSubGoal(moveGoal.goalToMove);
-    delete(moveGoal.goalToMove);
-  }
-
+  // TODO implement this
   void _moveGoal(Goal goalToMove, Goal? goalToMoveTo) {
     if (goalToMove == goalToMoveTo) {
       throw Exception('Cant move a goal inside itself');

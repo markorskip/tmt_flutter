@@ -1,9 +1,9 @@
 import '../goal.dart';
 
 class MoveGoal {
-  Goal goalToMove;
-  Goal destination;
+  String goalToMoveID;
+  String destinationID;
 
-  MoveGoal(this.goalToMove, this.destination) {
+  MoveGoal(this.goalToMoveID, this.destinationID) {
   }
 }
