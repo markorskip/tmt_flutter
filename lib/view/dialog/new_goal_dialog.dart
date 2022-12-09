@@ -46,12 +46,14 @@ class NewGoalDialog extends StatelessWidget {
               controller: titleController,
               maxLines: 3,
               minLines: 2,
+              textCapitalization: "words",
             ),
             TextFormField(
               decoration: const InputDecoration(
                 icon: Icon(Icons.attach_money),
                 hintText: 'Estimated Cost',
                 labelText: 'Cost in Dollars',
+
               ),
               controller: moneyController,
             ),
