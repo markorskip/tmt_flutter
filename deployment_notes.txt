@@ -12,7 +12,7 @@ https://flutter.dev/docs/deployment/ios
 In XCode:
 From finder, open runner.xcworkspace in xcode
 
-Set Display Name: Time Money TaskList
+Set Display Name: Time Money TaskListsimul
 Bundle Identifier: com.efficientsoftware.tmt
 Increment version and build:
 

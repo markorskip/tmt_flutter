@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
 
@@ -45,11 +45,14 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Title *',
               ),
               //controller: titleController, // TODO test without this
+              inputFormatters: <TextInputFormatter>[
+              UpperCaseTextFormatter()
+            ],
               maxLines: 3,
               minLines: 2,
-              textCapitalization: TextCapitalization.words,
-              onSaved: ,
-              
+              validator: (String? value) {
+                return (value != null && value.contains(RegExp('a-z', caseSensitive: false))) ? 'Numbers only' : null;
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -70,6 +73,7 @@ class NewGoalDialog extends StatelessWidget {
               controller: timeController,
             ),
           ],
+          ),
         ),
       ),
       actions: <Widget>[
@@ -97,4 +101,19 @@ class NewGoalDialog extends StatelessWidget {
       ],
     );
   }
+}
+
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: capitalize(newValue.text),
+      selection: newValue.selection,
+    );
+  }
+}
+String capitalize(String value) {
+  if(value.trim().isEmpty) return "";
+  return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }
