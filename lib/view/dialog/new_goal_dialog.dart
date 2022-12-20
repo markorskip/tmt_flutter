@@ -34,19 +34,22 @@ class NewGoalDialog extends StatelessWidget {
         title: Text("New Task"),
           content: Container(
          width: double.minPositive,
-        child: ListView(
-          shrinkWrap: true,
-          children: [
+        child: Form(child:
+         ListView(
+            shrinkWrap: true,
+            children: [
             TextFormField(
               decoration: const InputDecoration(
                 icon: Icon(Icons.title),
                 hintText: 'Name of Task',
                 labelText: 'Title *',
               ),
-              controller: titleController,
+              //controller: titleController, // TODO test without this
               maxLines: 3,
               minLines: 2,
-              textCapitalization: "words",
+              textCapitalization: TextCapitalization.words,
+              onSaved: ,
+              
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -56,6 +59,7 @@ class NewGoalDialog extends StatelessWidget {
 
               ),
               controller: moneyController,
+
             ),
             TextFormField(
               decoration: const InputDecoration(

@@ -1,8 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/types/gf_button_type.dart';
 import 'package:tmt_flutter/view/bottom/bottom_nav_bar.dart';
 import 'package:tmt_flutter/view/bottom/breadcrumbs.dart';
 import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
@@ -10,7 +7,6 @@ import 'package:tmt_flutter/view/dialog/edit_goal_dialog.dart';
 import 'package:tmt_flutter/model/app_state.dart';
 import 'package:tmt_flutter/model/goal.dart';
 import 'package:tmt_flutter/repository/app_state_repository.dart';
-import 'package:tmt_flutter/model/model_helpers/move_goal_directive.dart';
 import '../model/model_helpers/edit_goal_directive.dart';
 import 'dialog/new_goal_dialog.dart';
 import 'header/app_bar_display.dart';
