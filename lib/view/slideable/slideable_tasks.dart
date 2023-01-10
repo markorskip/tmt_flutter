@@ -58,7 +58,7 @@ class SlideableTasks extends StatelessWidget {
           subtitle: getSubTitleRichText(goal),
           isThreeLine: true,
           tileColor: getTileColor(goal),
-          dense: true,
+          dense: false,
           onTap: () {
             openSubGoalHandler(goal);
           },
