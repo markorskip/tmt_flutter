@@ -44,7 +44,7 @@ class NewGoalDialog extends StatelessWidget {
                 hintText: 'Name of Task',
                 labelText: 'Title *',
               ),
-              //controller: titleController, // TODO test without this
+              controller: titleController, // TODO test without this
               inputFormatters: <TextInputFormatter>[
               UpperCaseTextFormatter()
             ],

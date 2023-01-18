@@ -53,41 +53,6 @@ class buildGoalLeadingDisplay extends StatelessWidget {
             color: Colors.blue,
             size: 36.0,
           ),
-          //,
-          // Icon(
-          //   Icons.timer,
-          //   //color: Colors.blueAccent,
-          //   size: 15.0,
-          //   semanticLabel: 'Text to announce in accessibility modes',
-          // ),
-          // new CircularPercentIndicator(
-          //   radius: 40.0,
-          //   lineWidth: 5.0,
-          //   percent: GoalCalc(goal).getTimePercentageComplete(),
-          //   center: new Text(gc.getPercentageCompleteTimeFormatted(),
-          //     style:
-          //     new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
-          //   ),
-          //   progressColor: Theme.of(context).colorScheme.primary,
-          //   animation: true,
-          // ),
-          // Icon(
-          //   Icons.attach_money,
-          //   //color: Colors.green,
-          //   size: 15.0,
-          //   semanticLabel: 'Text to announce in accessibility modes',
-          // ),
-          // new CircularPercentIndicator(
-          //   radius: 40.0,
-          //   lineWidth: 5.0,
-          //   percent: GoalCalc(goal).getCostPercentageComplete(),
-          //   center: new Text(gc.getPercentageCompleteCostFormatted(),
-          //     style:
-          //     new TextStyle(fontWeight: FontWeight.bold, fontSize: 10.0),
-          //   ),
-          //   progressColor: Theme.of(context).colorScheme.primaryVariant,
-          //   animation: true,
-          // ),
         ]);
   }
 
