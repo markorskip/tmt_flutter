@@ -28,13 +28,18 @@ class NewGoalDialog extends StatelessWidget {
     return result;
   }
 
+   final _formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
       return AlertDialog(
         title: Text("New Task"),
           content: Container(
          width: double.minPositive,
-        child: Form(child:
+        child: Form(
+          key: _formKey,
+          child:
          ListView(
             shrinkWrap: true,
             children: [
@@ -44,15 +49,15 @@ class NewGoalDialog extends StatelessWidget {
                 hintText: 'Name of Task',
                 labelText: 'Title *',
               ),
-              controller: titleController, // TODO test without this
+              controller: titleController,
+              validator: (String? value) {
+                return (value == null || value == '' ? 'A name of the task is required' : null);
+              } ,
               inputFormatters: <TextInputFormatter>[
               UpperCaseTextFormatter()
             ],
               maxLines: 3,
               minLines: 2,
-              validator: (String? value) {
-                return (value != null && value.contains(RegExp('a-z', caseSensitive: false))) ? 'Numbers only' : null;
-              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -62,7 +67,9 @@ class NewGoalDialog extends StatelessWidget {
 
               ),
               controller: moneyController,
-
+              validator: (String? value) {
+                return (value != null && value.contains(RegExp('a-z', caseSensitive: false))) ? 'Numbers only' : null;
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -86,16 +93,18 @@ class NewGoalDialog extends StatelessWidget {
         TextButton(
           child: Text('Add'),
           onPressed: () {
-            // TODO activate validators
-            final goal = new Goal(titleController.value.text,
+            if (_formKey.currentState!.validate()) {
+              final goal = new Goal(
+                titleController.value.text,
                 this.parent,
                 money: getMoneyValue(),
                 time: getTimeValue());
-            titleController.clear();
-            descriptionController.clear();
-            moneyController.clear();
-            timeController.clear();
-            Navigator.of(context).pop(goal);
+              titleController.clear();
+              descriptionController.clear();
+              moneyController.clear();
+              timeController.clear();
+              Navigator.of(context).pop(goal);
+            }
           },
         ),
       ],
@@ -114,6 +123,6 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   }
 }
 String capitalize(String value) {
-  if(value.trim().isEmpty) return "";
+  if(value.trim().isEmpty) return '';
   return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }
