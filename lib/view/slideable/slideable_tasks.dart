@@ -33,14 +33,22 @@ class SlideableTasks extends StatelessWidget {
         ),
         children: <TextSpan>[
           new TextSpan(
-              text: "Time: " +  GoalCalc(goal).getTimeTotal().toString() + " hours \n",
+              text: getTimeDisplay(GoalCalc(goal).getTimeTotal()),
               style: TextStyle(color: Theme.of(context).colorScheme.primary)
           ),
+          new TextSpan(text:"\n"),
           new TextSpan(text: "Cost: \$" +  GoalCalc(goal).getCostTotal().toString().toString().split('.').first,
               style: TextStyle(color: Theme.of(context).colorScheme.primaryVariant)),
         ],
       ),
     );
+  }
+
+  String getTimeDisplay(double time) {
+    String result = "Time: ";
+    if (time == 1.0) return result + "1 hr";
+    if (time < 2) return result + time.toString() + " hr";
+    return result + time.toString().split('.')[0] + " hrs";
   }
 
   Widget _buildItem(BuildContext context, int index) {
