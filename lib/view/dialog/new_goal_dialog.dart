@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tmt_flutter/model/goal.dart';
 
-
-// TODO use the same dialog for new or editing a goal.  If new goal, pass a newly created goal in - discard if they cancel
-
 class NewGoalDialog extends StatelessWidget {
 
   NewGoalDialog(this.parent);
   final Goal parent;
 
-  // TODO can these be removed if we are using a TextFormField?
   final titleController = new TextEditingController();
   final descriptionController = new TextEditingController();
   final moneyController = new TextEditingController();
@@ -28,8 +24,7 @@ class NewGoalDialog extends StatelessWidget {
     return result;
   }
 
-   final _formKey = GlobalKey<FormState>();
-
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +58,13 @@ class NewGoalDialog extends StatelessWidget {
               decoration: const InputDecoration(
                 icon: Icon(Icons.attach_money),
                 hintText: 'Estimated Cost',
-                labelText: 'Cost in Dollars',
+                labelText: 'Cost in Dollars', 
 
               ),
               controller: moneyController,
-              validator: (String? value) {
-                return (value != null && value.contains(RegExp('a-z', caseSensitive: false))) ? 'Numbers only' : null;
-              },
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -78,6 +73,9 @@ class NewGoalDialog extends StatelessWidget {
                 labelText: 'Time in Hours',
               ),
               controller: timeController,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
             ),
           ],
           ),
