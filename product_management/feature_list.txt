@@ -21,7 +21,7 @@ Remove goal calculations from GOAL class, move them to a calculator class
 
 
 TODO:
-Remove save button (always save)
+
 Fix leaf display formatting - when no description make smaller
 Fix title to fit
 Fix Formatting Edit Dialog
@@ -35,9 +35,7 @@ add cool title screen/splash screen while loading the app
 User the stepper widget to show user how to use the app or the INTO widget
 Allow the user to rate the app
 Deploy to Android
-Create a way for user to login
-Create a way for user to save data to a server connected to their login
-Make radio button cooler
+Make radio button cooler -> animate a check mark
 
 
 IN PROGRESS:
@@ -61,3 +59,4 @@ Create a way to open a goal 8/24/2021
 Create a way to go from subgoal to parent goal 8/24/2021
 Create a way to add a subgoal 8/24/2021
 Create a way to delete a goal 8/23/2021
+Remove save button (always save)

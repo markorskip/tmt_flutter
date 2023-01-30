@@ -8,16 +8,16 @@ class Goal {
   String title;
   double money; // cost in dollars
   double time; // time in hours
-  Goal? _parent; // TODO implement this
+  Goal? parent; // TODO implement this
   bool _complete = false;
   bool isDeleted = false;
   List<Goal> goals = []; // children
   String id = getUniqueID();
 
 
-  Goal(this.title, this._parent, {this.money = 0, this.time = 0});
-  Goal.empty() : this("",null);
-  Goal.child(Goal parent) : this("",parent);
+  Goal(this.title, this.parent, {this.money = 0, this.time = 0});
+  Goal.createEmptyGoal() : this("Empty Goal",null);
+  Goal.createChildGoal(Goal parent) : this("Child Goal",parent);
 
   bool isLeaf() {
     return getActiveGoals().length == 0;
@@ -35,6 +35,18 @@ class Goal {
     this.goals.add(goal);
   }
 
+  int getDepth() {
+    return _calculateDepth(this) - 1;  // We want the very rootgoal to be depth 0
+  }
+
+  int _calculateDepth(Goal? goal) {
+    if (goal!= null) {
+      return 1 + _calculateDepth(goal.parent);
+    } else {
+      return 0;
+    }
+  }
+
   void editGoal(EditGoal editedGoal) { // TODO can this be done with a Partial?
     print(editedGoal);
     this.title = editedGoal.title;
@@ -49,7 +61,7 @@ class Goal {
   }
 
 // TODO make a button that calls this
-  sort() {
+  sortByCompleted() {
     getActiveGoals().sort((a, b) {
       if (a._complete) return 1;
       if (b._complete) return -1;

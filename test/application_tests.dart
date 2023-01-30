@@ -15,24 +15,24 @@ void main() {
 
   test('List should be modified by reference', () {
     List<Goal> list1 = [];
-    list1.add(Goal.empty());
+    list1.add(Goal.createEmptyGoal());
     List<Goal> list2 = [];
     list2 = list1;
-    list2.add(Goal.empty());
+    list2.add(Goal.createEmptyGoal());
 
     expect(list1.length,2);
   });
 
   test('Should not throw infinity error', () {
-    Goal goal = Goal.empty();
-    goal.addSubGoal(Goal.empty());
-    goal.addSubGoal(Goal.empty());
+    Goal goal = Goal.createEmptyGoal();
+    goal.addSubGoal(Goal.createEmptyGoal());
+    goal.addSubGoal(Goal.createEmptyGoal());
     expect(GoalCalc(goal).getCostPercentageComplete(),1.0);
   });
 
   test('Test encoding and decodings JSON', () {
-    Goal goal = Goal.empty();
-    goal.addSubGoal(Goal.empty());
+    Goal goal = Goal.createEmptyGoal();
+    goal.addSubGoal(Goal.createEmptyGoal());
     String jsonString = json.encode(goal);
     Map<String, dynamic> map = json.decode(jsonString);
     Goal result  = Goal.fromJson(map);
@@ -48,15 +48,15 @@ void main() {
   });
 
   test('Test calculations for multiple levels of goals', () {
-    Goal parent = Goal.empty();;
-    Goal child1 = Goal.empty();
+    Goal parent = Goal.createEmptyGoal();;
+    Goal child1 = Goal.createEmptyGoal();
     Goal grandChildGoal = Goal("grandchild", child1, money:50, time: 110);
     Goal grandChildGoal2 = Goal("grandchild",child1, money: 50, time: 110);
     grandChildGoal2.setComplete(true);
     child1.addSubGoal(grandChildGoal);
     child1.addSubGoal(grandChildGoal2);
 
-    Goal child2 = Goal.empty();
+    Goal child2 = Goal.createEmptyGoal();
     Goal grandChildGoal3 = Goal("grandchild", child2, money: 50, time: 110);
     grandChildGoal3.setComplete(true);
     Goal grandChildGoal4 = Goal("grandchild", child2, money: 75,time: 120);
@@ -74,8 +74,8 @@ void main() {
   });
 
   test('Test total tasks and total tasks complete is accurate', () {
-    Goal parent = Goal.empty();;
-    Goal child1 = Goal.empty();;
+    Goal parent = Goal.createEmptyGoal();;
+    Goal child1 = Goal.createEmptyGoal();;
     Goal grandChildGoal = Goal("grandchild",child1, money: 50,time: 110);
     Goal grandChildGoal2 = Goal("grandchild", child1, money: 50, time: 110);
     grandChildGoal2.setComplete(true);

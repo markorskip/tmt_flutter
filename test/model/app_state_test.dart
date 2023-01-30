@@ -7,9 +7,9 @@ void main() {
 
   _generateGoal(String title) {
     Goal goal = Goal(title, null);
-    goal.addSubGoal(Goal.empty());
-    goal.addSubGoal(Goal.empty());
-    goal.addSubGoal(Goal.empty());
+    goal.addSubGoal(Goal.createEmptyGoal());
+    goal.addSubGoal(Goal.createEmptyGoal());
+    goal.addSubGoal(Goal.createEmptyGoal());
     return goal;
   }
 

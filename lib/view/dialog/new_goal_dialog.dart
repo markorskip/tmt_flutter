@@ -38,7 +38,7 @@ class NewGoalDialog extends StatelessWidget {
          ListView(
             shrinkWrap: true,
             children: [
-            TextFormField(
+            TextFormField( // TODO dynamically make it so a task created at root is a GOAL
               decoration: const InputDecoration(
                 icon: Icon(Icons.title),
                 hintText: 'Name of Task',

@@ -4,13 +4,13 @@ import 'package:tmt_flutter/model/goal.dart';
 void main () {
 
   Goal _createTestGoal({bool complete = false}) {
-    Goal goal = Goal.empty();
+    Goal goal = Goal.createEmptyGoal();
     goal.setComplete(complete);
     return goal;
   }
 
   test('Test editing a goal works', () {
-    Goal goal = Goal.empty();
+    Goal goal = Goal.createEmptyGoal();
     EditGoal editedGoal = new EditGoal("Edited","description 2",5,5);
     editedGoal.complete = true;
     goal.editGoal(editedGoal);
@@ -23,7 +23,7 @@ void main () {
   test('test a goal is completable', () {
     Goal goal = _createTestGoal();
     expect(goal.isCompletable(), true);
-    goal.addSubGoal(Goal.empty());
+    goal.addSubGoal(Goal.createEmptyGoal());
     expect(goal.isCompletable(), false);
     goal.getGoals().first.isDeleted = true; // Once we delete all children, a goal should be completable again
     expect(goal.isCompletable(), true);
@@ -46,6 +46,17 @@ void main () {
     goal.goals.first.setComplete(true);
     goal.goals[1].setComplete(true);
     expect(goal.isComplete(), true);
+  });
+
+  test('test getDepth', () {
+    Goal rootGoal = Goal.createEmptyGoal();
+    expect(rootGoal.getDepth(),0);
+    Goal child1 = Goal.createChildGoal(rootGoal);
+    expect(child1.getDepth(), 1);
+    Goal child2 = Goal.createChildGoal(child1);
+    expect(child2.getDepth(), 2);
+    Goal siblingTest = Goal.createChildGoal(child1);
+    expect(siblingTest.getDepth(), 2);
   });
 }
 

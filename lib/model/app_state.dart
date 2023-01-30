@@ -45,7 +45,8 @@ class AppState {
     }
   }
 
-  bool isAtRoot() {  // When we are at the root we want certain operations to not work such as moving a goal up.
+// When we are at the root we want certain operations to not work such as moving a goal up.
+  bool isAtRoot() {  
     if (this._goalStack.length == 1) return true;
     return false;
   }
