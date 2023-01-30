@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tmt_flutter/view/bottom/bottom_nav_bar.dart';
 import 'package:tmt_flutter/view/bottom/breadcrumbs.dart';
@@ -22,7 +21,6 @@ class GoalScreen extends StatefulWidget {
 }
 
 class _GoalScreenState extends State<GoalScreen> {
-
   late AppState appState;
 
   Future<AppState> getAppState() async {
@@ -32,7 +30,9 @@ class _GoalScreenState extends State<GoalScreen> {
   @override
   void initState() {
     super.initState();
-    widget.appStateRepository.readAppState().then((value) => this.appState = value);
+    widget.appStateRepository
+        .readAppState()
+        .then((value) => this.appState = value);
   }
 
   _addGoal() async {
@@ -49,8 +49,13 @@ class _GoalScreenState extends State<GoalScreen> {
         appState.getCurrentlyDisplayedGoalsIncludingDeleted().add(goal);
         _save();
       });
-
     }
+  }
+
+  _sort() {
+    setState(() {
+      this.appState.getCurrentGoal().sortByCompleted();
+    });
   }
 
   _editGoal(Goal goal) async {
@@ -117,45 +122,37 @@ class _GoalScreenState extends State<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       alignment: Alignment.center,
-      child:
-          FutureBuilder<AppState>(
+      child: FutureBuilder<AppState>(
           future: getAppState(),
-            builder: (context, AsyncSnapshot<AppState> snapshot) {
-              if (snapshot.hasData) {
-                //this.appState = snapshot.data!;
-                return getScaffold();
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else {
-                return CircularProgressIndicator(); // By default, show a loading spinner
-              }
+          builder: (context, AsyncSnapshot<AppState> snapshot) {
+            if (snapshot.hasData) {
+              //this.appState = snapshot.data!;
+              return getScaffold();
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return CircularProgressIndicator(); // By default, show a loading spinner
             }
-        ),
+          }),
     );
   }
 
   Scaffold getScaffold() {
     return Scaffold(
-      appBar: buildAppBar(context, appState.getTitle(), appState.getCurrentGoal()),
-      body: SlideableTasks(
-          goalsToDisplay(),
-          _deleteGoal,
-          _openGoal,
-          _toggleExpandOnGoal,
-          _toggleComplete,
-          _editGoal,
-          context),
+        appBar: buildAppBar(
+            context, appState.getTitle(), appState.getCurrentGoal()),
+        body: SlideableTasks(goalsToDisplay(), _deleteGoal, _openGoal,
+            _toggleExpandOnGoal, _toggleComplete, _editGoal, context),
         bottomSheet: TMTBreadCrumbs(appState.getBreadCrumbs()),
         bottomNavigationBar: CustomBottomNavbar(
           addGoalHandler: _addGoal,
           navigateUpHandler: _navigateUp,
           saveHandler: _save,
+          sortHandler: _sort,
           isAtRoot: appState.isAtRoot(),
-        )
-    );
+        ));
   }
 
   AppBar buildAppBar(BuildContext context, String title, Goal currentGoal) {
@@ -163,9 +160,6 @@ class _GoalScreenState extends State<GoalScreen> {
         title: Text(title),
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(130),
-            child: AppBarDisplay(context: context, goal: currentGoal)
-        )
-    );
+            child: AppBarDisplay(context: context, goal: currentGoal)));
   }
 }
-

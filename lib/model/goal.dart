@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'model_helpers/edit_goal_directive.dart';
 
 class Goal {
@@ -14,10 +13,9 @@ class Goal {
   List<Goal> goals = []; // children
   String id = getUniqueID();
 
-
   Goal(this.title, this.parent, {this.money = 0, this.time = 0});
-  Goal.createEmptyGoal() : this("Empty Goal",null);
-  Goal.createChildGoal(Goal parent) : this("Child Goal",parent);
+  Goal.createEmptyGoal() : this("Empty Goal", null);
+  Goal.createChildGoal(Goal parent) : this("Child Goal", parent);
 
   bool isLeaf() {
     return getActiveGoals().length == 0;
@@ -36,18 +34,19 @@ class Goal {
   }
 
   int getDepth() {
-    return _calculateDepth(this) - 1;  // We want the very rootgoal to be depth 0
+    return _calculateDepth(this) - 1; // We want the very rootgoal to be depth 0
   }
 
   int _calculateDepth(Goal? goal) {
-    if (goal!= null) {
+    if (goal != null) {
       return 1 + _calculateDepth(goal.parent);
     } else {
       return 0;
     }
   }
 
-  void editGoal(EditGoal editedGoal) { // TODO can this be done with a Partial?
+  void editGoal(EditGoal editedGoal) {
+    // TODO can this be done with a Partial?
     print(editedGoal);
     this.title = editedGoal.title;
     this.time = editedGoal.timeInHours;
@@ -71,7 +70,6 @@ class Goal {
     });
   }
 
-
   @override
   String toString() {
     return 'Goal{title: $title, costInDollars: $money, timeInHours: $time, complete: $_complete, isDeleted: $isDeleted, goals: $goals}';
@@ -79,13 +77,13 @@ class Goal {
 
   static String id_key = 'id';
   static String title_key = 'title';
-  static String description_key='description';
-  static String cost_dollars_key='costInDollars';
-  static String time_in_hours_key='timeInHours';
-  static String complete_key='complete';
-  static String is_deleted_key='isDeleted';
-  static String levels_deep_key='levelDeep';
-  static String goals_key="goals";
+  static String description_key = 'description';
+  static String cost_dollars_key = 'costInDollars';
+  static String time_in_hours_key = 'timeInHours';
+  static String complete_key = 'complete';
+  static String is_deleted_key = 'isDeleted';
+  static String levels_deep_key = 'levelDeep';
+  static String goals_key = "goals";
 
   factory Goal.fromJson(Map<String, dynamic> jsonMap) {
     jsonMap = cleanMap(jsonMap);
@@ -95,9 +93,9 @@ class Goal {
     } catch (FormatException) {
       costInDollars = 1.0;
     }
-  
+
     String title = jsonMap[title_key] ?? "title was null";
-    
+
     double timeInHours;
     try {
       timeInHours = double.parse(jsonMap[time_in_hours_key].toString());
@@ -105,7 +103,8 @@ class Goal {
       timeInHours = 1.0;
     }
 
-    Goal result = new Goal(title,jsonMap["parent"],money: costInDollars,time: timeInHours);
+    Goal result = new Goal(title, jsonMap["parent"],
+        money: costInDollars, time: timeInHours);
     result.id = jsonMap[id_key].toString();
     result._complete = jsonMap[complete_key] ?? false;
     result.isDeleted = jsonMap[is_deleted_key] ?? false;
@@ -128,15 +127,15 @@ class Goal {
 
   // Note Firebase limits string sizes to 10 mb.  We compress this file when we save
   Map<String, dynamic> toJson() => {
-    id_key: id,
-    title_key: title,
-    cost_dollars_key: money,
-    time_in_hours_key: time,
-    complete_key:_complete,
-    is_deleted_key:isDeleted,
-    goals_key: goals,
-    "expanded" : expanded,
-  };
+        id_key: id,
+        title_key: title,
+        cost_dollars_key: money,
+        time_in_hours_key: time,
+        complete_key: _complete,
+        is_deleted_key: isDeleted,
+        goals_key: goals,
+        "expanded": expanded,
+      };
 
   Function deepEq = const DeepCollectionEquality().equals;
 
@@ -175,7 +174,9 @@ class Goal {
   }
 
   static String getUniqueID() {
-    return Random().nextInt(999999).toString() + "." + DateTime.now().toString();
+    return Random().nextInt(999999).toString() +
+        "." +
+        DateTime.now().toString();
   }
 
   void setComplete(bool bool) {
@@ -184,8 +185,8 @@ class Goal {
 
   bool isComplete() {
     if (isLeaf()) return _complete;
-    double numCompleted = getActiveGoals().fold(0, (prev, element) => element.isComplete() ?
-    prev + 1 : prev);
+    double numCompleted = getActiveGoals()
+        .fold(0, (prev, element) => element.isComplete() ? prev + 1 : prev);
     if (numCompleted == getActiveGoals().length) return true;
     return false;
   }
