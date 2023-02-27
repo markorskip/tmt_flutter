@@ -7,6 +7,7 @@ class CustomBottomNavbar extends StatelessWidget {
   final Function addGoalHandler;
   final Function saveHandler;
   final Function sortHandler;
+  final Function openGoalStoreHandler;
   final bool isAtRoot;
 
   const CustomBottomNavbar(
@@ -15,6 +16,7 @@ class CustomBottomNavbar extends StatelessWidget {
       required this.addGoalHandler,
       required this.saveHandler,
       required this.sortHandler,
+      required this.openGoalStoreHandler,
       required this.isAtRoot})
       : super(key: key);
 
@@ -26,6 +28,17 @@ class CustomBottomNavbar extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
         child: Row(
           children: [
+            Spacer(),
+            isAtRoot
+                ? GFButton(
+                    onPressed: () => openGoalStoreHandler(),
+                    text: "GoalStore",
+                    icon: Icon(Icons.store, color: buttonColor),
+                    type: GFButtonType.outline,
+                    color: buttonColor,
+                  )
+                : Container(height: 0, width: 0),
+            isAtRoot ? Spacer() : Container(height: 0, width: 0),
             Spacer(),
             !isAtRoot
                 ? GFButton(
@@ -46,14 +59,15 @@ class CustomBottomNavbar extends StatelessWidget {
               color: buttonColor,
             ),
             Spacer(),
-            GFButton(
-              onPressed: () => sortHandler(),
-              text: "Sort",
-              icon: Icon(Icons.add, color: buttonColor),
-              type: GFButtonType.outline,
-              color: buttonColor,
-            ),
-            Spacer(),
+            // GFButton(
+            //   onPressed: () => sortHandler(),
+            //   text: "Sort",
+            //   icon: Icon(Icons.add, color: buttonColor),
+            //   type: GFButtonType.outline,
+            //   color: buttonColor,
+            // ),
+            // Spacer(),
+
             //IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
           ],
         ));

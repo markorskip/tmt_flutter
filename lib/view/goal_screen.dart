@@ -110,6 +110,12 @@ class _GoalScreenState extends State<GoalScreen> {
     }
   }
 
+  _openGoalStore() {
+    setState(() {
+      print("Opening Goal Store...");
+    });
+  }
+
   bool expandToggle = false;
 
   _save() {
@@ -152,6 +158,7 @@ class _GoalScreenState extends State<GoalScreen> {
           saveHandler: _save,
           sortHandler: _sort,
           isAtRoot: appState.isAtRoot(),
+          openGoalStoreHandler: _openGoalStore,
         ));
   }
 
